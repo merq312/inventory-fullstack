@@ -7,7 +7,7 @@ const CLIENT_BUILD_PATH = path.join(__dirname, '../app');
 const app = express();
 app.use(express.static(CLIENT_BUILD_PATH));
 
-const greeting: Message = { message: 'Welcome to api!' };
+const greeting: Message = { message: 'Hello from api!' };
 
 app.get('/api', (req, res) => {
   res.send(greeting);
