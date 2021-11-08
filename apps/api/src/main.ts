@@ -1,9 +1,9 @@
 import * as express from 'express';
-import * as path from 'path'
+import * as path from 'path';
 import { Message } from '@inventory-fullstack/api-interfaces';
 
 const app = express();
-const CLIENT_BUILD_PATH = path.join(__dirname, '../my-app');
+const CLIENT_BUILD_PATH = path.join(__dirname, '../app');
 
 const greeting: Message = { message: 'Welcome to api!' };
 

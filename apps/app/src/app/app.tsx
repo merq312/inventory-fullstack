@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Message } from '@inventory-fullstack/api-interfaces';
+import { Button } from '@mui/material';
 
 export const App = () => {
   const [m, setMessage] = useState<Message>({ message: '' });
@@ -20,6 +21,7 @@ export const App = () => {
           alt="Nx - Smart, Extensible Build Framework"
         />
       </div>
+      <Button>Click me</Button>
       <div>{m.message}</div>
     </>
   );

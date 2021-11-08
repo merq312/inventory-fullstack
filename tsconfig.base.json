@@ -17,7 +17,8 @@
     "paths": {
       "@inventory-fullstack/api-interfaces": [
         "libs/api-interfaces/src/index.ts"
-      ]
+      ],
+      "@mui/styled-engine": ["./node_modules/@mui/styled-engine-sc"]
     }
   },
   "exclude": ["node_modules", "tmp"]
