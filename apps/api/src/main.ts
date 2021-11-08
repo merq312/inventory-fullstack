@@ -2,8 +2,10 @@ import * as express from 'express';
 import * as path from 'path';
 import { Message } from '@inventory-fullstack/api-interfaces';
 
-const app = express();
 const CLIENT_BUILD_PATH = path.join(__dirname, '../app');
+
+const app = express();
+app.use(express.static(CLIENT_BUILD_PATH));
 
 const greeting: Message = { message: 'Welcome to api!' };
 
