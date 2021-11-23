@@ -8,6 +8,8 @@ import * as cookieParser from 'cookie-parser';
 import * as rateLimit from 'express-rate-limit';
 import productRouter from './routes/productRouter';
 import userRouter from './routes/userRouter';
+import storeRouter from './routes/storeRouter';
+import menuRouter from './routes/menuRouter';
 
 const CLIENT_BUILD_PATH = path.join(__dirname, '../app');
 
@@ -52,8 +54,8 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/v1/product', productRouter);
-// app.use('/api/v1/menu')
-// app.use('/api/v1/store')
+app.use('/api/v1/menu', menuRouter);
+app.use('/api/v1/store', storeRouter);
 app.use('/api/v1/user', userRouter);
 
 const port = process.env.PORT || 3333;
