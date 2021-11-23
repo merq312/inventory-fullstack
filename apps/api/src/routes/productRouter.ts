@@ -1,8 +1,8 @@
-import * as express from 'express'
+import * as express from 'express';
 import { checkHealth } from '../controllers/productController';
 
-const router = express.Router()
+const router = express.Router();
 
-router.get('/', checkHealth)
+router.get('/', checkHealth);
 
-export default router
+export default router;
