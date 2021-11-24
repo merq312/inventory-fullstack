@@ -1,12 +1,13 @@
 import { PrismaClient } from '@prisma/client';
+import * as menuItems from './menu_items.json'
 
 const prisma = new PrismaClient();
 
 async function main() {
   await prisma.store.create({
     data: {
-      name: 'rcss',
-    },
+      name: 'rcss'
+    }
   });
 
   const rcss_store = await prisma.store.findUnique({ where: { name: 'rcss' } });
@@ -17,18 +18,30 @@ async function main() {
         username: 'Alex',
         role: 'Owner',
         stores: {
-          create: [{ storeId: rcss_store.id }],
-        },
-      },
+          create: [{ storeId: rcss_store.id }]
+        }
+      }
     });
-  }
 
-  // const allUsers = await prisma.user.findMany({
-  //   include: {
-  //     stores: true,
-  //   },
-  // })
-  // console.dir(allUsers, { depth: null })
+    for (const item of menuItems) {
+      const newMenuItem = await prisma.menuItem.create({
+        data: {
+          name: item.name,
+          stores: {
+            create: [{ storeId: rcss_store.id, price: item.price }]
+          }
+        }
+      });
+
+      const menuItemOnStore = await prisma.menuItemsOnStores.findFirst({ where: { menuItemId: newMenuItem.id, storeId: rcss_store.id } });
+
+      await prisma.productCount.create({
+        data: {
+          menuItemOnStoreId: menuItemOnStore.id
+        }
+      })
+    }
+  }
 }
 
 main()

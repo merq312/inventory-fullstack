@@ -40,7 +40,7 @@ model MenuItem {
 
 model MenuItemsOnStores {
   id Int @id @default(autoincrement())
-  price Float?
+  price Float
   menuItem MenuItem @relation(fields: [menuItemId], references: [id])
   menuItemId Int
   store Store @relation(fields: [storeId], references: [id])
@@ -50,7 +50,7 @@ model MenuItemsOnStores {
 
 model ProductCount {
   id Int @id @default(autoincrement())
-  day DateTime @default(now())
+  day DateTime @db.Date @default(now())
   overnightCount Int @default(0)
   morningCount Int @default(0)
   afternoonCount Int @default(0)
