@@ -27,7 +27,7 @@ router.get('/:store_name/:product_name', async (req, res, next) => {
     const menuItemOnStoreCount = await prisma.productCount.findFirst({
       where: {
         menuItemOnStoreId: menuItemOnStore.id,
-        day: '2021-11-24T00:00:00.000Z'
+        day: new Date().toISOString()
       }
     });
 
