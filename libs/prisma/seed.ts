@@ -3,21 +3,25 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 async function main() {
-  await prisma.user.create({
+  await prisma.store.create({
     data: {
-      username: 'Alex',
-      role: 'Owner',
-      stores: {
-        create: [
-          {
-            store: {
-              create: { name: 'RCSS' },
-            },
-          },
-        ],
-      },
+      name: 'rcss',
     },
   });
+
+  const rcss_store = await prisma.store.findUnique({ where: { name: 'rcss' } });
+
+  if (rcss_store) {
+    await prisma.user.create({
+      data: {
+        username: 'Alex',
+        role: 'Owner',
+        stores: {
+          create: [{ storeId: rcss_store.id }],
+        },
+      },
+    });
+  }
 
   // const allUsers = await prisma.user.findMany({
   //   include: {
