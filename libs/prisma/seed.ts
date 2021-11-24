@@ -5,24 +5,26 @@ const prisma = new PrismaClient();
 async function main() {
   await prisma.user.create({
     data: {
-      name: 'Alice',
-      email: 'alice@prisma.io',
-      posts: {
-        create: { title: 'Hello World' },
-      },
-      profile: {
-        create: { bio: 'I like turtles' },
+      username: 'Alex',
+      role: 'Owner',
+      stores: {
+        create: [
+          {
+            store: {
+              create: { name: 'RCSS' },
+            },
+          },
+        ],
       },
     },
-  })
+  });
 
-  const allUsers = await prisma.user.findMany({
-    include: {
-      posts: true,
-      profile: true,
-    },
-  })
-  console.dir(allUsers, { depth: null })
+  // const allUsers = await prisma.user.findMany({
+  //   include: {
+  //     stores: true,
+  //   },
+  // })
+  // console.dir(allUsers, { depth: null })
 }
 
 main()

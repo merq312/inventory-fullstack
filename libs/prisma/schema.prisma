@@ -10,28 +10,78 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Post {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  title     String   @db.VarChar(255)
-  content   String?
-  published Boolean  @default(false)
-  author    User     @relation(fields: [authorId], references: [id])
-  authorId  Int
-}
-
-model Profile {
-  id     Int     @id @default(autoincrement())
-  bio    String?
-  user   User    @relation(fields: [userId], references: [id])
-  userId Int     @unique
-}
-
 model User {
-  id      Int      @id @default(autoincrement())
-  email   String   @unique
-  name    String?
-  posts   Post[]
-  profile Profile?
+  id Int @id @default(autoincrement())
+  username String?
+  role String?
+  stores UsersOnStores[]
 }
+
+model Store {
+  id Int @id @default(autoincrement())
+  name String @unique
+  users UsersOnStores[]
+  menuitems MenuItemsOnStores[]
+}
+
+model UsersOnStores {
+  id Int @id @default(autoincrement())
+  user User @relation(fields: [userId], references: [id])
+  userId Int
+  store Store @relation(fields: [storeId], references: [id])
+  storeId Int
+}
+
+model MenuItem {
+  id Int @id @default(autoincrement())
+  name String? @unique
+  stores MenuItemsOnStores[]
+}
+
+model MenuItemsOnStores {
+  id Int @id @default(autoincrement())
+  price Float?
+  menuItem MenuItem @relation(fields: [menuItemId], references: [id])
+  menuItemId Int
+  store Store @relation(fields: [storeId], references: [id])
+  storeId Int
+  productCounts ProductCount[]
+}
+
+model ProductCount {
+  id Int @id @default(autoincrement())
+  day DateTime @default(now())
+  overnightCount Int @default(0)
+  morningCount Int @default(0)
+  afternoonCount Int @default(0)
+  leftoverCountOne Int @default(0)
+  leftoverCountTwo Int @default(0)
+  menuItemsOnStores MenuItemsOnStores @relation(fields: [menuItemOnStoreId], references: [id])
+  menuItemOnStoreId Int
+}
+
+//model Post {
+//  id        Int      @id @default(autoincrement())
+//  createdAt DateTime @default(now())
+//  updatedAt DateTime @updatedAt
+//  title     String   @db.VarChar(255)
+//  content   String?
+//  published Boolean  @default(false)
+//  author    User     @relation(fields: [authorId], references: [id])
+//  authorId  Int
+//}
+//
+//model Profile {
+//  id     Int     @id @default(autoincrement())
+//  bio    String?
+//  user   User    @relation(fields: [userId], references: [id])
+//  userId Int     @unique
+//}
+//
+//model User {
+//  id      Int      @id @default(autoincrement())
+//  email   String   @unique
+//  name    String?
+//  posts   Post[]
+//  profile Profile?
+//}
