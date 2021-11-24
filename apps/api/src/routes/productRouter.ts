@@ -1,45 +1,13 @@
-import { PrismaClient } from '@prisma/client';
 import * as express from 'express';
 import { checkHealth } from '../controllers/miscController';
+import { getProductCount } from '../controllers/productController';
 
 const router = express.Router();
-const prisma = new PrismaClient();
 
-router.get('/:store_name/:product_name', async (req, res, next) => {
-  const { store_name, product_name } = req.params;
-
-  const store = await prisma.store.findUnique({
-    where: { name: store_name }
-  });
-  const menuItem = await prisma.menuItem.findUnique({
-    where: { name: product_name }
-  });
-
-  if (store && menuItem) {
-    const menuItemOnStore =
-      await prisma.menuItemsOnStores.findFirst({
-        where: {
-          menuItemId: menuItem.id,
-          storeId: store.id
-        }
-      });
-
-    const menuItemOnStoreCount = await prisma.productCount.findFirst({
-      where: {
-        menuItemOnStoreId: menuItemOnStore.id,
-        day: new Date().toISOString()
-      }
-    });
-
-    if (menuItemOnStoreCount) {
-      return res.status(200).json({
-        status: 'success',
-        data: menuItemOnStoreCount
-      });
-    }
-  }
-  next();
-});
+// router.get('/:store_name', getProductCount);
+// router.get('/:store_name/:date', getProductCount);
+router.get('/:store_name/:product_name', getProductCount);
+router.get('/:store_name/:product_name/:date', getProductCount);
 
 router.get('/check_health', checkHealth);
 
