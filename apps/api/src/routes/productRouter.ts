@@ -4,9 +4,8 @@ import { getAllProductsCount} from '../controllers/productController';
 
 const router = express.Router();
 
-router.get('/:store_name', getAllProductsCount);
-router.get('/:store_name/:date', getAllProductsCount);
-
-router.get('/check_health', checkHealth);
+router.get('/:storeName', getAllProductsCount);
+router.get('/:storeName/:date', getAllProductsCount);
+router.get('/checkHealth', checkHealth);
 
 export default router;

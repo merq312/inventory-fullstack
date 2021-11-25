@@ -42,7 +42,7 @@ async function createProductCountEntry(menuItemOnStoreId: number) {
 }
 
 export async function getAllProductsCount(req, res, next) {
-  const { store_name, date } = req.params;
+  const { storeName, date } = req.params;
 
   let day = '';
   try {
@@ -50,7 +50,8 @@ export async function getAllProductsCount(req, res, next) {
   } catch (err) {
     return next();
   }
-  const [productCounts] = await Promise.all([findStore(store_name)
+
+  const [productCounts] = await Promise.all([findStore(storeName)
     .then(store => findAllMenuItemsOnStore(store.id))
     .then(menuItemsOnStore => Promise.all(menuItemsOnStore.map(async (item) => {
       let productCount = await findProductCount(item.id, day);

@@ -13,7 +13,6 @@ async function createMenuItem(name) {
 export async function addMenuItem(req, res, next) {
   const { name } = req.params;
   const [menuItem] = await Promise.all([createMenuItem(name)
-    .then(menuItem => menuItem)
     .catch(() => null)]);
 
   return menuItem
@@ -38,7 +37,6 @@ async function updateMenuItemName(oldName, newName) {
 export async function editMenuItemName(req, res, next) {
   const { oldName, newName } = req.params;
   const [menuItem] = await Promise.all([updateMenuItemName(oldName, newName)
-    .then(menuItem => menuItem)
     .catch(() => null)]);
 
   return menuItem
