@@ -41,7 +41,7 @@ async function createProductCountEntry(menuItemOnStoreId: number) {
   });
 }
 
-export const getAllProductsCount = async (req, res, next) => {
+export async function getAllProductsCount(req, res, next) {
   const { store_name, date } = req.params;
 
   let day = '';
@@ -50,29 +50,23 @@ export const getAllProductsCount = async (req, res, next) => {
   } catch (err) {
     return next();
   }
-
-  const store = await findStore(store_name);
-
-  if (store) {
-    const menuItemsOnStore = await findAllMenuItemsOnStore(store.id);
-
-    const productCounts = await Promise.all(menuItemsOnStore.map(async (item) => {
+  const [productCounts] = await Promise.all([findStore(store_name)
+    .then(store => findAllMenuItemsOnStore(store.id))
+    .then(menuItemsOnStore => Promise.all(menuItemsOnStore.map(async (item) => {
       let productCount = await findProductCount(item.id, day);
 
-      // If a product count doesn't exist for the current day and no date is specified (ie- user is trying to get product count for today), make an entry for it
       if (!productCount && !date) {
         productCount = await createProductCountEntry(item.id);
       }
 
       return productCount;
-    }));
+    })))
+    .catch(() => null)]);
 
-    if (productCounts[0]) {
-      return res.status(200).json({
-        status: 'success',
-        data: productCounts
-      });
-    }
-  }
-  next();
-};
+  return productCounts && productCounts[0]
+    ? res.status(200).json({
+      status: 'success',
+      data: productCounts
+    })
+    : next();
+}
