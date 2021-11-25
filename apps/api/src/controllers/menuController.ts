@@ -23,26 +23,30 @@ async function updateMenuItemName(oldName, newName) {
 
 export async function addMenuItem(req, res, next) {
   const { name } = req.body;
-  const [menuItem] = await Promise.all([createMenuItem(name)
-    .catch(() => null)]);
 
-  return menuItem
-    ? res.status(200).json({
+  try {
+    const menuItem = await createMenuItem(name);
+
+    return res.status(200).json({
       status: 'success',
       data: menuItem
-    })
-    : next();
+    });
+  } catch {
+    return next();
+  }
 }
 
 export async function editMenuItemName(req, res, next) {
   const { oldName, newName } = req.body;
-  const [menuItem] = await Promise.all([updateMenuItemName(oldName, newName)
-    .catch(() => null)]);
 
-  return menuItem
-    ? res.status(200).json({
+  try {
+    const menuItem = updateMenuItemName(oldName, newName);
+
+    return res.status(200).json({
       status: 'success',
       data: menuItem
-    })
-    : next();
+    });
+  } catch {
+    return next();
+  }
 }

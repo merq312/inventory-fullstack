@@ -2,22 +2,16 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-async function findStore(store_name) {
+async function findStore(storeName) {
   return await prisma.store.findUnique({
-    where: { name: store_name }
+    where: { name: storeName }
   });
 }
 
-export async function getStore(req, res, next) {
-  const { storeName } = req.body;
-  const store = await findStore(storeName);
-
-  return store
-    ? res.status(200).json({
-      status: 'success',
-      data: store
-    })
-    : next();
+async function findMenuItem(menuItemName) {
+  return await prisma.menuItem.findUnique({
+    where: { name: menuItemName }
+  });
 }
 
 async function createMenuItemOnStore(store, menuItem, price) {
@@ -34,7 +28,7 @@ async function updateMenuItemOnStore(store, menuItem, price) {
   return await prisma.menuItemsOnStores.updateMany({
     where: {
       storeId: store.id,
-      menuItemId: menuItem.id,
+      menuItemId: menuItem.id
     },
     data: {
       price: parseFloat(price)
@@ -45,19 +39,17 @@ async function updateMenuItemOnStore(store, menuItem, price) {
 async function storeItemHelper(req, res, next, databaseFunction) {
   const { storeName, menuItemName, price } = req.body;
 
-  const [menuItemOnStore] = await Promise.all([
-    Promise.all([
-      prisma.store.findUnique({ where: { name: storeName } }),
-      prisma.menuItem.findUnique({ where: { name: menuItemName } })])
-      .then(([store, menuItem]) => databaseFunction(store, menuItem, price))
-      .catch(() => null)]);
+  try {
+    const [store, menuItem] = await Promise.all([findStore(storeName), findMenuItem(menuItemName)]);
+    const menuItemOnStore = await databaseFunction(store, menuItem, price);
 
-  return menuItemOnStore
-    ? res.status(200).json({
+    return res.status(200).json({
       status: 'success',
       data: menuItemOnStore
-    })
-    : next();
+    });
+  } catch {
+    return next();
+  }
 }
 
 export async function addItemToStore(req, res, next) {
@@ -66,4 +58,21 @@ export async function addItemToStore(req, res, next) {
 
 export async function editItemPrice(req, res, next) {
   return await storeItemHelper(req, res, next, updateMenuItemOnStore);
+}
+
+export async function getStore(req, res, next) {
+  const { name } = req.params;
+
+  try {
+    const store = await findStore(name);
+
+    if (!store) return next();
+
+    return res.status(200).json({
+      status: 'success',
+      data: store
+    });
+  } catch {
+    return next();
+  }
 }

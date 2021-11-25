@@ -4,7 +4,7 @@ import { addItemToStore, editItemPrice, getStore } from '../controllers/storeCon
 
 const router = express.Router();
 
-router.get('/', getStore);
+router.get('/:name', getStore);
 // router.delete('/:storeName/:menuItemName', );
 router.post('/add_item', addItemToStore);
 router.patch('/change_item_price', editItemPrice);

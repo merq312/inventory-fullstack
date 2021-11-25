@@ -44,16 +44,12 @@ async function createProductCountEntry(menuItemOnStoreId: number) {
 export async function getProductsCount(req, res, next) {
   const { storeName, date } = req.params;
 
-  let day = '';
   try {
-    day = getDate(date);
-  } catch (err) {
-    return next();
-  }
+    const day = getDate(date);
 
-  const [productCounts] = await Promise.all([findStore(storeName)
-    .then(store => findAllMenuItemsOnStore(store.id))
-    .then(menuItemsOnStore => Promise.all(menuItemsOnStore.map(async (item) => {
+    const store = await findStore(storeName);
+    const menuItemsOnStore = await findAllMenuItemsOnStore(store.id);
+    const productCounts = await Promise.all(menuItemsOnStore.map(async (item) => {
       let productCount = await findProductCount(item.id, day);
 
       if (!productCount && !date) {
@@ -61,15 +57,17 @@ export async function getProductsCount(req, res, next) {
       }
 
       return productCount;
-    })))
-    .catch(() => null)]);
+    }));
 
-  return productCounts && productCounts[0]
-    ? res.status(200).json({
+    if (!productCounts[0]) return next();
+
+    return res.status(200).json({
       status: 'success',
       data: productCounts
-    })
-    : next();
+    });
+  } catch (err) {
+    return next();
+  }
 }
 
 // export async function editProductsCount(req, res, next) {
