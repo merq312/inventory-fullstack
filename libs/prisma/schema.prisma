@@ -46,6 +46,8 @@ model MenuItemsOnStores {
   store Store @relation(fields: [storeId], references: [id])
   storeId Int
   productCounts ProductCount[]
+
+  @@unique([menuItemId, storeId])
 }
 
 model ProductCount {
