@@ -4,9 +4,10 @@ import { addItemToStore, editItemPrice, getStore } from '../controllers/storeCon
 
 const router = express.Router();
 
-router.get('/:storeName', getStore);
-router.post('/:storeName/:menuItemName/:price', addItemToStore);
-router.patch('/:storeName/:menuItemName/:price', editItemPrice);
-router.get('/checkHealth', checkHealth);
+router.get('/', getStore);
+// router.delete('/:storeName/:menuItemName', );
+router.post('/add_item', addItemToStore);
+router.patch('/change_item_price', editItemPrice);
+router.get('/check_health', checkHealth);
 
 export default router;

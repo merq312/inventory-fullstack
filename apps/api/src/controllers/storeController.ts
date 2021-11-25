@@ -9,7 +9,7 @@ async function findStore(store_name) {
 }
 
 export async function getStore(req, res, next) {
-  const { storeName } = req.params;
+  const { storeName } = req.body;
   const store = await findStore(storeName);
 
   return store
@@ -43,7 +43,7 @@ async function updateMenuItemOnStore(store, menuItem, price) {
 }
 
 async function storeItemHelper(req, res, next, databaseFunction) {
-  const { storeName, menuItemName, price } = req.params;
+  const { storeName, menuItemName, price } = req.body;
 
   const [menuItemOnStore] = await Promise.all([
     Promise.all([

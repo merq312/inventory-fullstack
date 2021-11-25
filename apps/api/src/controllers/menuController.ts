@@ -10,19 +10,6 @@ async function createMenuItem(name) {
   });
 }
 
-export async function addMenuItem(req, res, next) {
-  const { name } = req.params;
-  const [menuItem] = await Promise.all([createMenuItem(name)
-    .catch(() => null)]);
-
-  return menuItem
-    ? res.status(200).json({
-      status: 'success',
-      data: menuItem
-    })
-    : next();
-}
-
 async function updateMenuItemName(oldName, newName) {
   return await prisma.menuItem.update({
     where: {
@@ -34,8 +21,21 @@ async function updateMenuItemName(oldName, newName) {
   });
 }
 
+export async function addMenuItem(req, res, next) {
+  const { name } = req.body;
+  const [menuItem] = await Promise.all([createMenuItem(name)
+    .catch(() => null)]);
+
+  return menuItem
+    ? res.status(200).json({
+      status: 'success',
+      data: menuItem
+    })
+    : next();
+}
+
 export async function editMenuItemName(req, res, next) {
-  const { oldName, newName } = req.params;
+  const { oldName, newName } = req.body;
   const [menuItem] = await Promise.all([updateMenuItemName(oldName, newName)
     .catch(() => null)]);
 

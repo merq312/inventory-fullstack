@@ -41,7 +41,7 @@ async function createProductCountEntry(menuItemOnStoreId: number) {
   });
 }
 
-export async function getAllProductsCount(req, res, next) {
+export async function getProductsCount(req, res, next) {
   const { storeName, date } = req.params;
 
   let day = '';
@@ -71,3 +71,9 @@ export async function getAllProductsCount(req, res, next) {
     })
     : next();
 }
+
+// export async function editProductsCount(req, res, next) {
+//   const { storeName, date } = req.params;
+//   const { productData } = req.body.productData;
+//
+// }
