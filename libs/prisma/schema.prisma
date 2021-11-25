@@ -60,4 +60,6 @@ model ProductCount {
   leftoverCountTwo Int @default(0)
   menuItemsOnStores MenuItemsOnStores @relation(fields: [menuItemOnStoreId], references: [id])
   menuItemOnStoreId Int
+
+  @@unique([day, menuItemOnStoreId])
 }
