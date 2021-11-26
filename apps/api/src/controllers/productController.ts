@@ -1,6 +1,5 @@
 import { PrismaClient } from '@prisma/client';
 import * as createError from 'http-errors';
-import { findStore } from './storeController';
 
 const prisma = new PrismaClient();
 
@@ -34,10 +33,12 @@ async function findProductCount(menuItemOnStoreId: number, day: string) {
   });
 }
 
-async function findAllMenuItemsOnStore(storeId: number) {
+async function findAllMenuItemsOnStore(storeName: string) {
   return await prisma.menuItemsOnStores.findMany({
     where: {
-      storeId: storeId
+      store: {
+        name: storeName
+      }
     }
   });
 }
@@ -56,8 +57,7 @@ export async function getProductCounts(req, res, next) {
   try {
     const day = getDate(date);
 
-    const store = await findStore(storeName);
-    const menuItemsOnStore = await findAllMenuItemsOnStore(store.id);
+    const menuItemsOnStore = await findAllMenuItemsOnStore(storeName);
     const productCounts = await Promise.all(menuItemsOnStore.map(async (item) => {
       let productCount = await findProductCount(item.id, day);
 
