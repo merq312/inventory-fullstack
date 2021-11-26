@@ -12,9 +12,16 @@ function getDate(date) {
   }
 }
 
-async function findStore(store_name) {
-  return await prisma.store.findUnique({
-    where: { name: store_name }
+async function findMenuItemOnStore(storeName, menuItemName) {
+  return await prisma.menuItemsOnStores.findMany({
+    where: {
+      store: {
+        name: storeName
+      },
+      menuItem: {
+        name: menuItemName
+      }
+    }
   });
 }
 
@@ -68,12 +75,36 @@ export async function getProductCounts(req, res, next) {
       data: productCounts
     });
   } catch (err) {
-    return next(createError(500, "Internal server error"));
+    return next(createError(500, 'Internal server error'));
   }
 }
 
-// export async function editProductsCount(req, res, next) {
-//   const { storeName, date } = req.params;
-//   const { productData } = req.body.productData;
-//
-// }
+async function updateProductCount(menuItemId: number, day: string, productCounts) {
+  await prisma.productCount.updateMany({
+    where: {
+      menuItemOnStoreId: menuItemId,
+      day: day
+    },
+    data: { ...productCounts }
+  });
+}
+
+export async function updateProductCounts(req, res, next) {
+  const { storeName, date } = req.params;
+  const { productData } = req.body;
+
+  try {
+    const day = getDate(date);
+
+    for (const product of productData) {
+      const menuItemOnStore = await findMenuItemOnStore(storeName, product.name);
+      await updateProductCount(menuItemOnStore[0].id, day, product.counts);
+    }
+
+    return res.status(200).json({
+      status: 'success'
+    });
+  } catch (err) {
+    return next(createError(500, 'Internal server error'));
+  }
+}
