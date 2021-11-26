@@ -4,8 +4,8 @@ import { addMenuItem, changeMenuItemName } from '../controllers/menuController';
 
 const router = express.Router();
 
-router.post('/add_menu_item', addMenuItem)
-router.patch('/change_menu_item_name', changeMenuItemName)
-router.get('/check_health', checkHealth);
+router.post('/', addMenuItem)
+router.patch('/', changeMenuItemName)
+router.get('/check-health', checkHealth);
 
 export default router;
