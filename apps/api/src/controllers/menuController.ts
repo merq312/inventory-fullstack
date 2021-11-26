@@ -3,7 +3,7 @@ import * as createError from 'http-errors';
 
 const prisma = new PrismaClient();
 
-async function createMenuItem(name) {
+async function createMenuItemHelper(name) {
   return await prisma.menuItem.create({
     data: {
       name: name
@@ -11,7 +11,7 @@ async function createMenuItem(name) {
   });
 }
 
-async function updateMenuItemName(oldName, newName) {
+async function updateMenuItemNameHelper(oldName, newName) {
   return await prisma.menuItem.update({
     where: {
       name: oldName
@@ -22,11 +22,11 @@ async function updateMenuItemName(oldName, newName) {
   });
 }
 
-export async function addMenuItem(req, res, next) {
+export async function createMenuItem(req, res, next) {
   const { name } = req.body;
 
   try {
-    const menuItem = await createMenuItem(name);
+    const menuItem = await createMenuItemHelper(name);
 
     return res.status(200).json({
       status: 'success',
@@ -37,11 +37,11 @@ export async function addMenuItem(req, res, next) {
   }
 }
 
-export async function editMenuItemName(req, res, next) {
+export async function updateMenuItemName(req, res, next) {
   const { oldName, newName } = req.body;
 
   try {
-    const menuItem = updateMenuItemName(oldName, newName);
+    const menuItem = updateMenuItemNameHelper(oldName, newName);
 
     return res.status(200).json({
       status: 'success',

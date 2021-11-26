@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import * as createError from 'http-errors';
+import { findStore } from './storeController';
 
 const prisma = new PrismaClient();
 
@@ -34,7 +35,7 @@ async function findAllMenuItemsOnStore(storeId: number) {
   });
 }
 
-async function createProductCountEntry(menuItemOnStoreId: number) {
+async function createProductCount(menuItemOnStoreId: number) {
   return await prisma.productCount.create({
     data: {
       menuItemOnStoreId: menuItemOnStoreId
@@ -42,7 +43,7 @@ async function createProductCountEntry(menuItemOnStoreId: number) {
   });
 }
 
-export async function getProductsCount(req, res, next) {
+export async function getProductCounts(req, res, next) {
   const { storeName, date } = req.params;
 
   try {
@@ -54,13 +55,13 @@ export async function getProductsCount(req, res, next) {
       let productCount = await findProductCount(item.id, day);
 
       if (!productCount && !date) {
-        productCount = await createProductCountEntry(item.id);
+        productCount = await createProductCount(item.id);
       }
 
       return productCount;
     }));
 
-    if (!productCounts[0]) return next(createError(400, "Bad request"));
+    if (!productCounts[0]) return next(createError(400, 'Bad request'));
 
     return res.status(200).json({
       status: 'success',

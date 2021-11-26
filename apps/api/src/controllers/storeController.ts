@@ -3,7 +3,7 @@ import * as createError from 'http-errors';
 
 const prisma = new PrismaClient();
 
-async function findStore(storeName) {
+export async function findStore(storeName) {
   return await prisma.store.findUnique({
     where: { name: storeName }
   });
@@ -53,11 +53,11 @@ async function storeItemHelper(req, res, next, databaseFunction) {
   }
 }
 
-export async function addItemToStore(req, res, next) {
+export async function addMenuItemToStore(req, res, next) {
   return await storeItemHelper(req, res, next, createMenuItemOnStore);
 }
 
-export async function editItemPrice(req, res, next) {
+export async function updateMenuItemPrice(req, res, next) {
   return await storeItemHelper(req, res, next, updateMenuItemOnStore);
 }
 
