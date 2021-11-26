@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+import * as createError from 'http-errors';
 
 const prisma = new PrismaClient();
 
@@ -32,7 +33,7 @@ export async function addMenuItem(req, res, next) {
       data: menuItem
     });
   } catch {
-    return next();
+    return next(createError(500, "Internal server error"));
   }
 }
 
@@ -47,6 +48,6 @@ export async function editMenuItemName(req, res, next) {
       data: menuItem
     });
   } catch {
-    return next();
+    return next(createError(500, "Internal server error"));
   }
 }

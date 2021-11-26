@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+import * as createError from 'http-errors';
 
 const prisma = new PrismaClient();
 
@@ -48,7 +49,7 @@ async function storeItemHelper(req, res, next, databaseFunction) {
       data: menuItemOnStore
     });
   } catch {
-    return next();
+    return next(createError(400, "Bad request"));
   }
 }
 
@@ -66,13 +67,13 @@ export async function getStore(req, res, next) {
   try {
     const store = await findStore(name);
 
-    if (!store) return next();
+    if (!store) return next(createError(400, "Store name not found"));
 
     return res.status(200).json({
       status: 'success',
       data: store
     });
   } catch {
-    return next();
+    return next(createError(500, "Internal server error"));
   }
 }

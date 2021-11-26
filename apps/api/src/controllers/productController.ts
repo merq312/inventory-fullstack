@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+import * as createError from 'http-errors';
 
 const prisma = new PrismaClient();
 
@@ -59,14 +60,14 @@ export async function getProductsCount(req, res, next) {
       return productCount;
     }));
 
-    if (!productCounts[0]) return next();
+    if (!productCounts[0]) return next(createError(400, "Bad request"));
 
     return res.status(200).json({
       status: 'success',
       data: productCounts
     });
   } catch (err) {
-    return next();
+    return next(createError(500, "Internal server error"));
   }
 }
 
