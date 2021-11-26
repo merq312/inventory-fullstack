@@ -9,27 +9,25 @@ export async function findStore(storeName) {
   });
 }
 
-async function findMenuItem(menuItemName) {
-  return await prisma.menuItem.findUnique({
-    where: { name: menuItemName }
-  });
-}
-
-async function createMenuItemOnStore(store, menuItem, price) {
+async function createMenuItemOnStore(storeName, menuItemName, price) {
   return await prisma.menuItemsOnStores.create({
     data: {
-      storeId: store.id,
-      menuItemId: menuItem.id,
+      store: {
+        connect: { name: storeName }
+      },
+      menuItem: {
+        connect: { name: menuItemName }
+      },
       price: parseFloat(price)
     }
   });
 }
 
-async function updateMenuItemOnStore(store, menuItem, price) {
+async function updateMenuItemOnStore(storeName, menuItemName, price) {
   return await prisma.menuItemsOnStores.updateMany({
     where: {
-      storeId: store.id,
-      menuItemId: menuItem.id
+      store: { name: storeName },
+      menuItem: { name: menuItemName }
     },
     data: {
       price: parseFloat(price)
@@ -37,43 +35,54 @@ async function updateMenuItemOnStore(store, menuItem, price) {
   });
 }
 
-async function storeItemHelper(req, res, next, databaseFunction) {
-  const { storeName, menuItemName, price } = req.body;
+async function deleteMenuItemOnStore(storeName, menuItemName) {
+  return await prisma.menuItemsOnStores.deleteMany({
+    where: {
+      store: { name: storeName },
+      menuItem: { name: menuItemName }
+    }
+  });
+}
 
+async function menuItemOnStoreHelper(req, res, next, databaseFunction) {
+  const { storeName, menuItemName, price } = req.body;
   try {
-    const [store, menuItem] = await Promise.all([findStore(storeName), findMenuItem(menuItemName)]);
-    const menuItemOnStore = await databaseFunction(store, menuItem, price);
+    const menuItemOnStore = await databaseFunction(storeName, menuItemName, price);
 
     return res.status(200).json({
       status: 'success',
       data: menuItemOnStore
     });
   } catch {
-    return next(createError(400, "Bad request"));
+    return next(createError(400, 'Bad request'));
   }
 }
 
 export async function addMenuItemToStore(req, res, next) {
-  return await storeItemHelper(req, res, next, createMenuItemOnStore);
+  return await menuItemOnStoreHelper(req, res, next, createMenuItemOnStore);
 }
 
 export async function updateMenuItemPrice(req, res, next) {
-  return await storeItemHelper(req, res, next, updateMenuItemOnStore);
+  return await menuItemOnStoreHelper(req, res, next, updateMenuItemOnStore);
+}
+
+export async function removeMenuItemFromStore(req, res, next) {
+  return await menuItemOnStoreHelper(req, res, next, deleteMenuItemOnStore);
 }
 
 export async function getStore(req, res, next) {
-  const { name } = req.params;
+  const { storeName } = req.body;
 
   try {
-    const store = await findStore(name);
+    const store = await findStore(storeName);
 
-    if (!store) return next(createError(400, "Store name not found"));
+    if (!store) return next(createError(400, 'Store name not found'));
 
     return res.status(200).json({
       status: 'success',
       data: store
     });
   } catch {
-    return next(createError(500, "Internal server error"));
+    return next(createError(500, 'Internal server error'));
   }
 }
