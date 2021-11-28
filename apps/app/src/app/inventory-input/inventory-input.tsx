@@ -8,10 +8,16 @@ import {
 } from '@mui/material';
 
 const CardContentNoPadding = styled(CardContent)`
-  padding: 12px;
+  padding: 0.6rem 0.8rem;
   &:last-child {
-    padding-bottom: 12px;
+    padding-bottom: 0.6rem;
   }
+`;
+
+const InfoDiv = styled(Button)`
+  cursor: default;
+  min-width: 2.5rem;
+  margin-right: 0.6rem;
 `;
 
 function InventoryInput() {
@@ -24,9 +30,10 @@ function InventoryInput() {
           alignItems: 'center',
         }}
       >
-        <Typography sx={{ px: 1 }} variant="body1" component="div">
+        <InfoDiv variant="outlined">3</InfoDiv>
+        {/* <Typography sx={{ px: 1 }} variant="body1" component="div">
           3
-        </Typography>
+        </Typography> */}
         <Typography sx={{ flexGrow: 1 }} variant="body1" component="div">
           California
         </Typography>

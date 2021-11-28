@@ -5,6 +5,7 @@ import Header from './header/header';
 import LogOutButton from './logout-button/logout-button';
 import LogInButton from './login-button/login-button';
 import InventoryInput from './inventory-input/inventory-input';
+import InventoryInfo from './inventory-info/inventory-info';
 
 export const App = () => {
   const [m, setMessage] = useState({ message: '' });
@@ -41,9 +42,9 @@ export const App = () => {
   }, [token]);
 
   return (
-    <Container maxWidth="sm" sx={{ p: 0 }}>
+    <Container maxWidth="sm" sx={{ p: 0, minHeight: '100vh' }}>
       <Header />
-      <Box sx={{ p: 2, overflow: 'scroll' }}>
+      <Box sx={{ m: 2 }}>
         <Typography variant="h4" component="h1" gutterBottom>
           Inventory View
         </Typography>
@@ -69,6 +70,7 @@ export const App = () => {
         )}
         <Box>
           <InventoryInput />
+          <InventoryInfo />
         </Box>
       </Box>
     </Container>
