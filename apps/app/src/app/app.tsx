@@ -2,11 +2,13 @@ import { useEffect, useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Container, Typography, Box } from '@mui/material';
 import Header from './header/header';
+import SettingsDrawer from './settings-drawer/settiings-drawer';
 import LogOutButton from './logout-button/logout-button';
 import LogInButton from './login-button/login-button';
 import InventoryInput from './inventory-input/inventory-input';
+import InventoryInfoHeader from './inventory-info-header/inventory-info-header';
 import InventoryInfo from './inventory-info/inventory-info';
-import SettingsDrawer from './settings-drawer/settiings-drawer';
+import DatePicker from './date-picker/date-picker';
 
 export const App = () => {
   const [m, setMessage] = useState({ message: '' });
@@ -72,7 +74,9 @@ export const App = () => {
           <LogInButton />
         )}
         <Box>
+          <DatePicker />
           <InventoryInput />
+          <InventoryInfoHeader />
           <InventoryInfo />
         </Box>
       </Box>

@@ -16,7 +16,7 @@ const CardContentNoPadding = styled(CardContent)`
 
 const InfoDiv = styled(Button)`
   cursor: default;
-  min-width: 2.5rem;
+  min-width: 0;
   margin-right: 0.6rem;
 `;
 
@@ -31,9 +31,6 @@ function InventoryInput() {
         }}
       >
         <InfoDiv variant="outlined">3</InfoDiv>
-        {/* <Typography sx={{ px: 1 }} variant="body1" component="div">
-          3
-        </Typography> */}
         <Typography sx={{ flexGrow: 1 }} variant="body1" component="div">
           California
         </Typography>
@@ -41,9 +38,9 @@ function InventoryInput() {
           variant="contained"
           aria-label="outlined primary button group"
         >
-          <Button>-1</Button>
-          <Button>0</Button>
-          <Button>+1</Button>
+          <Button sx={{ width: 2 }}>-1</Button>
+          <Button sx={{ width: 2 }}>0</Button>
+          <Button sx={{ width: 2 }}>+1</Button>
         </ButtonGroup>
       </CardContentNoPadding>
     </Card>

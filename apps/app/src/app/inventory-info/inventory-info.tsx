@@ -17,6 +17,7 @@ const CardContentNoPadding = styled(CardContent)`
 
 const InfoDiv = styled(Button)`
   cursor: default;
+  width: 3rem;
 `;
 
 function InventoryInfo() {

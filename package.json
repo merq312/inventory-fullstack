@@ -16,8 +16,10 @@
   "private": true,
   "dependencies": {
     "@auth0/auth0-react": "^1.8.0",
+    "@date-io/dayjs": "^2.11.0",
     "@emotion/styled": "^11.6.0",
     "@mui/icons-material": "^5.2.0",
+    "@mui/lab": "^5.0.0-alpha.57",
     "@mui/material": "^5.1.0",
     "@mui/styled-engine-sc": "^5.1.0",
     "@prisma/client": "^3.5.0",
