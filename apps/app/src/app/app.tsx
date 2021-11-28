@@ -1,24 +1,10 @@
 import { useEffect, useState } from 'react';
-import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
 import { useAuth0 } from '@auth0/auth0-react';
-
-const LogInButton = () => {
-  const { loginWithRedirect } = useAuth0();
-
-  return <button onClick={() => loginWithRedirect()}>Log In</button>;
-};
-
-const LogOutButton = () => {
-  const { logout } = useAuth0();
-
-  return (
-    <button onClick={() => logout({ returnTo: window.location.origin })}>
-      Log Out
-    </button>
-  );
-};
+import { Container, Typography, Box } from '@mui/material';
+import Header from './header/header';
+import LogOutButton from './logout-button/logout-button';
+import LogInButton from './login-button/login-button';
+import InventoryInput from './inventory-input/inventory-input';
 
 export const App = () => {
   const [m, setMessage] = useState({ message: '' });
@@ -36,6 +22,7 @@ export const App = () => {
       const token = await getAccessTokenSilently();
       setToken(token);
     }
+
     fetchToken();
   }, [isAuthenticated, getAccessTokenSilently]);
 
@@ -54,8 +41,9 @@ export const App = () => {
   }, [token]);
 
   return (
-    <Container maxWidth="sm">
-      <Box sx={{ my: 4 }}>
+    <Container maxWidth="sm" sx={{ p: 0 }}>
+      <Header />
+      <Box sx={{ p: 2, overflow: 'scroll' }}>
         <Typography variant="h4" component="h1" gutterBottom>
           Inventory View
         </Typography>
@@ -63,16 +51,25 @@ export const App = () => {
           {m.message}
         </Typography>
         {isLoading ? (
-          <div>Loading ...</div>
+          <Typography variant="body1" component="div" gutterBottom>
+            Loading ...
+          </Typography>
         ) : isAuthenticated ? (
           <>
-            <h2>{user ? user.name : ''}</h2>
-            <p>{user ? user.email : ''}</p>
+            <Typography variant="h5" component="h2" gutterBottom>
+              {user ? user.name : ''}
+            </Typography>
+            <Typography variant="body1" component="div" gutterBottom>
+              {user ? user.email : ''}
+            </Typography>
             <LogOutButton />
           </>
         ) : (
           <LogInButton />
         )}
+        <Box>
+          <InventoryInput />
+        </Box>
       </Box>
     </Container>
   );
