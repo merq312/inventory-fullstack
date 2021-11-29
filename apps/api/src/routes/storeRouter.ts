@@ -10,9 +10,9 @@ import {
 const router = express.Router();
 
 router.get('/:storeName', getStore);
-router.delete('/', removeMenuItemFromStore);
-router.post('/', addMenuItemToStore);
-router.patch('/', updateMenuItemPrice);
+router.delete('/:storeName', removeMenuItemFromStore);
+router.post('/:storeName', addMenuItemToStore);
+router.patch('/:storeName', updateMenuItemPrice);
 router.get('/check-health', checkHealth);
 
 export default router;

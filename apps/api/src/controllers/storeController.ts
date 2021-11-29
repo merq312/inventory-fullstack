@@ -45,7 +45,9 @@ async function deleteMenuItemOnStore(storeName, menuItemName) {
 }
 
 async function menuItemOnStoreHelper(req, res, next, databaseFunction) {
-  const { storeName, menuItemName, price } = req.body;
+  const { menuItemName, price } = req.body;
+  const { storeName } = req.params;
+
   try {
     const menuItemOnStore = await databaseFunction(storeName, menuItemName, price);
 
