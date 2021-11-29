@@ -16,12 +16,8 @@ function HomePage() {
       return;
     }
 
-    async function fetchToken() {
-      const token = await getAccessTokenSilently();
-      setToken(token);
-    }
-
-    fetchToken();
+    getAccessTokenSilently()
+      .then(setToken)
   }, [isAuthenticated, getAccessTokenSilently]);
 
   useEffect(() => {
