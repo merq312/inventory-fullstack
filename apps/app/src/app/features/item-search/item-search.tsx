@@ -5,11 +5,11 @@ function ItemSearch() {
   return (
     <Autocomplete
       disablePortal
-      id="combo-box-demo"
+      id='combo-box-demo'
       options={['California', 'Salmon Avo']}
-      renderInput={(params) => <TextField {...params} label="Search" />}
+      renderInput={(params) => <TextField {...params} label='Search' />}
     />
   );
 }
 
-export default ItemSearch
+export default ItemSearch;
