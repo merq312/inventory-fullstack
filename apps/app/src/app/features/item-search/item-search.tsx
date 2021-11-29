@@ -7,7 +7,6 @@ function ItemSearch() {
       disablePortal
       id="combo-box-demo"
       options={['California', 'Salmon Avo']}
-      sx={{ width: 300 }}
       renderInput={(params) => <TextField {...params} label="Search" />}
     />
   );
