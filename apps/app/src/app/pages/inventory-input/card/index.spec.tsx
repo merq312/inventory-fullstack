@@ -1,10 +1,10 @@
 import { render } from '@testing-library/react';
 
-import InventoryInfo from './inventory-info';
+import InventoryInput from './index';
 
-describe('InventoryInfo', () => {
+describe('InventoryInput', () => {
   it('should render successfully', () => {
-    const { baseElement } = render(<InventoryInfo />);
+    const { baseElement } = render(<InventoryInput />);
     expect(baseElement).toBeTruthy();
   });
 });

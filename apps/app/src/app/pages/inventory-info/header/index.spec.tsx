@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 
-import InventoryInfoHeader from './inventory-info-header';
+import InventoryInfoHeader from './index';
 
 describe('InventoryInfoHeader', () => {
   it('should render successfully', () => {

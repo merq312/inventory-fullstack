@@ -1,85 +1,25 @@
-import { useEffect, useState } from 'react';
-import { useAuth0 } from '@auth0/auth0-react';
-import { Container, Typography, Box } from '@mui/material';
-import Header from './header/header';
-import SettingsDrawer from './settings-drawer/settiings-drawer';
-import LogOutButton from './logout-button/logout-button';
-import LogInButton from './login-button/login-button';
-import InventoryInput from './inventory-input/inventory-input';
-import InventoryInfoHeader from './inventory-info-header/inventory-info-header';
-import InventoryInfo from './inventory-info/inventory-info';
-import DatePicker from './date-picker/date-picker';
+import { useState } from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Container } from '@mui/material';
+import Header from './features/header/header';
+import SettingsDrawer from './features/settings-drawer/settiings-drawer';
+import InventoryInputPage from './pages/inventory-input';
+import InventoryInfoPage from './pages/inventory-info';
 
 export const App = () => {
-  const [m, setMessage] = useState({ message: '' });
-  const [token, setToken] = useState('');
   const [drawer, setDrawer] = useState(false);
 
-  const { user, isAuthenticated, isLoading, getAccessTokenSilently } =
-    useAuth0();
-
-  useEffect(() => {
-    if (!isAuthenticated) {
-      return;
-    }
-
-    async function fetchToken() {
-      const token = await getAccessTokenSilently();
-      setToken(token);
-    }
-
-    fetchToken();
-  }, [isAuthenticated, getAccessTokenSilently]);
-
-  useEffect(() => {
-    if (!token) {
-      return;
-    }
-
-    fetch('/api/v1/user/private', {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((r) => r.json())
-      .then(setMessage);
-  }, [token]);
-
   return (
-    <Container maxWidth="sm" sx={{ p: 0, minHeight: '100vh' }}>
+    <Container maxWidth='sm' sx={{ p: 0, minHeight: '100vh' }}>
       <SettingsDrawer drawer={drawer} setDrawer={setDrawer} />
       <Header setDrawer={setDrawer} />
-      <Box sx={{ m: 2 }}>
-        <Typography variant="h4" component="h1" gutterBottom>
-          Inventory View
-        </Typography>
-        <Typography variant="body1" component="div" gutterBottom>
-          {m.message}
-        </Typography>
-        {isLoading ? (
-          <Typography variant="body1" component="div" gutterBottom>
-            Loading ...
-          </Typography>
-        ) : isAuthenticated ? (
-          <>
-            <Typography variant="h5" component="h2" gutterBottom>
-              {user ? user.name : ''}
-            </Typography>
-            <Typography variant="body1" component="div" gutterBottom>
-              {user ? user.email : ''}
-            </Typography>
-            <LogOutButton />
-          </>
-        ) : (
-          <LogInButton />
-        )}
-        <Box>
-          <DatePicker />
-          <InventoryInput />
-          <InventoryInfoHeader />
-          <InventoryInfo />
-        </Box>
-      </Box>
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<h1>Hello World</h1>} />
+          <Route path='/inventory-input' element={<InventoryInputPage />} />
+          <Route path='/inventory-info' element={<InventoryInfoPage />} />
+        </Routes>
+      </BrowserRouter>
     </Container>
   );
 };
