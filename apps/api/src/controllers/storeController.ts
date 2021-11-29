@@ -71,7 +71,7 @@ export async function removeMenuItemFromStore(req, res, next) {
 }
 
 export async function getStore(req, res, next) {
-  const { storeName } = req.body;
+  const { storeName } = req.params;
 
   try {
     const store = await findStore(storeName);

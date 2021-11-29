@@ -9,7 +9,7 @@ import {
 
 const router = express.Router();
 
-router.get('/', getStore);
+router.get('/:storeName', getStore);
 router.delete('/', removeMenuItemFromStore);
 router.post('/', addMenuItemToStore);
 router.patch('/', updateMenuItemPrice);
