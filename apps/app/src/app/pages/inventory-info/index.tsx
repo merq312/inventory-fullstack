@@ -6,7 +6,7 @@ import DatePicker from '../../features/date-picker/date-picker';
 import InventoryInfoHeader from './header';
 import InventoryInfoCard from './card';
 
-export type menuItem = {
+export type MenuItem = {
   id: number;
   day: string;
   overnightCount: number;
@@ -19,7 +19,7 @@ export type menuItem = {
 }
 
 function InventoryInfoPage() {
-  const [data, setData] = useState<Array<menuItem>>([]);
+  const [data, setData] = useState<Array<MenuItem>>([]);
   const [date, setDate] = useState<string>('');
 
   useEffect(() => {

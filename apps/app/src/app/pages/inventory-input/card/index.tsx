@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 import { Button, ButtonGroup, Card, CardContent, Typography } from '@mui/material';
-import { menuItem } from '../../inventory-info';
+import { MenuItem } from '../../inventory-info';
 import { useEffect, useState } from 'react';
 
 type AppProps = {
-  item: menuItem;
+  item: MenuItem;
   session: string
 }
 

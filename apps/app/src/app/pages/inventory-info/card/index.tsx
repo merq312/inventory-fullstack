@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Box, Button, ButtonGroup, Card, CardContent, Typography } from '@mui/material';
-import { menuItem } from '../index';
+import { MenuItem } from '../index';
 
 const CardContentNoPadding = styled(CardContent)`
   padding: 0.6rem 0.8rem;
@@ -16,7 +16,7 @@ const InfoDiv = styled(Button)`
 `;
 
 type AppProps = {
-  item: menuItem
+  item: MenuItem
 }
 
 function InventoryInfoCard({ item }: AppProps) {
