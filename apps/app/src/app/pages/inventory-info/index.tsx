@@ -6,16 +6,25 @@ import DatePicker from '../../features/date-picker/date-picker';
 import InventoryInfoHeader from './header';
 import InventoryInfoCard from './card';
 
-export type MenuItem = {
-  id: number;
-  day: string;
+export type MenuItemCounts = {
   overnightCount: number;
   morningCount: number;
   afternoonCount: number;
   leftoverCountOne: number;
   leftoverCountTwo: number;
-  menuItemOnStoreId: number;
+}
+
+export type MenuItem = {
+  id: number;
+  day: string;
+  counts: MenuItemCounts
   name: string;
+  menuItemOnStoreId: number;
+  overnightCount?: number;
+  morningCount?: number;
+  afternoonCount?: number;
+  leftoverCountOne?: number;
+  leftoverCountTwo?: number;
 }
 
 function InventoryInfoPage() {

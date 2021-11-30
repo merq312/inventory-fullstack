@@ -1,11 +1,15 @@
 import styled from 'styled-components';
 import { Button, ButtonGroup, Card, CardContent, Typography } from '@mui/material';
-import { MenuItem } from '../../inventory-info';
 import { useEffect, useState } from 'react';
 
+// type AppProps = {
+//   item: MenuItem;
+//   session: string
+// }
+
 type AppProps = {
-  item: MenuItem;
-  session: string
+  name: string;
+  value: number;
 }
 
 const CardContentNoPadding = styled(CardContent)`
@@ -20,29 +24,33 @@ const InfoDiv = styled(Button)`
   min-width: 0;
 `;
 
-function InventoryInputCard({ item, session }: AppProps) {
+function InventoryInputCard({ name, value }: AppProps) {
   const [itemValue, setItemValue] = useState(0);
   const [newItemValue, setNewItemValue] = useState(0);
 
+  // useEffect(() => {
+  //   switch (session) {
+  //     case 'MC':
+  //       setItemValue(item.overnightCount);
+  //       break;
+  //     case 'M':
+  //       setItemValue(item.morningCount);
+  //       break;
+  //     case 'A':
+  //       setItemValue(item.afternoonCount);
+  //       break;
+  //     case 'L1':
+  //       setItemValue(item.leftoverCountOne);
+  //       break;
+  //     case 'L2':
+  //       setItemValue(item.leftoverCountTwo);
+  //       break;
+  //   }
+  // }, [session, item]);
+
   useEffect(() => {
-    switch (session) {
-      case 'MC':
-        setItemValue(item.overnightCount);
-        break;
-      case 'M':
-        setItemValue(item.morningCount);
-        break;
-      case 'A':
-        setItemValue(item.afternoonCount);
-        break;
-      case 'L1':
-        setItemValue(item.leftoverCountOne);
-        break;
-      case 'L2':
-        setItemValue(item.leftoverCountTwo);
-        break;
-    }
-  }, [session, item]);
+    setItemValue(value)
+  }, [value])
 
   useEffect(() => {
     setNewItemValue(itemValue)
@@ -80,7 +88,7 @@ function InventoryInputCard({ item, session }: AppProps) {
           <InfoDiv>{itemValue}</InfoDiv>
         </ButtonGroup>
         <Typography sx={{ flexGrow: 1 }} variant='body1' component='div'>
-          {item.name}
+          {name}
         </Typography>
         <ButtonGroup
           variant='contained'
