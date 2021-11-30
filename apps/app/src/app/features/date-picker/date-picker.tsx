@@ -5,14 +5,20 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import MobileDatePicker from '@mui/lab/MobileDatePicker';
 import DateAdapter from '@mui/lab/AdapterDayjs';
 import { Box } from '@mui/material';
+import dayjs from 'dayjs';
 
-export default function DatePicker() {
+type AppProps = {
+  setDate: (arg0: string) => void
+}
+
+export default function DatePicker({ setDate }: AppProps) {
   const [value, setValue] = useState<Date | null>(
-    new Date('2014-08-18T21:11:54')
+    new Date()
   );
 
   const handleChange = (newValue: Date | null) => {
     setValue(newValue);
+    if (newValue) setDate(dayjs(newValue).format('YYYY-MM-DD'))
   };
 
   return (

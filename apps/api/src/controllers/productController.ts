@@ -39,6 +39,9 @@ async function findAllMenuItemsOnStore(storeName: string) {
       store: {
         name: storeName
       }
+    },
+    include: {
+      menuItem: true
     }
   });
 }
@@ -64,6 +67,8 @@ export async function getProductCounts(req, res, next) {
       if (!productCount && !date) {
         productCount = await createProductCount(item.id);
       }
+
+      Object.assign(productCount, { name: item.menuItem.name })
 
       return productCount;
     }));

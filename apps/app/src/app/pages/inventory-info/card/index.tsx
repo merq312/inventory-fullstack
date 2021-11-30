@@ -1,15 +1,10 @@
 import styled from 'styled-components';
-import {
-  ButtonGroup,
-  Button,
-  Card,
-  CardContent,
-  Typography,
-  Box,
-} from '@mui/material';
+import { Box, Button, ButtonGroup, Card, CardContent, Typography } from '@mui/material';
+import { menuItem } from '../index';
 
 const CardContentNoPadding = styled(CardContent)`
   padding: 0.6rem 0.8rem;
+
   &:last-child {
     padding-bottom: 0.6rem;
   }
@@ -20,13 +15,17 @@ const InfoDiv = styled(Button)`
   width: 3rem;
 `;
 
-function InventoryInfo() {
+type AppProps = {
+  item: menuItem
+}
+
+function InventoryInfoCard({ item }: AppProps) {
   return (
     <Card sx={{ my: 1 }}>
       <CardContentNoPadding
         sx={{
           display: 'flex',
-          flexDirection: 'column',
+          flexDirection: 'column'
         }}
       >
         <Box
@@ -34,30 +33,30 @@ function InventoryInfo() {
             alignSelf: 'start',
             display: 'flex',
             justifyContent: 'space-between',
-            alignItems: 'center',
+            alignItems: 'center'
           }}
         >
-          <Typography sx={{ flexGrow: 1 }} variant="body1" component="div">
-            Supreme Family Pack
+          <Typography sx={{ flexGrow: 1 }} variant='body1' component='div'>
+            {item.name}
           </Typography>
         </Box>
         <ButtonGroup
-          variant="contained"
-          aria-label="outlined primary button group"
+          variant='contained'
+          aria-label='outlined primary button group'
           sx={{
             alignSelf: 'end',
-            cursor: 'default',
+            cursor: 'default'
           }}
         >
-          <InfoDiv>0</InfoDiv>
-          <InfoDiv>0</InfoDiv>
-          <InfoDiv>0</InfoDiv>
-          <InfoDiv>0</InfoDiv>
-          <InfoDiv>0</InfoDiv>
+          <InfoDiv>{item.overnightCount}</InfoDiv>
+          <InfoDiv>{item.morningCount}</InfoDiv>
+          <InfoDiv>{item.afternoonCount}</InfoDiv>
+          <InfoDiv>{item.leftoverCountOne}</InfoDiv>
+          <InfoDiv>{item.leftoverCountTwo}</InfoDiv>
         </ButtonGroup>
       </CardContentNoPadding>
     </Card>
   );
 }
 
-export default InventoryInfo;
+export default InventoryInfoCard;
