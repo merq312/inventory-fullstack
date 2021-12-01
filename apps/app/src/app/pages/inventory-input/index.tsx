@@ -70,7 +70,7 @@ function InventoryInputPage() {
   const [date, setDate] = useState<string>(dayjs().format('YYYY-MM-DD'));
   const [session, setSession] = useState<keyof MenuItem>('overnightCount');
 
-  useEffect(() => {
+  function getData(date: string) {
     axios.get(`http://localhost:3333/api/v1/product/rcss/${date}`)
       .then(r => {
         console.log('SUCCESS: received data');
@@ -80,18 +80,21 @@ function InventoryInputPage() {
       .catch(() => {
         console.log('FAILURE: Did not receive data');
       });
+  }
+
+  useEffect(() => {
+    getData(date);
   }, [date]);
 
   const handleClick = () => {
-    console.log(state)
-    // axios.patch(`http://localhost:3333/api/v1/product/rcss`, { productData: formData })
-    //   .then(() => {
-    //     console.log('SUCCESS: submitted form data')
-    //     getData(date)
-    //   })
-    //   .catch(() => {
-    //     console.log('FAILURE');
-    //   });
+    axios.patch(`http://localhost:3333/api/v1/product/rcss/${date}`, { productData: state })
+      .then(() => {
+        console.log('SUCCESS: submitted form data')
+        getData(date)
+      })
+      .catch(() => {
+        console.log('FAILURE');
+      });
   };
 
   return (
