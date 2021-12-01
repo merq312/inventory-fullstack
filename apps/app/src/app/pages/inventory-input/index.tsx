@@ -58,17 +58,17 @@ const reducer = (state: Array<PostItem>, action: Action) => {
 ;
 
 function InventoryInputPage() {
-  const [state, setState] = useReducer(reducer, initialState);
+  const [data, setData] = useState<Array<MenuItem>>([]);
+  const [post, setPost] = useReducer(reducer, initialState);
 
   const addItemsAction = (items: Array<MenuItem>) => {
-    setState({ type: 'add_items', items: items });
+    setPost({ type: 'add_items', items: items });
   };
 
   const modifyItemAction = (name: string, value: number, session: string) => {
-    setState({ type: 'modify_item', name: name, value: value, session: session as keyof PostItem['counts'] });
+    setPost({ type: 'modify_item', name: name, value: value, session: session as keyof PostItem['counts'] });
   };
 
-  const [data, setData] = useState<Array<MenuItem>>([]);
   const [date, setDate] = useState<string>(dayjs().format('YYYY-MM-DD'));
   const [session, setSession] = useState<keyof MenuItem>('overnightCount');
   const [errorMsg, setErrorMsg] = useState('Loading...');
@@ -83,9 +83,13 @@ function InventoryInputPage() {
   }, [date]);
 
   const handleClick = () => {
-    axios.patch(`http://localhost:3333/api/v1/product/rcss/${date}`, { productData: state })
+    axios.patch(`http://localhost:3333/api/v1/product/rcss/${date}`, { productData: post })
       .then(() => {
-        getData(date).then(setData);
+        getData(date)
+          .then((data) => {
+            setData(data);
+            addItemsAction(data);
+          });
       })
       .catch(() => {
         setErrorMsg('Server error');
