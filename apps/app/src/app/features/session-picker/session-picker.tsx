@@ -1,10 +1,10 @@
 import { SyntheticEvent } from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
-import { MenuItemCounts } from '../../pages/inventory-info';
+import { MenuItem } from '../../pages/inventory-info';
 
 type AppProps = {
-  setSession: (arg0: keyof MenuItemCounts) => void
+  setSession: (arg0: keyof MenuItem) => void
 }
 
 const sessionDict = {
@@ -18,7 +18,7 @@ const sessionDict = {
 function SessionPicker({ setSession }: AppProps) {
 
   const handleChange = (event: SyntheticEvent, value: string | null) => {
-    if (value) setSession(sessionDict[value as keyof typeof sessionDict] as keyof MenuItemCounts);
+    if (value) setSession(sessionDict[value as keyof typeof sessionDict] as keyof MenuItem);
   };
 
   return (

@@ -5,26 +5,18 @@ import ItemSearch from '../../features/item-search/item-search';
 import DatePicker from '../../features/date-picker/date-picker';
 import InventoryInfoHeader from './header';
 import InventoryInfoCard from './card';
+import dayjs from 'dayjs';
 
-export type MenuItemCounts = {
+export type MenuItem = {
+  id: number;
+  day: string;
+  name: string;
+  menuItemOnStoreId: number;
   overnightCount: number;
   morningCount: number;
   afternoonCount: number;
   leftoverCountOne: number;
   leftoverCountTwo: number;
-}
-
-export type MenuItem = {
-  id: number;
-  day: string;
-  counts: MenuItemCounts
-  name: string;
-  menuItemOnStoreId: number;
-  overnightCount?: number;
-  morningCount?: number;
-  afternoonCount?: number;
-  leftoverCountOne?: number;
-  leftoverCountTwo?: number;
 }
 
 function InventoryInfoPage() {
@@ -37,24 +29,8 @@ function InventoryInfoPage() {
         console.log('SUCCESS: received data');
         setData(r.data.data);
       })
-      .catch(error => {
+      .catch(() => {
         console.log('FAILURE: Did not receive data');
-        if (error.response) {
-          // The request was made and the server responded with a status code
-          // that falls out of the range of 2xx
-          console.log(error.response.data);
-          console.log(error.response.status);
-          console.log(error.response.headers);
-        } else if (error.request) {
-          // The request was made but no response was received
-          // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-          // http.ClientRequest in node.js
-          console.log(error.request);
-        } else {
-          // Something happened in setting up the request that triggered an Error
-          console.log('Error', error.message);
-        }
-        console.log(error.config);
       });
   }, [date]);
 

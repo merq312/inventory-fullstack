@@ -5,18 +5,19 @@ import DatePicker from '../../features/date-picker/date-picker';
 import SessionPicker from '../../features/session-picker/session-picker';
 import InventoryInputCard from './card';
 import axios from 'axios';
-import { MenuItem, MenuItemCounts } from '../inventory-info';
+import { MenuItem } from '../inventory-info';
+import dayjs from 'dayjs';
 
-type FormItem = {
-  name: string;
-  counts: {
-    overnightCount: number;
-    morningCount: number;
-    afternoonCount: number;
-    leftoverCountOne: number;
-    leftoverCountTwo: number;
-  }
-}
+// type PostItem = {
+//   name: string;
+//   counts: {
+//     overnightCount: number;
+//     morningCount: number;
+//     afternoonCount: number;
+//     leftoverCountOne: number;
+//     leftoverCountTwo: number;
+//   }
+// }
 
 function InventoryInputPage() {
   const [data, setData] = useState<Array<FormItem>>([]);
@@ -27,18 +28,7 @@ function InventoryInputPage() {
     axios.get(`http://localhost:3333/api/v1/product/rcss/${date}`)
       .then(r => {
         console.log('SUCCESS: received data');
-        setData(r.data.data.map((item: MenuItem) => {
-          return {
-            name: item.name,
-            counts: {
-              overnightCount: item.overnightCount,
-              morningCount: item.morningCount,
-              afternoonCount: item.afternoonCount,
-              leftoverCountOne: item.leftoverCountOne,
-              leftoverCountTwo: item.leftoverCountTwo
-            }
-          };
-        }));
+        setData(r.data.data);
       })
       .catch(() => {
         console.log('FAILURE: Did not receive data');
@@ -74,7 +64,7 @@ function InventoryInputPage() {
       </Grid>
       {
         Object.values(data).map(item => <InventoryInputCard key={item.name} name={item.name}
-                                                            value={item.counts[session]} />)
+                                                            value={item[session] as number} />)
       }
       <Box sx={{ display: 'flex', justifyContent: 'end' }}>
         <Button onClick={handleClick}>Submit</Button>

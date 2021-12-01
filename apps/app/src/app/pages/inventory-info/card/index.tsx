@@ -48,11 +48,11 @@ function InventoryInfoCard({ item }: AppProps) {
             cursor: 'default'
           }}
         >
-          <InfoDiv>{item.counts.overnightCount}</InfoDiv>
-          <InfoDiv>{item.counts.morningCount}</InfoDiv>
-          <InfoDiv>{item.counts.afternoonCount}</InfoDiv>
-          <InfoDiv>{item.counts.leftoverCountOne}</InfoDiv>
-          <InfoDiv>{item.counts.leftoverCountTwo}</InfoDiv>
+          <InfoDiv>{item.overnightCount}</InfoDiv>
+          <InfoDiv>{item.morningCount}</InfoDiv>
+          <InfoDiv>{item.afternoonCount}</InfoDiv>
+          <InfoDiv>{item.leftoverCountOne}</InfoDiv>
+          <InfoDiv>{item.leftoverCountTwo}</InfoDiv>
         </ButtonGroup>
       </CardContentNoPadding>
     </Card>

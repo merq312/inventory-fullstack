@@ -2,11 +2,6 @@ import styled from 'styled-components';
 import { Button, ButtonGroup, Card, CardContent, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 
-// type AppProps = {
-//   item: MenuItem;
-//   session: string
-// }
-
 type AppProps = {
   name: string;
   value: number;
@@ -27,26 +22,6 @@ const InfoDiv = styled(Button)`
 function InventoryInputCard({ name, value }: AppProps) {
   const [itemValue, setItemValue] = useState(0);
   const [newItemValue, setNewItemValue] = useState(0);
-
-  // useEffect(() => {
-  //   switch (session) {
-  //     case 'MC':
-  //       setItemValue(item.overnightCount);
-  //       break;
-  //     case 'M':
-  //       setItemValue(item.morningCount);
-  //       break;
-  //     case 'A':
-  //       setItemValue(item.afternoonCount);
-  //       break;
-  //     case 'L1':
-  //       setItemValue(item.leftoverCountOne);
-  //       break;
-  //     case 'L2':
-  //       setItemValue(item.leftoverCountTwo);
-  //       break;
-  //   }
-  // }, [session, item]);
 
   useEffect(() => {
     setItemValue(value)
