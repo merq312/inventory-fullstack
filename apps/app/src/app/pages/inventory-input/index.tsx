@@ -8,6 +8,7 @@ import axios from 'axios';
 import { MenuItem } from '../inventory-info';
 import dayjs from 'dayjs';
 import ErrorCard from '../../components/error-card/error-card';
+import { getData } from '../../utils/get-data';
 
 type PostItem = {
   name: string;
@@ -24,17 +25,17 @@ const initialState: Array<PostItem> = [];
 
 type Action =
   | { type: 'add_items', items: Array<MenuItem> }
-  | { type: 'modify_item', name: string,  value: number, session: keyof PostItem['counts'] }
+  | { type: 'modify_item', name: string, value: number, session: keyof PostItem['counts'] }
 
 const reducer = (state: Array<PostItem>, action: Action) => {
     switch (action.type) {
       case 'modify_item': {
         return state.map((ea: PostItem) => {
           if (ea.name === action.name) {
-            return { name: ea.name , counts: { ...ea.counts, [action.session]: action.value }}
+            return { name: ea.name, counts: { ...ea.counts, [action.session]: action.value } };
           }
-          return { ...ea }
-        })
+          return { ...ea };
+        });
       }
       case 'add_items': {
         return action.items.map(item => {
@@ -48,7 +49,7 @@ const reducer = (state: Array<PostItem>, action: Action) => {
               leftoverCountTwo: item.leftoverCountTwo
             }
           };
-        })
+        });
       }
       default:
         return [...state];
@@ -59,7 +60,7 @@ const reducer = (state: Array<PostItem>, action: Action) => {
 function InventoryInputPage() {
   const [state, setState] = useReducer(reducer, initialState);
 
-  const addItemAction = (items: Array<MenuItem>) => {
+  const addItemsAction = (items: Array<MenuItem>) => {
     setState({ type: 'add_items', items: items });
   };
 
@@ -70,45 +71,24 @@ function InventoryInputPage() {
   const [data, setData] = useState<Array<MenuItem>>([]);
   const [date, setDate] = useState<string>(dayjs().format('YYYY-MM-DD'));
   const [session, setSession] = useState<keyof MenuItem>('overnightCount');
-
-  function getData(date: string) {
-    axios.get(`http://localhost:3333/api/v1/product/rcss/${date}`)
-      .then(r => {
-        setData(r.data.data);
-        addItemAction(r.data.data);
-      })
-      .catch((error) => {
-        if (error.response) {
-          // The request was made and the server responded with a status code
-          // that falls out of the range of 2xx
-          console.log(error.response.data);
-          console.log(error.response.status);
-          console.log(error.response.headers);
-        } else if (error.request) {
-          // The request was made but no response was received
-          // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-          // http.ClientRequest in node.js
-          console.log(error.request);
-        } else {
-          // Something happened in setting up the request that triggered an Error
-          console.log('Error', error.message);
-        }
-        console.log(error.config);
-      });
-  }
+  const [errorMsg, setErrorMsg] = useState('Loading...');
 
   useEffect(() => {
-    getData(date);
+    getData(date)
+      .then((data) => {
+        setData(data);
+        addItemsAction(data);
+      })
+      .catch(err => setErrorMsg(err.message));
   }, [date]);
 
   const handleClick = () => {
     axios.patch(`http://localhost:3333/api/v1/product/rcss/${date}`, { productData: state })
       .then(() => {
-        console.log('SUCCESS: submitted form data')
-        getData(date)
+        getData(date).then(setData);
       })
       .catch(() => {
-        console.log('FAILURE');
+        setErrorMsg('Server error');
       });
   };
 
@@ -124,11 +104,11 @@ function InventoryInputPage() {
         </Grid>
       </Grid>
       {
-        data === []
+        data.length !== 0
           ? Object.values(data).map(item => <InventoryInputCard key={item.name} name={item.name}
-                                                            value={item[session] as number}
-                                                            dispatch={(value: number) => modifyItemAction(item.name, value, session)} />)
-          : <ErrorCard />
+                                                                value={item[session] as number}
+                                                                dispatch={(value: number) => modifyItemAction(item.name, value, session)} />)
+          : <ErrorCard msg={errorMsg} />
       }
       <Box sx={{ display: 'flex', justifyContent: 'end' }}>
         <Button onClick={handleClick}>Submit</Button>

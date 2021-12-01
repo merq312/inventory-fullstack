@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import { Box } from '@mui/material';
 import ItemSearch from '../../components/item-search/item-search';
 import DatePicker from '../../components/date-picker/date-picker';
@@ -7,6 +6,7 @@ import InventoryInfoHeader from './header';
 import InventoryInfoCard from './card';
 import dayjs from 'dayjs';
 import ErrorCard from '../../components/error-card/error-card';
+import { getData } from '../../utils/get-data';
 
 export type MenuItem = {
   id: number;
@@ -23,30 +23,12 @@ export type MenuItem = {
 function InventoryInfoPage() {
   const [data, setData] = useState<Array<MenuItem>>([]);
   const [date, setDate] = useState<string>(dayjs().format('YYYY-MM-DD'));
+  const [errorMsg, setErrorMsg] = useState('Loading...');
 
   useEffect(() => {
-    axios.get(`http://localhost:3333/api/v1/product/rcss/${date}`)
-      .then(r => {
-        setData(r.data.data);
-      })
-      .catch((error) => {
-        if (error.response) {
-          // The request was made and the server responded with a status code
-          // that falls out of the range of 2xx
-          console.log(error.response.data);
-          console.log(error.response.status);
-          console.log(error.response.headers);
-        } else if (error.request) {
-          // The request was made but no response was received
-          // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-          // http.ClientRequest in node.js
-          console.log(error.request);
-        } else {
-          // Something happened in setting up the request that triggered an Error
-          console.log('Error', error.message);
-        }
-        console.log(error.config);
-      });
+    getData(date)
+      .then(setData)
+      .catch(err => setErrorMsg(err.message));
   }, [date]);
 
   return (
@@ -55,9 +37,9 @@ function InventoryInfoPage() {
       <DatePicker setDate={setDate} />
       <InventoryInfoHeader />
       {
-        data === []
+        data.length !== 0
           ? Object.values(data).map(item => <InventoryInfoCard key={item.menuItemOnStoreId} item={item} />)
-          : <ErrorCard />
+          : <ErrorCard msg={errorMsg} />
       }
     </Box>
   );

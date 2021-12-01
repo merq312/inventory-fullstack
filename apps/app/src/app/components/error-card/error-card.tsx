@@ -9,7 +9,11 @@ const CardContentNoPadding = styled(CardContent)`
   }
 `;
 
-function ErrorCard() {
+type AppProps = {
+  msg: string;
+}
+
+function ErrorCard({ msg }: AppProps) {
   return (
     <Card sx={{ my: 1 }}>
       <CardContentNoPadding
@@ -20,7 +24,7 @@ function ErrorCard() {
         }}
       >
         <Typography variant='body1' component='div'>
-          Something went wrong :(
+          {msg ? msg : 'Something went wrong :('}
         </Typography>
 
       </CardContentNoPadding>
