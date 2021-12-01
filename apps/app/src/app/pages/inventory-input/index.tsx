@@ -72,6 +72,7 @@ function InventoryInputPage() {
   const [date, setDate] = useState<string>(dayjs().format('YYYY-MM-DD'));
   const [session, setSession] = useState<keyof MenuItem>('overnightCount');
   const [errorMsg, setErrorMsg] = useState('Loading...');
+  const [filter, setFilter] = useState('');
 
   useEffect(() => {
     getData(date)
@@ -98,7 +99,7 @@ function InventoryInputPage() {
 
   return (
     <Box sx={{ m: 2 }}>
-      <ItemSearch />
+      <ItemSearch itemNames={data.map(item => item.name)} dispatch={setFilter} />
       <Grid sx={{ alignItems: 'center' }} container spacing={2}>
         <Grid item xs={6}>
           <DatePicker setDate={setDate} />
@@ -109,9 +110,16 @@ function InventoryInputPage() {
       </Grid>
       {
         data.length !== 0
-          ? Object.values(data).map(item => <InventoryInputCard key={item.name} name={item.name}
-                                                                value={item[session] as number}
-                                                                dispatch={(value: number) => modifyItemAction(item.name, value, session)} />)
+          ? filter === ''
+            ? data
+              .map(item => <InventoryInputCard key={item.name} name={item.name}
+                                               value={item[session] as number}
+                                               dispatch={(value: number) => modifyItemAction(item.name, value, session)} />)
+            : data
+              .filter(item => item.name === filter)
+              .map(item => <InventoryInputCard key={item.name} name={item.name}
+                                               value={item[session] as number}
+                                               dispatch={(value: number) => modifyItemAction(item.name, value, session)} />)
           : <ErrorCard msg={errorMsg} />
       }
       <Box sx={{ display: 'flex', justifyContent: 'end' }}>

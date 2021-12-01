@@ -24,6 +24,7 @@ function InventoryInfoPage() {
   const [data, setData] = useState<Array<MenuItem>>([]);
   const [date, setDate] = useState<string>(dayjs().format('YYYY-MM-DD'));
   const [errorMsg, setErrorMsg] = useState('Loading...');
+  const [filter, setFilter] = useState('');
 
   useEffect(() => {
     getData(date)
@@ -33,12 +34,17 @@ function InventoryInfoPage() {
 
   return (
     <Box sx={{ m: 2 }}>
-      <ItemSearch />
+      <ItemSearch itemNames={data.map(item => item.name)} dispatch={setFilter} />
       <DatePicker setDate={setDate} />
       <InventoryInfoHeader />
       {
         data.length !== 0
-          ? Object.values(data).map(item => <InventoryInfoCard key={item.menuItemOnStoreId} item={item} />)
+          ? filter === ''
+            ? data
+              .map(item => <InventoryInfoCard key={item.name} item={item} />)
+            : data
+              .filter(item => item.name === filter)
+              .map(item => <InventoryInfoCard key={item.name} item={item} />)
           : <ErrorCard msg={errorMsg} />
       }
     </Box>
