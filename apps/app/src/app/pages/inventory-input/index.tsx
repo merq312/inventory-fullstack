@@ -9,6 +9,7 @@ import { MenuItem } from '../inventory-info';
 import dayjs from 'dayjs';
 import ErrorCard from '../../components/error-card/error-card';
 import { getData } from '../../utils/get-data';
+import { ItemsContainerDiv } from '../../utils/styles';
 
 type PostItem = {
   name: string;
@@ -108,20 +109,22 @@ function InventoryInputPage() {
           <SessionPicker setSession={setSession} />
         </Grid>
       </Grid>
-      {
-        data.length !== 0
-          ? filter === ''
-            ? data
-              .map(item => <InventoryInputCard key={item.name} name={item.name}
-                                               value={item[session] as number}
-                                               dispatch={(value: number) => modifyItemAction(item.name, value, session)} />)
-            : data
-              .filter(item => item.name === filter)
-              .map(item => <InventoryInputCard key={item.name} name={item.name}
-                                               value={item[session] as number}
-                                               dispatch={(value: number) => modifyItemAction(item.name, value, session)} />)
-          : <ErrorCard msg={errorMsg} />
-      }
+      <ItemsContainerDiv>
+        {
+          data.length !== 0
+            ? filter === ''
+              ? data
+                .map(item => <InventoryInputCard key={item.name} name={item.name}
+                                                 value={item[session] as number}
+                                                 dispatch={(value: number) => modifyItemAction(item.name, value, session)} />)
+              : data
+                .filter(item => item.name === filter)
+                .map(item => <InventoryInputCard key={item.name} name={item.name}
+                                                 value={item[session] as number}
+                                                 dispatch={(value: number) => modifyItemAction(item.name, value, session)} />)
+            : <ErrorCard msg={errorMsg} />
+        }
+      </ItemsContainerDiv>
       <Box sx={{ display: 'flex', justifyContent: 'end' }}>
         <Button onClick={handleClick}>Submit</Button>
       </Box>

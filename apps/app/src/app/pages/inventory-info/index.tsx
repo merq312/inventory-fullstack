@@ -7,6 +7,7 @@ import InventoryInfoCard from './card';
 import dayjs from 'dayjs';
 import ErrorCard from '../../components/error-card/error-card';
 import { getData } from '../../utils/get-data';
+import { ItemsContainerDiv } from '../../utils/styles';
 
 export type MenuItem = {
   id: number;
@@ -37,16 +38,18 @@ function InventoryInfoPage() {
       <ItemSearch itemNames={data.map(item => item.name)} dispatch={setFilter} />
       <DatePicker setDate={setDate} />
       <InventoryInfoHeader />
-      {
-        data.length !== 0
-          ? filter === ''
-            ? data
-              .map(item => <InventoryInfoCard key={item.name} item={item} />)
-            : data
-              .filter(item => item.name === filter)
-              .map(item => <InventoryInfoCard key={item.name} item={item} />)
-          : <ErrorCard msg={errorMsg} />
-      }
+      <ItemsContainerDiv>
+        {
+          data.length !== 0
+            ? filter === ''
+              ? data
+                .map(item => <InventoryInfoCard key={item.name} item={item} />)
+              : data
+                .filter(item => item.name === filter)
+                .map(item => <InventoryInfoCard key={item.name} item={item} />)
+            : <ErrorCard msg={errorMsg} />
+        }
+      </ItemsContainerDiv>
     </Box>
   );
 }
