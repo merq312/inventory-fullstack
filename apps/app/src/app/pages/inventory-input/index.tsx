@@ -9,7 +9,7 @@ import { MenuItem } from '../inventory-info';
 import dayjs from 'dayjs';
 import ErrorCard from '../../components/error-card/error-card';
 import { getData } from '../../utils/get-data';
-import { ItemsContainerDiv } from '../../utils/styles';
+import { ItemsContainer } from '../../utils/styles';
 
 type PostItem = {
   name: string;
@@ -109,7 +109,7 @@ function InventoryInputPage() {
           <SessionPicker setSession={setSession} />
         </Grid>
       </Grid>
-      <ItemsContainerDiv>
+      <ItemsContainer>
         {
           data.length !== 0
             ? filter === ''
@@ -124,7 +124,7 @@ function InventoryInputPage() {
                                                  dispatch={(value: number) => modifyItemAction(item.name, value, session)} />)
             : <ErrorCard msg={errorMsg} />
         }
-      </ItemsContainerDiv>
+      </ItemsContainer>
       <Box sx={{ display: 'flex', justifyContent: 'end' }}>
         <Button onClick={handleClick}>Submit</Button>
       </Box>

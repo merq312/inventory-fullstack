@@ -1,11 +1,20 @@
 import styled from 'styled-components';
 
-export const PageContainerDiv = styled.div`
-  margin: 0 auto;
-  max-width: 1200px;
+export const Main = styled.main`
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 `;
 
-export const ItemsContainerDiv = styled.div`
+export const PageContainer = styled.div`
+  margin: 0;
+  overflow-y: scroll;
+  @media (min-width: 1400px) {
+    margin: 0 200px;
+  }
+`;
+
+export const ItemsContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr;
   gap: 0 2rem;

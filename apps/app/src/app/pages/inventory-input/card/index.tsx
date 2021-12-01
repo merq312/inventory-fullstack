@@ -57,12 +57,11 @@ function InventoryInputCard({ name, value, dispatch }: AppProps) {
         <ButtonGroup
           variant='outlined'
           aria-label='outlined primary button group'
-          sx={{ mr: 0.6 }}
         >
           <InfoDiv>{newValue}</InfoDiv>
           <InfoDiv>{value}</InfoDiv>
         </ButtonGroup>
-        <Typography sx={{ flexGrow: 1 }} variant='body1' component='div'>
+        <Typography sx={{ flexGrow: 1, mx: 2 }} variant='body1' component='div'>
           {name}
         </Typography>
         <ButtonGroup
