@@ -21,7 +21,7 @@ export type MenuItem = {
 
 function InventoryInfoPage() {
   const [data, setData] = useState<Array<MenuItem>>([]);
-  const [date, setDate] = useState<string>('');
+  const [date, setDate] = useState<string>(dayjs().format('YYYY-MM-DD'));
 
   useEffect(() => {
     axios.get(`http://localhost:3333/api/v1/product/rcss/${date}`)

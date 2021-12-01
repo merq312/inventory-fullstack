@@ -20,9 +20,9 @@ import dayjs from 'dayjs';
 // }
 
 function InventoryInputPage() {
-  const [data, setData] = useState<Array<FormItem>>([]);
-  const [date, setDate] = useState<string>('');
-  const [session, setSession] = useState<keyof MenuItemCounts>('overnightCount');
+  const [data, setData] = useState<Array<MenuItem>>([]);
+  const [date, setDate] = useState<string>(dayjs().format('YYYY-MM-DD'));
+  const [session, setSession] = useState<keyof MenuItem>('overnightCount');
 
   function getData(date: string) {
     axios.get(`http://localhost:3333/api/v1/product/rcss/${date}`)
