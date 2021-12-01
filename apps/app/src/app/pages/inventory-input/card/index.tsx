@@ -5,10 +5,12 @@ import { useEffect, useState } from 'react';
 type AppProps = {
   name: string;
   value: number;
+  dispatch: (arg0: number) => void;
 }
 
 const CardContentNoPadding = styled(CardContent)`
   padding: 0.6rem 0.8rem;
+
   &:last-child {
     padding-bottom: 0.6rem;
   }
@@ -19,31 +21,29 @@ const InfoDiv = styled(Button)`
   min-width: 0;
 `;
 
-function InventoryInputCard({ name, value }: AppProps) {
-  const [itemValue, setItemValue] = useState(0);
-  const [newItemValue, setNewItemValue] = useState(0);
+function InventoryInputCard({ name, value, dispatch }: AppProps) {
+  const [newValue, setNewValue] = useState(0);
 
   useEffect(() => {
-    setItemValue(value)
+    setNewValue(value)
   }, [value])
 
-  useEffect(() => {
-    setNewItemValue(itemValue)
-  }, [itemValue])
-
   const handleDecrement = () => {
-    if (newItemValue - 1 >= 0) {
-      setNewItemValue(newItemValue - 1)
+    if (newValue - 1 >= 0) {
+      setNewValue(newValue - 1);
+      dispatch(newValue - 1);
     }
-  }
+  };
 
   const handleReset = () => {
-    setNewItemValue(itemValue)
-  }
+    setNewValue(value);
+    dispatch(value);
+  };
 
   const handleIncrement = () => {
-    setNewItemValue(newItemValue + 1)
-  }
+    setNewValue(newValue + 1);
+    dispatch(newValue + 1);
+  };
 
   return (
     <Card sx={{ my: 1 }}>
@@ -59,8 +59,8 @@ function InventoryInputCard({ name, value }: AppProps) {
           aria-label='outlined primary button group'
           sx={{ mr: 0.6 }}
         >
-          <InfoDiv>{newItemValue}</InfoDiv>
-          <InfoDiv>{itemValue}</InfoDiv>
+          <InfoDiv>{newValue}</InfoDiv>
+          <InfoDiv>{value}</InfoDiv>
         </ButtonGroup>
         <Typography sx={{ flexGrow: 1 }} variant='body1' component='div'>
           {name}
