@@ -46,10 +46,11 @@ async function findAllMenuItemsOnStore(storeName: string) {
   });
 }
 
-async function createProductCount(menuItemOnStoreId: number) {
+async function createProductCount(menuItemOnStoreId: number, day: string) {
   return await prisma.productCount.create({
     data: {
-      menuItemOnStoreId: menuItemOnStoreId
+      menuItemOnStoreId: menuItemOnStoreId,
+      day: day
     }
   });
 }
@@ -64,8 +65,8 @@ export async function getProductCounts(req, res, next) {
     const productCounts = await Promise.all(menuItemsOnStore.map(async (item) => {
       let productCount = await findProductCount(item.id, day);
 
-      if (!productCount && !date) {
-        productCount = await createProductCount(item.id);
+      if (!productCount) {
+        productCount = await createProductCount(item.id, day);
       }
 
       Object.assign(productCount, { name: item.menuItem.name })
