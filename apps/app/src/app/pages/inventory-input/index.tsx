@@ -7,6 +7,7 @@ import InventoryInputCard from './card';
 import axios from 'axios';
 import { MenuItem } from '../inventory-info';
 import dayjs from 'dayjs';
+import ErrorCard from '../../features/error-card/error-card';
 
 type PostItem = {
   name: string;
@@ -73,12 +74,26 @@ function InventoryInputPage() {
   function getData(date: string) {
     axios.get(`http://localhost:3333/api/v1/product/rcss/${date}`)
       .then(r => {
-        console.log('SUCCESS: received data');
         setData(r.data.data);
         addItemAction(r.data.data);
       })
-      .catch(() => {
-        console.log('FAILURE: Did not receive data');
+      .catch((error) => {
+        if (error.response) {
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+          console.log(error.response.data);
+          console.log(error.response.status);
+          console.log(error.response.headers);
+        } else if (error.request) {
+          // The request was made but no response was received
+          // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+          // http.ClientRequest in node.js
+          console.log(error.request);
+        } else {
+          // Something happened in setting up the request that triggered an Error
+          console.log('Error', error.message);
+        }
+        console.log(error.config);
       });
   }
 
@@ -109,9 +124,11 @@ function InventoryInputPage() {
         </Grid>
       </Grid>
       {
-        Object.values(data).map(item => <InventoryInputCard key={item.name} name={item.name}
+        data === []
+          ? Object.values(data).map(item => <InventoryInputCard key={item.name} name={item.name}
                                                             value={item[session] as number}
                                                             dispatch={(value: number) => modifyItemAction(item.name, value, session)} />)
+          : <ErrorCard />
       }
       <Box sx={{ display: 'flex', justifyContent: 'end' }}>
         <Button onClick={handleClick}>Submit</Button>
