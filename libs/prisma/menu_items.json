@@ -1,14 +1,78 @@
 [
   {
-    "name": "california",
+    "name": "Spicy California",
     "price": 6.99
   },
   {
-    "name": "cali family",
+    "name": "Spicy California Crunch",
+    "price": 7.99
+  },
+  {
+    "name": "California",
+    "price": 6.99
+  },
+  {
+    "name": "Veggie California",
+    "price": 6.99
+  },
+  {
+    "name": "California Family Pack",
     "price": 13.99
   },
   {
-    "name": "spicy california",
-    "price": 6.99
+    "name": "Crunch Family Pack",
+    "price": 14.99
+  },
+  {
+    "name": "Supreme Family Pack",
+    "price": 15.99
+  },
+  {
+    "name": "Dynamite Combo",
+    "price": 8.99
+  },
+  {
+    "name": "Dynamite Crunch Combo",
+    "price": 9.99
+  },
+  {
+    "name": "Rainbow Roll",
+    "price": 10.79
+  },
+  {
+    "name": "Red Dragon Roll",
+    "price": 9.99
+  },
+  {
+    "name": "Green Dragon Roll",
+    "price": 9.99
+  },
+  {
+    "name": "Nozomi Combo",
+    "price": 12.99
+  },
+  {
+    "name": "Toki Combo",
+    "price": 9.99
+  },
+  {
+    "name": "Samurai Combo",
+    "price": 8.99
+  },
+  {
+    "name": "Shogun Combo",
+    "price": 12.49
+  },
+  {
+    "name": "Salmon Avo Roll",
+    "price": 8.99
+  },
+  {
+    "name": "Spicy Salmon Roll",
+    "price": 8.99
+  },
+  {
+    "name": "Salmon Sushi Combo",
+    "price": 12.99
   }
 ]
