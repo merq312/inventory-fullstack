@@ -1,6 +1,6 @@
 import { Box, Typography } from '@mui/material';
-import LogOutButton from '../../features/logout-button/logout-button';
-import LogInButton from '../../features/login-button/login-button';
+import LogOutButton from '../../components/logout-button/logout-button';
+import LogInButton from '../../components/login-button/login-button';
 import { useEffect, useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 

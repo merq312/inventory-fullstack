@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Container } from '@mui/material';
-import Header from './features/header/header';
-import SettingsDrawer from './features/settings-drawer/settiings-drawer';
+import Header from './components/header/header';
+import SettingsDrawer from './components/settings-drawer/settiings-drawer';
 import InventoryInputPage from './pages/inventory-input';
 import InventoryInfoPage from './pages/inventory-info';
 import HomePage from './pages/home';

@@ -1,13 +1,13 @@
 import { useEffect, useReducer, useState } from 'react';
 import { Box, Button, Grid } from '@mui/material';
-import ItemSearch from '../../features/item-search/item-search';
-import DatePicker from '../../features/date-picker/date-picker';
-import SessionPicker from '../../features/session-picker/session-picker';
+import ItemSearch from '../../components/item-search/item-search';
+import DatePicker from '../../components/date-picker/date-picker';
+import SessionPicker from '../../components/session-picker/session-picker';
 import InventoryInputCard from './card';
 import axios from 'axios';
 import { MenuItem } from '../inventory-info';
 import dayjs from 'dayjs';
-import ErrorCard from '../../features/error-card/error-card';
+import ErrorCard from '../../components/error-card/error-card';
 
 type PostItem = {
   name: string;

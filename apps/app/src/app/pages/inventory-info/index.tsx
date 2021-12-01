@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Box } from '@mui/material';
-import ItemSearch from '../../features/item-search/item-search';
-import DatePicker from '../../features/date-picker/date-picker';
+import ItemSearch from '../../components/item-search/item-search';
+import DatePicker from '../../components/date-picker/date-picker';
 import InventoryInfoHeader from './header';
 import InventoryInfoCard from './card';
 import dayjs from 'dayjs';
-import ErrorCard from '../../features/error-card/error-card';
+import ErrorCard from '../../components/error-card/error-card';
 
 export type MenuItem = {
   id: number;
