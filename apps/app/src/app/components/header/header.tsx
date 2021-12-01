@@ -21,7 +21,7 @@ export function Header({ setDrawer }: AppProps) {
         >
           <MenuIcon />
         </IconButton>
-        <Typography variant='h5' component='h1'>{
+        <Typography variant='h1' component='h1'>{
           location.pathname === '/'
             ? 'Home'
             : location.pathname

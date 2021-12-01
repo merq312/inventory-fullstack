@@ -100,15 +100,17 @@ function InventoryInputPage() {
 
   return (
     <Box sx={{ m: 2 }}>
-      <ItemSearch itemNames={data.map(item => item.name)} dispatch={setFilter} />
-      <Grid sx={{ alignItems: 'center' }} container spacing={2}>
-        <Grid item xs={6}>
-          <DatePicker setDate={setDate} />
+      <Box sx={{maxWidth: '900px', margin: "0 auto"}}>
+        <ItemSearch itemNames={data.map(item => item.name)} dispatch={setFilter} />
+        <Grid sx={{ alignItems: 'center' }} container spacing={2}>
+          <Grid item xs={6}>
+            <DatePicker setDate={setDate} />
+          </Grid>
+          <Grid item xs={6}>
+            <SessionPicker setSession={setSession} />
+          </Grid>
         </Grid>
-        <Grid item xs={6}>
-          <SessionPicker setSession={setSession} />
-        </Grid>
-      </Grid>
+      </Box>
       <ItemsContainer>
         {
           data.length !== 0

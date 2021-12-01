@@ -8,7 +8,7 @@ export const Main = styled.main`
 
 export const PageContainer = styled.div`
   margin: 0;
-  overflow-y: scroll;
+  overflow-y: auto;
   @media (min-width: 1400px) {
     margin: 0 200px;
   }

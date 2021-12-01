@@ -6,24 +6,34 @@ import InventoryInputPage from './pages/inventory-input';
 import InventoryInfoPage from './pages/inventory-info';
 import HomePage from './pages/home';
 import { Main, PageContainer } from './utils/styles';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+const theme = createTheme();
+
+theme.typography.h1 = {
+  fontSize: '1.4rem',
+  fontWeight: 'normal',
+};
 
 export const App = () => {
   const [drawer, setDrawer] = useState(false);
 
   return (
-    <Main>
-      <BrowserRouter>
-        <SettingsDrawer drawer={drawer} setDrawer={setDrawer} />
-        <Header setDrawer={setDrawer} />
-        <PageContainer>
-          <Routes>
-            <Route path='/' element={<HomePage />} />
-            <Route path='/inventory-input' element={<InventoryInputPage />} />
-            <Route path='/inventory-info' element={<InventoryInfoPage />} />
-          </Routes>
-        </PageContainer>
-      </BrowserRouter>
-    </Main>
+    <ThemeProvider theme={theme}>
+      <Main>
+        <BrowserRouter>
+          <SettingsDrawer drawer={drawer} setDrawer={setDrawer} />
+          <Header setDrawer={setDrawer} />
+          <PageContainer>
+            <Routes>
+              <Route path='/' element={<HomePage />} />
+              <Route path='/inventory-input' element={<InventoryInputPage />} />
+              <Route path='/inventory-info' element={<InventoryInfoPage />} />
+            </Routes>
+          </PageContainer>
+        </BrowserRouter>
+      </Main>
+    </ThemeProvider>
   );
 };
 

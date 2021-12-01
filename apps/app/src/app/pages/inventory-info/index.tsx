@@ -35,9 +35,11 @@ function InventoryInfoPage() {
 
   return (
     <Box sx={{ m: 2 }}>
-      <ItemSearch itemNames={data.map(item => item.name)} dispatch={setFilter} />
-      <DatePicker setDate={setDate} />
-      <InventoryInfoHeader />
+      <Box sx={{ maxWidth: '900px', margin: '0 auto' }}>
+        <ItemSearch itemNames={data.map(item => item.name)} dispatch={setFilter} />
+        <DatePicker setDate={setDate} />
+        <InventoryInfoHeader />
+      </Box>
       <ItemsContainer>
         {
           data.length !== 0
