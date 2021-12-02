@@ -51,3 +51,18 @@ export async function changeMenuItemName(req, res, next) {
     return next(createError(500, "Internal server error"));
   }
 }
+
+export async function getAllMenuItems(req, res, next) {
+  try {
+    const menuItems =  await prisma.menuItem.findMany()
+
+    if (!menuItems[0]) return next(createError(400, 'No stores found'));
+
+    return res.status(200).json({
+      status: 'success',
+      data: menuItems
+    });
+  } catch {
+    return next(createError(500, 'Internal server error'));
+  }
+}

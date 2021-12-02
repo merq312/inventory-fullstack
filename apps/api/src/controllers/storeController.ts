@@ -88,3 +88,31 @@ export async function getStore(req, res, next) {
     return next(createError(500, 'Internal server error'));
   }
 }
+export async function getAllStores(req, res, next) {
+  try {
+    const stores =  await prisma.store.findMany({
+      include: {
+        menuItems: {
+          select: {
+            id: true,
+            price: true,
+            menuItem: {
+              select: {
+                name: true
+              }
+            }
+          }
+        }
+      }
+    })
+
+    if (!stores[0]) return next(createError(400, 'No stores found'));
+
+    return res.status(200).json({
+      status: 'success',
+      data: stores
+    });
+  } catch {
+    return next(createError(500, 'Internal server error'));
+  }
+}
