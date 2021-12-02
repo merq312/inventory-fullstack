@@ -6,7 +6,7 @@ const LogOutButton = () => {
 
   return (
     <Button
-      variant='outlined'
+      color="inherit"
       onClick={() => logout({ returnTo: window.location.origin })}
     >
       Log Out

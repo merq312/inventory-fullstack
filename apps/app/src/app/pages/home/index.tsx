@@ -1,6 +1,4 @@
 import { Box, Typography } from '@mui/material';
-import LogOutButton from '../../components/logout-button/logout-button';
-import LogInButton from '../../components/login-button/login-button';
 import { useEffect, useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 
@@ -17,7 +15,7 @@ function HomePage() {
     }
 
     getAccessTokenSilently()
-      .then(setToken)
+      .then(setToken);
   }, [isAuthenticated, getAccessTokenSilently]);
 
   useEffect(() => {
@@ -52,10 +50,9 @@ function HomePage() {
             <Typography variant='body1' component='div' gutterBottom>
               {user ? user.email : ''}
             </Typography>
-            <LogOutButton />
           </>
         ) : (
-          <LogInButton />
+          <p>Not logged in</p>
         )
       }
     </Box>
