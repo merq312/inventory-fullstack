@@ -1,5 +1,5 @@
-import { PrismaClient } from '@prisma/client';
-import * as menuItems from './menu_items.json'
+const  { PrismaClient } = require('@prisma/client')
+const menuItems = require('./menu_items.json')
 
 const prisma = new PrismaClient();
 

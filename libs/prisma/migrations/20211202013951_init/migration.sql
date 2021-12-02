@@ -62,6 +62,12 @@ CREATE UNIQUE INDEX "Store_name_key" ON "Store"("name");
 -- CreateIndex
 CREATE UNIQUE INDEX "MenuItem_name_key" ON "MenuItem"("name");
 
+-- CreateIndex
+CREATE UNIQUE INDEX "MenuItemsOnStores_menuItemId_storeId_key" ON "MenuItemsOnStores"("menuItemId", "storeId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "ProductCount_day_menuItemOnStoreId_key" ON "ProductCount"("day", "menuItemOnStoreId");
+
 -- AddForeignKey
 ALTER TABLE "UsersOnStores" ADD CONSTRAINT "UsersOnStores_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
