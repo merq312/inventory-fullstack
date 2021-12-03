@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Header from './components/header/header';
 import SettingsDrawer from './components/settings-drawer/settiings-drawer';
 import InventoryInputPage from './pages/inventory-input';
+import DashboardPage from './pages/dashboard';
 import InventoryInfoPage from './pages/inventory-info';
 import HomePage from './pages/home';
 import { Main, PageContainer } from './utils/styles';
@@ -12,7 +13,7 @@ const theme = createTheme();
 
 theme.typography.h1 = {
   fontSize: '1.4rem',
-  fontWeight: 'normal',
+  fontWeight: 'normal'
 };
 
 export const App = () => {
@@ -29,6 +30,7 @@ export const App = () => {
               <Route path='/' element={<HomePage />} />
               <Route path='/inventory-input' element={<InventoryInputPage />} />
               <Route path='/inventory-info' element={<InventoryInfoPage />} />
+              <Route path='/dashboard' element={<DashboardPage />} />
             </Routes>
           </PageContainer>
         </BrowserRouter>

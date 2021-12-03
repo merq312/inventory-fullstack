@@ -10,6 +10,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import CreateIcon from '@mui/icons-material/Create';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import LogoutIcon from '@mui/icons-material/Logout';
+import DashboardIcon from '@mui/icons-material/Dashboard';
 import { Link } from 'react-router-dom';
 
 type AppProps = {
@@ -45,6 +46,12 @@ export default function SettingsDrawer({ drawer, setDrawer }: AppProps) {
             <HomeIcon />
           </ListItemIcon>
           <ListItemText primary='Home' />
+        </ListItem>
+        <ListItem button component={Link} to='/dashboard' key={'Dashboard'}>
+          <ListItemIcon>
+            <DashboardIcon />
+          </ListItemIcon>
+          <ListItemText primary='Dashboard' />
         </ListItem>
         <ListItem button component={Link} to='inventory-input' key={'InventoryInput'}>
           <ListItemIcon>

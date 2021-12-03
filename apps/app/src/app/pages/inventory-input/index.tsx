@@ -3,22 +3,22 @@ import { Box, Button, Grid } from '@mui/material';
 import ItemSearch from '../../components/item-search/item-search';
 import DatePicker from '../../components/date-picker/date-picker';
 import SessionPicker from '../../components/session-picker/session-picker';
-import InventoryInputCard from './card';
+import InventoryInputCard from './card/card';
 import axios from 'axios';
 import { MenuItem } from '../inventory-info';
 import dayjs from 'dayjs';
 import ErrorCard from '../../components/error-card/error-card';
-import { getData } from '../../utils/get-data';
+import { getProductData } from '../../utils/get-data';
 import { ItemsContainer } from '../../utils/styles';
 
 type PostItem = {
-  name: string;
+  name: string
   counts: {
-    overnightCount: number;
-    morningCount: number;
-    afternoonCount: number;
-    leftoverCountOne: number;
-    leftoverCountTwo: number;
+    overnightCount: number
+    morningCount: number
+    afternoonCount: number
+    leftoverCountOne: number
+    leftoverCountTwo: number
   }
 }
 
@@ -76,7 +76,7 @@ function InventoryInputPage() {
   const [filter, setFilter] = useState('');
 
   useEffect(() => {
-    getData(date)
+    getProductData(date)
       .then((data) => {
         setData(data);
         addItemsAction(data);
@@ -87,7 +87,7 @@ function InventoryInputPage() {
   const handleClick = () => {
     axios.patch(`http://localhost:3333/api/v1/product/rcss/${date}`, { productData: post })
       .then(() => {
-        getData(date)
+        getProductData(date)
           .then((data) => {
             setData(data);
             addItemsAction(data);
