@@ -100,7 +100,7 @@ function InventoryInputPage() {
 
   return (
     <Box sx={{ m: 2 }}>
-      <Box sx={{maxWidth: '900px', margin: "0 auto"}}>
+      <Box sx={{ maxWidth: '900px', margin: '0 auto' }}>
         <ItemSearch itemNames={data.map(item => item.name)} dispatch={setFilter} />
         <Grid sx={{ alignItems: 'center' }} container spacing={2}>
           <Grid item xs={6}>
@@ -111,22 +111,26 @@ function InventoryInputPage() {
           </Grid>
         </Grid>
       </Box>
-      <ItemsContainer>
-        {
-          data.length !== 0
-            ? filter === ''
-              ? data
-                .map(item => <InventoryInputCard key={item.name} name={item.name}
-                                                 value={item[session] as number}
-                                                 dispatch={(value: number) => modifyItemAction(item.name, value, session)} />)
-              : data
-                .filter(item => item.name === filter)
-                .map(item => <InventoryInputCard key={item.name} name={item.name}
-                                                 value={item[session] as number}
-                                                 dispatch={(value: number) => modifyItemAction(item.name, value, session)} />)
-            : <ErrorCard msg={errorMsg} />
-        }
-      </ItemsContainer>
+      {
+        data.length !== 0
+          ? (
+            <ItemsContainer>
+              {
+                filter === ''
+                  ? data
+                    .map(item => <InventoryInputCard key={item.name} name={item.name}
+                                                     value={item[session] as number}
+                                                     dispatch={(value: number) => modifyItemAction(item.name, value, session)} />)
+                  : data
+                    .filter(item => item.name === filter)
+                    .map(item => <InventoryInputCard key={item.name} name={item.name}
+                                                     value={item[session] as number}
+                                                     dispatch={(value: number) => modifyItemAction(item.name, value, session)} />)
+              }
+            </ItemsContainer>
+          )
+          : <ErrorCard msg={errorMsg} />
+      }
       <Box sx={{ display: 'flex', justifyContent: 'end' }}>
         <Button onClick={handleClick}>Submit</Button>
       </Box>

@@ -40,18 +40,22 @@ function InventoryInfoPage() {
         <DatePicker setDate={setDate} />
         <InventoryInfoHeader />
       </Box>
-      <ItemsContainer>
-        {
-          data.length !== 0
-            ? filter === ''
-              ? data
-                .map(item => <InventoryInfoCard key={item.name} item={item} />)
-              : data
-                .filter(item => item.name === filter)
-                .map(item => <InventoryInfoCard key={item.name} item={item} />)
-            : <ErrorCard msg={errorMsg} />
-        }
-      </ItemsContainer>
+      {
+        data.length !== 0
+          ? (
+            <ItemsContainer>
+              {
+                filter === ''
+                  ? data
+                    .map(item => <InventoryInfoCard key={item.name} item={item} />)
+                  : data
+                    .filter(item => item.name === filter)
+                    .map(item => <InventoryInfoCard key={item.name} item={item} />)
+              }
+            </ItemsContainer>
+          )
+          : <ErrorCard msg={errorMsg} />
+      }
     </Box>
   );
 }
