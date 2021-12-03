@@ -14,8 +14,7 @@ function HomePage() {
       return;
     }
 
-    getAccessTokenSilently()
-      .then(setToken);
+    getAccessTokenSilently().then(setToken);
   }, [isAuthenticated, getAccessTokenSilently]);
 
   useEffect(() => {
@@ -25,8 +24,8 @@ function HomePage() {
 
     fetch('/api/v1/user/private', {
       headers: {
-        Authorization: `Bearer ${token}`
-      }
+        Authorization: `Bearer ${token}`,
+      },
     })
       .then((r) => r.json())
       .then(setMessage);
@@ -34,27 +33,25 @@ function HomePage() {
 
   return (
     <Box sx={{ m: 2 }}>
-      <Typography variant='body1' component='div' gutterBottom>
+      <Typography variant="body1" component="div" gutterBottom>
         {m.message}
       </Typography>
-      {
-        isLoading ? (
-          <Typography variant='body1' component='div' gutterBottom>
-            Loading ...
+      {isLoading ? (
+        <Typography variant="body1" component="div" gutterBottom>
+          Loading ...
+        </Typography>
+      ) : isAuthenticated ? (
+        <>
+          <Typography variant="h5" component="h2" gutterBottom>
+            {user ? user.name : ''}
           </Typography>
-        ) : isAuthenticated ? (
-          <>
-            <Typography variant='h5' component='h2' gutterBottom>
-              {user ? user.name : ''}
-            </Typography>
-            <Typography variant='body1' component='div' gutterBottom>
-              {user ? user.email : ''}
-            </Typography>
-          </>
-        ) : (
-          <p>Not logged in</p>
-        )
-      }
+          <Typography variant="body1" component="div" gutterBottom>
+            {user ? user.email : ''}
+          </Typography>
+        </>
+      ) : (
+        <p>Not logged in</p>
+      )}
     </Box>
   );
 }

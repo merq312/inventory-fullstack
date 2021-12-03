@@ -8,13 +8,13 @@ import Paper from '@mui/material/Paper';
 import { MenuItemData } from '../index';
 
 type AppProps = {
-  data: Array<MenuItemData>
-}
+  data: Array<MenuItemData>;
+};
 
 function MenuTable({ data }: AppProps) {
   return (
     <TableContainer component={Paper}>
-      <Table size='small' aria-label='simple table'>
+      <Table size="small" aria-label="simple table">
         <TableHead>
           <TableRow>
             <TableCell>Menu Items</TableCell>
@@ -24,9 +24,14 @@ function MenuTable({ data }: AppProps) {
           {data.map((item) => (
             <TableRow
               key={item.name}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 }, '&:hover': { backgroundColor: '#e3f2fd' } }}
+              sx={{
+                '&:last-child td, &:last-child th': { border: 0 },
+                '&:hover': { backgroundColor: '#e3f2fd' },
+              }}
             >
-              <TableCell component='th' scope='row'>{item.name}</TableCell>
+              <TableCell component="th" scope="row">
+                {item.name}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

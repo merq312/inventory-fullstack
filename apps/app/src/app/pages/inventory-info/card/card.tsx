@@ -1,5 +1,12 @@
 import styled from 'styled-components';
-import { Box, Button, ButtonGroup, Card, CardContent, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  ButtonGroup,
+  Card,
+  CardContent,
+  Typography,
+} from '@mui/material';
 import { MenuItem } from '../index';
 
 const CardContentNoPadding = styled(CardContent)`
@@ -16,8 +23,8 @@ const InfoDiv = styled(Button)`
 `;
 
 type AppProps = {
-  item: MenuItem
-}
+  item: MenuItem;
+};
 
 function InventoryInfoCard({ item }: AppProps) {
   return (
@@ -25,7 +32,7 @@ function InventoryInfoCard({ item }: AppProps) {
       <CardContentNoPadding
         sx={{
           display: 'flex',
-          flexDirection: 'column'
+          flexDirection: 'column',
         }}
       >
         <Box
@@ -33,19 +40,19 @@ function InventoryInfoCard({ item }: AppProps) {
             alignSelf: 'start',
             display: 'flex',
             justifyContent: 'space-between',
-            alignItems: 'center'
+            alignItems: 'center',
           }}
         >
-          <Typography sx={{ flexGrow: 1 }} variant='body1' component='div'>
+          <Typography sx={{ flexGrow: 1 }} variant="body1" component="div">
             {item.name}
           </Typography>
         </Box>
         <ButtonGroup
-          variant='contained'
-          aria-label='outlined primary button group'
+          variant="contained"
+          aria-label="outlined primary button group"
           sx={{
             alignSelf: 'end',
-            cursor: 'default'
+            cursor: 'default',
           }}
         >
           <InfoDiv>{item.overnightCount}</InfoDiv>

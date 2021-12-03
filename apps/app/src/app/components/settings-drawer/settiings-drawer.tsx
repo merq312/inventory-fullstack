@@ -36,34 +36,44 @@ export default function SettingsDrawer({ drawer, setDrawer }: AppProps) {
   const list = () => (
     <Box
       sx={{ width: 250 }}
-      role='presentation'
+      role="presentation"
       onClick={toggleDrawer(false)}
       onKeyDown={toggleDrawer(false)}
     >
       <List>
-        <ListItem button component={Link} to='/' key={'Home'}>
+        <ListItem button component={Link} to="/" key={'Home'}>
           <ListItemIcon>
             <HomeIcon />
           </ListItemIcon>
-          <ListItemText primary='Home' />
+          <ListItemText primary="Home" />
         </ListItem>
-        <ListItem button component={Link} to='/dashboard' key={'Dashboard'}>
+        <ListItem button component={Link} to="/dashboard" key={'Dashboard'}>
           <ListItemIcon>
             <DashboardIcon />
           </ListItemIcon>
-          <ListItemText primary='Dashboard' />
+          <ListItemText primary="Dashboard" />
         </ListItem>
-        <ListItem button component={Link} to='inventory-input' key={'InventoryInput'}>
+        <ListItem
+          button
+          component={Link}
+          to="inventory-input"
+          key={'InventoryInput'}
+        >
           <ListItemIcon>
             <CreateIcon />
           </ListItemIcon>
-          <ListItemText primary='Inventory Input' />
+          <ListItemText primary="Inventory Input" />
         </ListItem>
-        <ListItem button component={Link} to='inventory-info' key={'InventoryInfo'}>
+        <ListItem
+          button
+          component={Link}
+          to="inventory-info"
+          key={'InventoryInfo'}
+        >
           <ListItemIcon>
             <BarChartIcon />
           </ListItemIcon>
-          <ListItemText primary='Inventory Info' />
+          <ListItemText primary="Inventory Info" />
         </ListItem>
       </List>
       <Divider />

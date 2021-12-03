@@ -4,7 +4,8 @@ import {
   addMenuItemToStore,
   updateMenuItemPrice,
   getStore,
-  removeMenuItemFromStore, getAllStores
+  removeMenuItemFromStore,
+  getAllStores,
 } from '../controllers/storeController';
 
 const router = express.Router();

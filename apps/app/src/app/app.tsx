@@ -13,7 +13,7 @@ const theme = createTheme();
 
 theme.typography.h1 = {
   fontSize: '1.4rem',
-  fontWeight: 'normal'
+  fontWeight: 'normal',
 };
 
 export const App = () => {
@@ -27,10 +27,10 @@ export const App = () => {
           <Header setDrawer={setDrawer} />
           <PageContainer>
             <Routes>
-              <Route path='/' element={<HomePage />} />
-              <Route path='/inventory-input' element={<InventoryInputPage />} />
-              <Route path='/inventory-info' element={<InventoryInfoPage />} />
-              <Route path='/dashboard' element={<DashboardPage />} />
+              <Route path="/" element={<HomePage />} />
+              <Route path="/inventory-input" element={<InventoryInputPage />} />
+              <Route path="/inventory-info" element={<InventoryInfoPage />} />
+              <Route path="/dashboard" element={<DashboardPage />} />
             </Routes>
           </PageContainer>
         </BrowserRouter>

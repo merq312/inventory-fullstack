@@ -12,33 +12,30 @@ type AppProps = {
 export function Header({ setDrawer }: AppProps) {
   const location = useLocation();
 
-  const { isAuthenticated } =
-    useAuth0();
+  const { isAuthenticated } = useAuth0();
 
   return (
-    <AppBar position='static'>
-      <Toolbar variant='dense'>
+    <AppBar position="static">
+      <Toolbar variant="dense">
         <IconButton
-          edge='start'
-          color='inherit'
-          aria-label='menu'
+          edge="start"
+          color="inherit"
+          aria-label="menu"
           sx={{ mr: 2 }}
           onClick={() => setDrawer(true)}
         >
           <MenuIcon />
         </IconButton>
-        <Typography variant='h1' component='h1' sx={{ flexGrow: 1 }}>{
-          location.pathname === '/'
+        <Typography variant="h1" component="h1" sx={{ flexGrow: 1 }}>
+          {location.pathname === '/'
             ? 'Home'
             : location.pathname
-              .substring(1)
-              .split('-')
-              .map(ea => ea[0].toUpperCase() + ea.substring(1))
-              .join(' ')
-        }</Typography>
-        {
-          isAuthenticated ? <LogOutButton /> : <LogInButton />
-        }
+                .substring(1)
+                .split('-')
+                .map((ea) => ea[0].toUpperCase() + ea.substring(1))
+                .join(' ')}
+        </Typography>
+        {isAuthenticated ? <LogOutButton /> : <LogInButton />}
       </Toolbar>
     </AppBar>
   );

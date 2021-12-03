@@ -14,10 +14,10 @@ describe('App', () => {
     //   }),
     // });
 
-    const { baseElement } = render(
-        <App />
-    );
+    const { baseElement } = render(<App />);
 
-    await waitFor(() => getByText(baseElement as HTMLElement, 'Inventory View'));
+    await waitFor(() =>
+      getByText(baseElement as HTMLElement, 'Inventory View')
+    );
   });
 });

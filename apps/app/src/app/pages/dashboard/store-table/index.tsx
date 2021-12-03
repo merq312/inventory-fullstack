@@ -9,16 +9,16 @@ import { StoreData } from '../index';
 import { useState } from 'react';
 
 type AppProps = {
-  data: Array<StoreData>
-  dispatch: (arg0: string) => void
-}
+  data: Array<StoreData>;
+  dispatch: (arg0: string) => void;
+};
 
 function StoreTable({ data, dispatch }: AppProps) {
   const [selectedStore, setSelectedStore] = useState<string>('');
 
   return (
     <TableContainer component={Paper}>
-      <Table size='small' aria-label='simple table'>
+      <Table size="small" aria-label="simple table">
         <TableHead>
           <TableRow>
             <TableCell>Stores</TableCell>
@@ -31,14 +31,17 @@ function StoreTable({ data, dispatch }: AppProps) {
               sx={{
                 '&:last-child td, &:last-child th': { border: 0 },
                 '&:hover': { backgroundColor: '#e3f2fd' },
-                backgroundColor: () => store.name === selectedStore ? '#e3f2fd' : 'white'
+                backgroundColor: () =>
+                  store.name === selectedStore ? '#e3f2fd' : 'white',
               }}
               onClick={() => {
                 dispatch(store.name);
                 setSelectedStore(store.name);
               }}
             >
-              <TableCell component='th' scope='row'>{store.name}</TableCell>
+              <TableCell component="th" scope="row">
+                {store.name}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

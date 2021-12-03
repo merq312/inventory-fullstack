@@ -2,7 +2,7 @@ import { ErrorRequestHandler } from 'express';
 
 export const checkHealth = (req, res) => {
   res.status(200).json({
-    status: 'success'
+    status: 'success',
   });
 };
 
@@ -11,8 +11,8 @@ export const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
   if (req.originalUrl.startsWith('/api')) {
     return res.status(err.status || 400).json({
       status: 'error',
-      message: err.message || 'Bad Request'
-    })
+      message: err.message || 'Bad Request',
+    });
   }
-  return res.status(404).send('Page not found')
-}
+  return res.status(404).send('Page not found');
+};

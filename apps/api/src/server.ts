@@ -36,13 +36,13 @@ if (process.env.NODE_ENV === 'development') {
 const limiter = rateLimit({
   max: 100,
   windowMs: 60 * 60 * 1000,
-  message: 'Too many requests from this IP, please try again later'
+  message: 'Too many requests from this IP, please try again later',
 });
 
 app.use('/api', limiter);
 app.use(
   express.json({
-    limit: '10kb'
+    limit: '10kb',
   })
 );
 app.use(express.urlencoded({ extended: true, limit: '10kb' }));
@@ -55,7 +55,7 @@ app.use('/api/v1/menu', menuRouter);
 app.use('/api/v1/store', storeRouter);
 app.use('/api/v1/user', userRouter);
 
-app.use(errorHandler)
+app.use(errorHandler);
 
 const port = process.env.PORT || 3333;
 const server = app.listen(port, () => {

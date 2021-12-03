@@ -1,12 +1,18 @@
 import styled from 'styled-components';
-import { Button, ButtonGroup, Card, CardContent, Typography } from '@mui/material';
+import {
+  Button,
+  ButtonGroup,
+  Card,
+  CardContent,
+  Typography,
+} from '@mui/material';
 import { useEffect, useState } from 'react';
 
 type AppProps = {
   name: string;
   value: number;
   dispatch: (arg0: number) => void;
-}
+};
 
 const CardContentNoPadding = styled(CardContent)`
   padding: 0.6rem 0.8rem;
@@ -25,8 +31,8 @@ function InventoryInputCard({ name, value, dispatch }: AppProps) {
   const [newValue, setNewValue] = useState(0);
 
   useEffect(() => {
-    setNewValue(value)
-  }, [value])
+    setNewValue(value);
+  }, [value]);
 
   const handleDecrement = () => {
     if (newValue - 1 >= 0) {
@@ -51,26 +57,32 @@ function InventoryInputCard({ name, value, dispatch }: AppProps) {
         sx={{
           display: 'flex',
           justifyContent: 'space-between',
-          alignItems: 'center'
+          alignItems: 'center',
         }}
       >
         <ButtonGroup
-          variant='outlined'
-          aria-label='outlined primary button group'
+          variant="outlined"
+          aria-label="outlined primary button group"
         >
           <InfoDiv>{newValue}</InfoDiv>
           <InfoDiv>{value}</InfoDiv>
         </ButtonGroup>
-        <Typography sx={{ flexGrow: 1, mx: 2 }} variant='body1' component='div'>
+        <Typography sx={{ flexGrow: 1, mx: 2 }} variant="body1" component="div">
           {name}
         </Typography>
         <ButtonGroup
-          variant='contained'
-          aria-label='outlined primary button group'
+          variant="contained"
+          aria-label="outlined primary button group"
         >
-          <Button onClick={handleDecrement} sx={{ width: 2 }}>-1</Button>
-          <Button onClick={handleReset} sx={{ width: 2 }}>0</Button>
-          <Button onClick={handleIncrement} sx={{ width: 2 }}>+1</Button>
+          <Button onClick={handleDecrement} sx={{ width: 2 }}>
+            -1
+          </Button>
+          <Button onClick={handleReset} sx={{ width: 2 }}>
+            0
+          </Button>
+          <Button onClick={handleIncrement} sx={{ width: 2 }}>
+            +1
+          </Button>
         </ButtonGroup>
       </CardContentNoPadding>
     </Card>

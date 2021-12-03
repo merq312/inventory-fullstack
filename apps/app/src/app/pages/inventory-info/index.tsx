@@ -10,16 +10,16 @@ import { getProductData } from '../../utils/get-data';
 import { ItemsContainer } from '../../utils/styles';
 
 export type MenuItem = {
-  id: number
-  day: string
-  name: string
-  menuItemOnStoreId: number
-  overnightCount: number
-  morningCount: number
-  afternoonCount: number
-  leftoverCountOne: number
-  leftoverCountTwo: number
-}
+  id: number;
+  day: string;
+  name: string;
+  menuItemOnStoreId: number;
+  overnightCount: number;
+  morningCount: number;
+  afternoonCount: number;
+  leftoverCountOne: number;
+  leftoverCountTwo: number;
+};
 
 export class ItemTotals {
   constructor(
@@ -28,8 +28,7 @@ export class ItemTotals {
     public afternoonCount: number = 0,
     public leftoverCountOne: number = 0,
     public leftoverCountTwo: number = 0
-  ) {
-  }
+  ) {}
 }
 
 function InventoryInfoPage() {
@@ -42,44 +41,50 @@ function InventoryInfoPage() {
   useEffect(() => {
     getProductData(date)
       .then(setData)
-      .catch(err => setErrorMsg(err.message));
+      .catch((err) => setErrorMsg(err.message));
   }, [date]);
 
   useEffect(() => {
-    setItemTotals(data.reduce((prev, curr) => {
-      const temp = new ItemTotals()
-      for (const key of Object.keys(prev)) {
-        temp[key as keyof ItemTotals] = prev[key as keyof ItemTotals] + (curr[key as keyof MenuItem] as number);
-      }
-      return temp;
-    }, new ItemTotals()));
+    setItemTotals(
+      data.reduce((prev, curr) => {
+        const temp = new ItemTotals();
+        for (const key of Object.keys(prev)) {
+          temp[key as keyof ItemTotals] =
+            prev[key as keyof ItemTotals] +
+            (curr[key as keyof MenuItem] as number);
+        }
+        return temp;
+      }, new ItemTotals())
+    );
   }, [data]);
 
   return (
     <Box sx={{ m: 2 }}>
       <Box sx={{ maxWidth: '900px', margin: '0 auto' }}>
         <ItemsContainer>
-          <ItemSearch itemNames={data.map(item => item.name)} dispatch={setFilter} />
+          <ItemSearch
+            itemNames={data.map((item) => item.name)}
+            dispatch={setFilter}
+          />
           <DatePicker setDate={setDate} />
-        </ ItemsContainer>
+        </ItemsContainer>
         <InventoryInfoHeader totals={itemTotals} />
       </Box>
-      {
-        data.length !== 0
-          ? (
-            <ItemsContainer>
-              {
-                filter === ''
-                  ? data
-                    .map(item => <InventoryInfoCard key={item.name} item={item} />)
-                  : data
-                    .filter(item => item.name === filter)
-                    .map(item => <InventoryInfoCard key={item.name} item={item} />)
-              }
-            </ItemsContainer>
-          )
-          : <ErrorCard msg={errorMsg} />
-      }
+      {data.length !== 0 ? (
+        <ItemsContainer>
+          {filter === ''
+            ? data.map((item) => (
+                <InventoryInfoCard key={item.name} item={item} />
+              ))
+            : data
+                .filter((item) => item.name === filter)
+                .map((item) => (
+                  <InventoryInfoCard key={item.name} item={item} />
+                ))}
+        </ItemsContainer>
+      ) : (
+        <ErrorCard msg={errorMsg} />
+      )}
     </Box>
   );
 }

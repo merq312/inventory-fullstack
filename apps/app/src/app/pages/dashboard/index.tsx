@@ -6,24 +6,24 @@ import { useEffect, useState } from 'react';
 import { getAllMenuItems, getAllStores } from '../../utils/get-data';
 
 export type StoreData = {
-  id: number
-  name: string
+  id: number;
+  name: string;
   menuItems: Array<{
-    id: number
-    price: number
+    id: number;
+    price: number;
     menuItem: {
-      name: string
-    }
-  }>
-}
+      name: string;
+    };
+  }>;
+};
 
 export type MenuItemData = {
-  id: number
-  name: string
-}
+  id: number;
+  name: string;
+};
 
 function DashboardPage() {
-  const [selectedStore, setSelectedStore] = useState<string>("")
+  const [selectedStore, setSelectedStore] = useState<string>('');
   const [storeData, setStoreData] = useState<Array<StoreData>>([]);
   const [menuData, setMenuData] = useState<Array<MenuItemData>>([]);
 
@@ -39,7 +39,9 @@ function DashboardPage() {
           <StoreTable data={storeData} dispatch={setSelectedStore} />
         </Grid>
         <Grid item xs={6}>
-          <StoreMenuTable data={storeData.filter(store => store.name === selectedStore)[0]} />
+          <StoreMenuTable
+            data={storeData.filter((store) => store.name === selectedStore)[0]}
+          />
         </Grid>
         <Grid item xs={3}>
           <MenuTable data={menuData} />

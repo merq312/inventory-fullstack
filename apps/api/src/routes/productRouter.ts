@@ -1,6 +1,9 @@
 import * as express from 'express';
 import { checkHealth } from '../controllers/miscController';
-import { updateProductCounts, getProductCounts } from '../controllers/productController';
+import {
+  updateProductCounts,
+  getProductCounts,
+} from '../controllers/productController';
 
 const router = express.Router();
 

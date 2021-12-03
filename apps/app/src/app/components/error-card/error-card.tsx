@@ -11,7 +11,7 @@ const CardContentNoPadding = styled(CardContent)`
 
 type AppProps = {
   msg: string;
-}
+};
 
 function ErrorCard({ msg }: AppProps) {
   return (
@@ -20,13 +20,12 @@ function ErrorCard({ msg }: AppProps) {
         sx={{
           display: 'flex',
           justifyContent: 'center',
-          alignItems: 'center'
+          alignItems: 'center',
         }}
       >
-        <Typography variant='body1' component='div'>
+        <Typography variant="body1" component="div">
           {msg ? msg : 'Something went wrong :('}
         </Typography>
-
       </CardContentNoPadding>
     </Card>
   );

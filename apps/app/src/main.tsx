@@ -8,9 +8,9 @@ ReactDOM.render(
   <StrictMode>
     <CssBaseline />
     <Auth0Provider
-      domain='dev-iukg50h5.us.auth0.com'
-      clientId='rMtJbuwc5EuwLuOLMs7Vn96UyMcU0ekN'
-      audience='https://mighty-atoll-05391.herokuapp.com/api'
+      domain="dev-iukg50h5.us.auth0.com"
+      clientId="rMtJbuwc5EuwLuOLMs7Vn96UyMcU0ekN"
+      audience="https://mighty-atoll-05391.herokuapp.com/api"
       redirectUri={window.location.origin}
     >
       <App />

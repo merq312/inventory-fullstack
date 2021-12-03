@@ -12,52 +12,58 @@ import { getProductData } from '../../utils/get-data';
 import { ItemsContainer } from '../../utils/styles';
 
 type PostItem = {
-  name: string
+  name: string;
   counts: {
-    overnightCount: number
-    morningCount: number
-    afternoonCount: number
-    leftoverCountOne: number
-    leftoverCountTwo: number
-  }
-}
+    overnightCount: number;
+    morningCount: number;
+    afternoonCount: number;
+    leftoverCountOne: number;
+    leftoverCountTwo: number;
+  };
+};
 
 const initialState: Array<PostItem> = [];
 
 type Action =
-  | { type: 'add_items', items: Array<MenuItem> }
-  | { type: 'modify_item', name: string, value: number, session: keyof PostItem['counts'] }
+  | { type: 'add_items'; items: Array<MenuItem> }
+  | {
+      type: 'modify_item';
+      name: string;
+      value: number;
+      session: keyof PostItem['counts'];
+    };
 
 const reducer = (state: Array<PostItem>, action: Action) => {
-    switch (action.type) {
-      case 'modify_item': {
-        return state.map((ea: PostItem) => {
-          if (ea.name === action.name) {
-            return { name: ea.name, counts: { ...ea.counts, [action.session]: action.value } };
-          }
-          return { ...ea };
-        });
-      }
-      case 'add_items': {
-        return action.items.map(item => {
+  switch (action.type) {
+    case 'modify_item': {
+      return state.map((ea: PostItem) => {
+        if (ea.name === action.name) {
           return {
-            name: item.name,
-            counts: {
-              overnightCount: item.overnightCount,
-              morningCount: item.morningCount,
-              afternoonCount: item.afternoonCount,
-              leftoverCountOne: item.leftoverCountOne,
-              leftoverCountTwo: item.leftoverCountTwo
-            }
+            name: ea.name,
+            counts: { ...ea.counts, [action.session]: action.value },
           };
-        });
-      }
-      default:
-        return [...state];
+        }
+        return { ...ea };
+      });
     }
+    case 'add_items': {
+      return action.items.map((item) => {
+        return {
+          name: item.name,
+          counts: {
+            overnightCount: item.overnightCount,
+            morningCount: item.morningCount,
+            afternoonCount: item.afternoonCount,
+            leftoverCountOne: item.leftoverCountOne,
+            leftoverCountTwo: item.leftoverCountTwo,
+          },
+        };
+      });
+    }
+    default:
+      return [...state];
   }
-;
-
+};
 function InventoryInputPage() {
   const [data, setData] = useState<Array<MenuItem>>([]);
   const [post, setPost] = useReducer(reducer, initialState);
@@ -67,7 +73,12 @@ function InventoryInputPage() {
   };
 
   const modifyItemAction = (name: string, value: number, session: string) => {
-    setPost({ type: 'modify_item', name: name, value: value, session: session as keyof PostItem['counts'] });
+    setPost({
+      type: 'modify_item',
+      name: name,
+      value: value,
+      session: session as keyof PostItem['counts'],
+    });
   };
 
   const [date, setDate] = useState<string>(dayjs().format('YYYY-MM-DD'));
@@ -81,17 +92,19 @@ function InventoryInputPage() {
         setData(data);
         addItemsAction(data);
       })
-      .catch(err => setErrorMsg(err.message));
+      .catch((err) => setErrorMsg(err.message));
   }, [date]);
 
   const handleClick = () => {
-    axios.patch(`http://localhost:3333/api/v1/product/rcss/${date}`, { productData: post })
+    axios
+      .patch(`http://localhost:3333/api/v1/product/rcss/${date}`, {
+        productData: post,
+      })
       .then(() => {
-        getProductData(date)
-          .then((data) => {
-            setData(data);
-            addItemsAction(data);
-          });
+        getProductData(date).then((data) => {
+          setData(data);
+          addItemsAction(data);
+        });
       })
       .catch(() => {
         setErrorMsg('Server error');
@@ -101,7 +114,10 @@ function InventoryInputPage() {
   return (
     <Box sx={{ m: 2 }}>
       <Box sx={{ maxWidth: '900px', margin: '0 auto' }}>
-        <ItemSearch itemNames={data.map(item => item.name)} dispatch={setFilter} />
+        <ItemSearch
+          itemNames={data.map((item) => item.name)}
+          dispatch={setFilter}
+        />
         <Grid sx={{ alignItems: 'center' }} container spacing={2}>
           <Grid item xs={6}>
             <DatePicker setDate={setDate} />
@@ -111,26 +127,35 @@ function InventoryInputPage() {
           </Grid>
         </Grid>
       </Box>
-      {
-        data.length !== 0
-          ? (
-            <ItemsContainer>
-              {
-                filter === ''
-                  ? data
-                    .map(item => <InventoryInputCard key={item.name} name={item.name}
-                                                     value={item[session] as number}
-                                                     dispatch={(value: number) => modifyItemAction(item.name, value, session)} />)
-                  : data
-                    .filter(item => item.name === filter)
-                    .map(item => <InventoryInputCard key={item.name} name={item.name}
-                                                     value={item[session] as number}
-                                                     dispatch={(value: number) => modifyItemAction(item.name, value, session)} />)
-              }
-            </ItemsContainer>
-          )
-          : <ErrorCard msg={errorMsg} />
-      }
+      {data.length !== 0 ? (
+        <ItemsContainer>
+          {filter === ''
+            ? data.map((item) => (
+                <InventoryInputCard
+                  key={item.name}
+                  name={item.name}
+                  value={item[session] as number}
+                  dispatch={(value: number) =>
+                    modifyItemAction(item.name, value, session)
+                  }
+                />
+              ))
+            : data
+                .filter((item) => item.name === filter)
+                .map((item) => (
+                  <InventoryInputCard
+                    key={item.name}
+                    name={item.name}
+                    value={item[session] as number}
+                    dispatch={(value: number) =>
+                      modifyItemAction(item.name, value, session)
+                    }
+                  />
+                ))}
+        </ItemsContainer>
+      ) : (
+        <ErrorCard msg={errorMsg} />
+      )}
       <Box sx={{ display: 'flex', justifyContent: 'end' }}>
         <Button onClick={handleClick}>Submit</Button>
       </Box>
