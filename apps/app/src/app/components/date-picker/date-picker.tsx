@@ -18,7 +18,7 @@ export default function DatePicker({ setDate }: AppProps) {
 
   const handleChange = (newValue: Date | null) => {
     setValue(newValue);
-    if (newValue) setDate(dayjs(newValue).format('YYYY-MM-DD'))
+    if (newValue) setDate(dayjs(newValue).format('YYYY-MM-DD'));
   };
 
   return (

@@ -15,6 +15,7 @@ function ItemSearch({ itemNames, dispatch }: AppProps) {
       disablePortal
       id='combo-box-demo'
       options={itemNames}
+      sx={{alignSelf: 'center'}}
       onChange={handleChange}
       renderInput={(params) => <TextField {...params} label='Search' />}
     />
