@@ -4,14 +4,13 @@ import ItemSearch from '../../components/item-search/item-search';
 import DatePicker from '../../components/date-picker/date-picker';
 import SessionPicker from '../../components/session-picker/session-picker';
 import InventoryInputCard from './card/card';
-import axios from 'axios';
 import { MenuItem } from '../inventory-info';
 import dayjs from 'dayjs';
 import ErrorCard from '../../components/error-card/error-card';
-import { getProductData } from '../../utils/get-data';
+import { getProductData, updateProductCounts } from '../../utils/get-data';
 import { ItemsContainer } from '../../utils/styles';
 
-type PostItem = {
+export type PostItem = {
   name: string;
   counts: {
     overnightCount: number;
@@ -96,19 +95,14 @@ function InventoryInputPage() {
   }, [date]);
 
   const handleClick = () => {
-    axios
-      .patch(`http://localhost:3333/api/v1/product/rcss/${date}`, {
-        productData: post,
-      })
+    updateProductCounts(post, date)
       .then(() => {
         getProductData(date).then((data) => {
           setData(data);
           addItemsAction(data);
         });
       })
-      .catch(() => {
-        setErrorMsg('Server error');
-      });
+      .catch((err) => setErrorMsg(err.message));
   };
 
   return (
