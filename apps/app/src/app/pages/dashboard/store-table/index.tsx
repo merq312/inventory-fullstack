@@ -6,16 +6,14 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { StoreData } from '../index';
-import { useState } from 'react';
 
 type AppProps = {
   data: Array<StoreData>;
-  dispatch: (arg0: string) => void;
+  selectedStore: string;
+  setSelectedStore: (arg0: string) => void;
 };
 
-function StoreTable({ data, dispatch }: AppProps) {
-  const [selectedStore, setSelectedStore] = useState<string>('');
-
+function StoreTable({ data, selectedStore, setSelectedStore }: AppProps) {
   return (
     <TableContainer component={Paper}>
       <Table size="small" aria-label="simple table">
@@ -34,10 +32,7 @@ function StoreTable({ data, dispatch }: AppProps) {
                 backgroundColor: () =>
                   store.name === selectedStore ? '#e3f2fd' : 'white',
               }}
-              onClick={() => {
-                dispatch(store.name);
-                setSelectedStore(store.name);
-              }}
+              onClick={() => setSelectedStore(store.name)}
             >
               <TableCell component="th" scope="row">
                 {store.name}

@@ -36,7 +36,11 @@ function DashboardPage() {
     <Box sx={{ my: 2, mx: 0.4 }}>
       <Grid container spacing={2}>
         <Grid item xs={3}>
-          <StoreTable data={storeData} dispatch={setSelectedStore} />
+          <StoreTable
+            data={storeData}
+            selectedStore={selectedStore}
+            setSelectedStore={setSelectedStore}
+          />
         </Grid>
         <Grid item xs={6}>
           <StoreMenuTable
