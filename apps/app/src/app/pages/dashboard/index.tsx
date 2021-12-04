@@ -35,12 +35,14 @@ function DashboardPage() {
   const [storeData, setStoreData] = useState<Array<StoreData>>([]);
   const [menuData, setMenuData] = useState<Array<MenuItemData>>([]);
 
-  const [newItemName, setNewItemName] = useState('');
+  const [newMenuItemName, setNewMenuItemName] = useState('');
+  const [newStoreItemName, setNewStoreItemName] = useState('');
+  const [newStoreItemPrice, setNewStoreItemPrice] = useState('');
   const [newItemError, setNewItemError] = useState(false);
 
   useEffect(() => {
-    if (newItemName) {
-      createNewMenuItem(newItemName)
+    if (newMenuItemName) {
+      createNewMenuItem(newMenuItemName)
         .then(() => {
           getAllMenuItems().then(setMenuData);
           setNewItemError(false);
@@ -49,7 +51,7 @@ function DashboardPage() {
           setNewItemError(true);
         });
     }
-  }, [newItemName]);
+  }, [newMenuItemName]);
 
   useEffect(() => {
     setMenuData((menuData) =>
@@ -90,13 +92,20 @@ function DashboardPage() {
           />
         </Grid>
         <Grid item xs={6}>
-          <StoreMenuTable data={selectedStoreData} />
+          <StoreMenuTable
+            data={selectedStoreData}
+            newStoreItemName={newStoreItemName}
+            setNewStoreItemName={setNewStoreItemName}
+            setNewStoreItemPrice={setNewStoreItemPrice}
+          />
         </Grid>
         <Grid item xs={3}>
           <MenuTable
             data={menuData}
-            setNewItemName={setNewItemName}
+            setNewMenuItemName={setNewMenuItemName}
+            setNewStoreItemName={setNewStoreItemName}
             newItemError={newItemError}
+            selectedStore={selectedStore}
           />
         </Grid>
       </Grid>

@@ -10,14 +10,24 @@ import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import { MenuItemData } from '../index';
 import InputTableRow from '../../../components/input-table-row/input-table-row';
+import AddIcon from '@mui/icons-material/Add';
+import IconButton from '@mui/material/IconButton';
 
 type AppProps = {
   data: Array<MenuItemData>;
-  setNewItemName: (arg0: string) => void;
+  setNewMenuItemName: (arg0: string) => void;
+  setNewStoreItemName: (arg0: string) => void;
   newItemError: boolean;
+  selectedStore: string;
 };
 
-function MenuTable({ data, setNewItemName, newItemError }: AppProps) {
+function MenuTable({
+  data,
+  setNewMenuItemName,
+  setNewStoreItemName,
+  newItemError,
+  selectedStore,
+}: AppProps) {
   const [showInput, setShowInput] = useState(false);
 
   return (
@@ -39,8 +49,24 @@ function MenuTable({ data, setNewItemName, newItemError }: AppProps) {
                   backgroundColor: () => (item.inStore ? '#eeeeee' : 'white'),
                 }}
               >
-                <TableCell component="th" scope="row">
-                  {item.name}
+                <TableCell
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                  }}
+                  component="th"
+                  scope="row"
+                >
+                  <span>{item.name}</span>
+                  {!item.inStore && selectedStore && (
+                    <IconButton
+                      size="small"
+                      onClick={() => setNewStoreItemName(item.name)}
+                    >
+                      <AddIcon />
+                    </IconButton>
+                  )}
                 </TableCell>
               </TableRow>
             ))}
@@ -49,7 +75,7 @@ function MenuTable({ data, setNewItemName, newItemError }: AppProps) {
                 error={newItemError}
                 placeholder="Menu Item Name"
                 close={() => setShowInput(false)}
-                dispatch={setNewItemName}
+                dispatch={setNewMenuItemName}
               />
             )}
           </TableBody>

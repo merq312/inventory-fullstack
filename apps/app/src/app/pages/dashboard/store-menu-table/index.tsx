@@ -6,12 +6,21 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { StoreData } from '../index';
+import InputTableRow from '../../../components/input-table-row/input-table-row';
 
 type AppProps = {
   data: StoreData;
+  newStoreItemName: string;
+  setNewStoreItemName: (arg0: string) => void;
+  setNewStoreItemPrice: (arg0: string) => void;
 };
 
-function StoreMenuTable({ data }: AppProps) {
+function StoreMenuTable({
+  data,
+  newStoreItemName,
+  setNewStoreItemName,
+  setNewStoreItemPrice,
+}: AppProps) {
   return (
     <TableContainer component={Paper}>
       <Table size="small" aria-label="simple table">
@@ -49,6 +58,17 @@ function StoreMenuTable({ data }: AppProps) {
               </TableCell>
               <TableCell align="right">{''}</TableCell>
             </TableRow>
+          )}
+          {newStoreItemName && (
+            <InputTableRow
+              cellOneText={newStoreItemName}
+              placeholder="Price"
+              error={false}
+              close={() => {
+                setNewStoreItemName('');
+              }}
+              dispatch={setNewStoreItemPrice}
+            />
           )}
         </TableBody>
       </Table>

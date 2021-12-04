@@ -11,13 +11,21 @@ type AppProps = {
   error: boolean;
   close: () => void;
   dispatch: (arg0: string) => void;
+  cellOneText?: string;
 };
 
-function InputTableRow({ placeholder, error, close, dispatch }: AppProps) {
+function InputTableRow({
+  cellOneText,
+  placeholder,
+  error,
+  close,
+  dispatch,
+}: AppProps) {
   const [value, setValue] = useState('');
 
   return (
     <TableRow>
+      {cellOneText && <TableCell>{cellOneText}</TableCell>}
       <TableCell
         sx={{
           p: 0,
@@ -28,7 +36,7 @@ function InputTableRow({ placeholder, error, close, dispatch }: AppProps) {
         }}
       >
         <Input
-          sx={{ fontSize: '1rem', width: '100%' }}
+          sx={{ fontSize: '1rem', flexGrow: 1 }}
           error={error}
           size="small"
           placeholder={placeholder}
