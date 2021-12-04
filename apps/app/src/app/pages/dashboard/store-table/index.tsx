@@ -32,7 +32,9 @@ function StoreTable({ data, selectedStore, setSelectedStore }: AppProps) {
                 backgroundColor: () =>
                   store.name === selectedStore ? '#e3f2fd' : 'white',
               }}
-              onClick={() => setSelectedStore(store.name)}
+              onClick={() => {
+                if (store.name) setSelectedStore(store.name);
+              }}
             >
               <TableCell component="th" scope="row">
                 {store.name}

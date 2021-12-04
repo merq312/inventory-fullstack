@@ -10,8 +10,8 @@ import {
 } from '../../utils/get-data';
 
 export type StoreData = {
-  id: number;
-  name: string;
+  id?: number;
+  name?: string;
   menuItems: Array<{
     id: number;
     price: number;
@@ -24,10 +24,14 @@ export type StoreData = {
 export type MenuItemData = {
   id: number;
   name: string;
+  inStore?: boolean;
 };
 
 function DashboardPage() {
   const [selectedStore, setSelectedStore] = useState<string>('');
+  const [selectedStoreData, setSelectedStoreData] = useState<StoreData>({
+    menuItems: [],
+  });
   const [storeData, setStoreData] = useState<Array<StoreData>>([]);
   const [menuData, setMenuData] = useState<Array<MenuItemData>>([]);
 
@@ -48,6 +52,29 @@ function DashboardPage() {
   }, [newItemName]);
 
   useEffect(() => {
+    setMenuData((menuData) =>
+      menuData.map((i) => {
+        let inStore = false;
+        for (const j of selectedStoreData.menuItems) {
+          if (i.name === j.menuItem.name) {
+            inStore = true;
+            break;
+          }
+        }
+        return { ...i, inStore: inStore };
+      })
+    );
+  }, [selectedStoreData]);
+
+  useEffect(() => {
+    if (selectedStore) {
+      setSelectedStoreData(
+        storeData.filter((store) => store.name === selectedStore)[0]
+      );
+    }
+  }, [selectedStore, storeData]);
+
+  useEffect(() => {
     getAllStores().then(setStoreData).catch(console.log);
     getAllMenuItems().then(setMenuData).catch(console.log);
   }, []);
@@ -63,9 +90,7 @@ function DashboardPage() {
           />
         </Grid>
         <Grid item xs={6}>
-          <StoreMenuTable
-            data={storeData.filter((store) => store.name === selectedStore)[0]}
-          />
+          <StoreMenuTable data={selectedStoreData} />
         </Grid>
         <Grid item xs={3}>
           <MenuTable

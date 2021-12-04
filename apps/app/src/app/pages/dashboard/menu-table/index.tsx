@@ -36,6 +36,7 @@ function MenuTable({ data, setNewItemName, newItemError }: AppProps) {
                 sx={{
                   '&:last-child td, &:last-child th': { border: 0 },
                   '&:hover': { backgroundColor: '#e3f2fd' },
+                  backgroundColor: () => (item.inStore ? '#eeeeee' : 'white'),
                 }}
               >
                 <TableCell component="th" scope="row">
