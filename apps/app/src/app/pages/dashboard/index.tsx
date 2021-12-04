@@ -3,7 +3,11 @@ import { Box, Grid } from '@mui/material';
 import MenuTable from './menu-table';
 import StoreMenuTable from './store-menu-table';
 import { useEffect, useState } from 'react';
-import { getAllMenuItems, getAllStores } from '../../utils/get-data';
+import {
+  createNewMenuItem,
+  getAllMenuItems,
+  getAllStores,
+} from '../../utils/get-data';
 
 export type StoreData = {
   id: number;
@@ -27,6 +31,22 @@ function DashboardPage() {
   const [storeData, setStoreData] = useState<Array<StoreData>>([]);
   const [menuData, setMenuData] = useState<Array<MenuItemData>>([]);
 
+  const [newItemName, setNewItemName] = useState('');
+  const [newItemError, setNewItemError] = useState(false);
+
+  useEffect(() => {
+    if (newItemName) {
+      createNewMenuItem(newItemName)
+        .then(() => {
+          getAllMenuItems().then(setMenuData);
+          setNewItemError(false);
+        })
+        .catch(() => {
+          setNewItemError(true);
+        });
+    }
+  }, [newItemName]);
+
   useEffect(() => {
     getAllStores().then(setStoreData).catch(console.log);
     getAllMenuItems().then(setMenuData).catch(console.log);
@@ -48,7 +68,11 @@ function DashboardPage() {
           />
         </Grid>
         <Grid item xs={3}>
-          <MenuTable data={menuData} />
+          <MenuTable
+            data={menuData}
+            setNewItemName={setNewItemName}
+            newItemError={newItemError}
+          />
         </Grid>
       </Grid>
     </Box>
