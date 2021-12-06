@@ -56,7 +56,8 @@ export async function getAllMenuItems(req, res, next) {
   try {
     const menuItems = await prisma.menuItem.findMany();
 
-    if (!menuItems[0]) return next(createError(400, 'No stores found'));
+    if (menuItems.length === 0)
+      return next(createError(400, 'No stores found'));
 
     return res.status(200).json({
       status: 'success',

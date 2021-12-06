@@ -111,7 +111,7 @@ export async function getAllStoresWithMenu(req, res, next) {
       },
     });
 
-    if (!stores[0]) return next(createError(400, 'No stores found'));
+    if (stores.length === 0) return next(createError(400, 'No stores found'));
 
     return res.status(200).json({
       status: 'success',
