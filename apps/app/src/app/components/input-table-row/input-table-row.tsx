@@ -12,14 +12,16 @@ type AppProps = {
   close: () => void;
   dispatch: (arg0: string) => void;
   cellOneText?: string;
+  closeOnDispatch?: boolean;
 };
 
 function InputTableRow({
-  cellOneText,
   placeholder,
   error,
   close,
   dispatch,
+  cellOneText,
+  closeOnDispatch,
 }: AppProps) {
   const [value, setValue] = useState('');
 
@@ -40,9 +42,15 @@ function InputTableRow({
           error={error}
           size="small"
           placeholder={placeholder}
+          value={value}
           onChange={(e) => setValue(e.target.value)}
         />
-        <IconButton onClick={() => dispatch(value)}>
+        <IconButton
+          onClick={() => {
+            dispatch(value);
+            closeOnDispatch ? close() : setValue('');
+          }}
+        >
           <SendIcon />
         </IconButton>
         <IconButton onClick={close}>

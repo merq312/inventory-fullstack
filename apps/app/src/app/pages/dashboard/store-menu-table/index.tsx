@@ -62,6 +62,7 @@ function StoreMenuTable({
           {!!newStoreItemName && (
             <InputTableRow
               cellOneText={newStoreItemName}
+              closeOnDispatch={true}
               placeholder="Price"
               error={false}
               close={() => {
