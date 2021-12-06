@@ -7,7 +7,7 @@ import {
   addMenuItemToStore,
   createNewMenuItem,
   getAllMenuItems,
-  getAllStores,
+  getAllStoresWithMenu,
 } from '../../utils/api-utils';
 
 export type StoreData = {
@@ -80,7 +80,7 @@ function DashboardPage() {
     if (newStoreItemPrice) {
       addMenuItemToStore(newStoreItemName, parseFloat(newStoreItemPrice))
         .then(() => {
-          getAllStores()
+          getAllStoresWithMenu()
             .then(setStoreData)
             .then(() => setNewItemError(false));
         })
@@ -103,7 +103,7 @@ function DashboardPage() {
   }, [selectedStore, storeData]);
 
   useEffect(() => {
-    getAllStores()
+    getAllStoresWithMenu()
       .then(setStoreData)
       .catch((err) => setStoreLoadError(err.message));
     getAllMenuItems()

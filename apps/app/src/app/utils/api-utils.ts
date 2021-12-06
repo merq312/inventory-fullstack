@@ -15,9 +15,9 @@ export async function getProductData(date: string) {
   }
 }
 
-export async function getAllStores() {
+export async function getAllStoresWithMenu() {
   try {
-    const req = await axios.get(`${baseUrl}/api/v1/store/all-stores`);
+    const req = await axios.get(`${baseUrl}/api/v1/store/all-stores-with-menu`);
     return req.data.data;
   } catch (error) {
     throw new Error('Server error');

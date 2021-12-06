@@ -92,7 +92,8 @@ export async function getStore(req, res, next) {
     return next(createError(500, 'Internal server error'));
   }
 }
-export async function getAllStores(req, res, next) {
+
+export async function getAllStoresWithMenu(req, res, next) {
   try {
     const stores = await prisma.store.findMany({
       include: {
