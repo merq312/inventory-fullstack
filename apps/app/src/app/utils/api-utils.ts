@@ -15,6 +15,15 @@ export async function getProductData(date: string) {
   }
 }
 
+export async function getAllStores() {
+  try {
+    const req = await axios.get(`${baseUrl}/api/v1/store/all-stores`);
+    return req.data.data;
+  } catch (error) {
+    throw new Error('Server error');
+  }
+}
+
 export async function getAllStoresWithMenu() {
   try {
     const req = await axios.get(`${baseUrl}/api/v1/store/all-stores-with-menu`);
