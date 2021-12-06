@@ -59,7 +59,7 @@ function StoreMenuTable({
               <TableCell align="right">{''}</TableCell>
             </TableRow>
           )}
-          {newStoreItemName && (
+          {!!newStoreItemName && (
             <InputTableRow
               cellOneText={newStoreItemName}
               placeholder="Price"
