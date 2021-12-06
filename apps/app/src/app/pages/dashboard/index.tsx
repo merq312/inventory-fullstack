@@ -94,7 +94,7 @@ function DashboardPage() {
         </Grid>
         <Grid item xs={6}>
           <StoreMenuTable
-            data={selectedStoreData}
+            storeData={selectedStoreData}
             newStoreItemName={newStoreItemName}
             setNewStoreItemName={setNewStoreItemName}
             setNewStoreItemPrice={setNewStoreItemPrice}

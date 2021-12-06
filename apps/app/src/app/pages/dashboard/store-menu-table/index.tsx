@@ -9,14 +9,14 @@ import { StoreData } from '../index';
 import InputTableRow from '../../../components/input-table-row/input-table-row';
 
 type AppProps = {
-  data: StoreData;
+  storeData: StoreData;
   newStoreItemName: string;
   setNewStoreItemName: (arg0: string) => void;
   setNewStoreItemPrice: (arg0: string) => void;
 };
 
 function StoreMenuTable({
-  data,
+  storeData,
   newStoreItemName,
   setNewStoreItemName,
   setNewStoreItemPrice,
@@ -31,8 +31,8 @@ function StoreMenuTable({
           </TableRow>
         </TableHead>
         <TableBody>
-          {data ? (
-            data.menuItems.map((item) => (
+          {storeData.menuItems.length !== 0 ? (
+            storeData.menuItems.map((item) => (
               <TableRow
                 key={item.menuItem.name}
                 sx={{
