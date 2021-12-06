@@ -93,6 +93,21 @@ export async function getStore(req, res, next) {
   }
 }
 
+export async function getAllStores(req, res, next) {
+  try {
+    const stores = await prisma.store.findMany();
+
+    if (stores.length === 0) return next(createError(400, 'No stores found'));
+
+    return res.status(200).json({
+      status: 'success',
+      data: stores,
+    });
+  } catch {
+    return next(createError(500, 'Internal server error'));
+  }
+}
+
 export async function getAllStoresWithMenu(req, res, next) {
   try {
     const stores = await prisma.store.findMany({

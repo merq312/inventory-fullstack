@@ -2,6 +2,7 @@ import * as express from 'express';
 import { checkHealth } from '../controllers/miscController';
 import {
   addMenuItemToStore,
+  getAllStores,
   getAllStoresWithMenu,
   getStore,
   removeMenuItemFromStore,
@@ -10,6 +11,7 @@ import {
 
 const router = express.Router();
 
+router.get('/all-stores', getAllStores);
 router.get('/all-stores-with-menu', getAllStoresWithMenu);
 router.get('/:storeName', getStore);
 router.delete('/:storeName', removeMenuItemFromStore);
