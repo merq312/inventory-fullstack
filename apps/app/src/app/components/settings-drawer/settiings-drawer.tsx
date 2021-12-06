@@ -1,4 +1,4 @@
-import { KeyboardEvent, MouseEvent } from 'react';
+import { KeyboardEvent, MouseEvent, useState } from 'react';
 import Box from '@mui/material/Box';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import List from '@mui/material/List';
@@ -12,6 +12,8 @@ import BarChartIcon from '@mui/icons-material/BarChart';
 import LogoutIcon from '@mui/icons-material/Logout';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import { Link } from 'react-router-dom';
+import { Collapse, ListItemButton } from '@mui/material';
+import { StarBorder } from '@mui/icons-material';
 
 type AppProps = {
   setDrawer: (arg0: boolean) => void;
@@ -19,6 +21,12 @@ type AppProps = {
 };
 
 export default function SettingsDrawer({ drawer, setDrawer }: AppProps) {
+  const [open, setOpen] = useState(true);
+
+  const handleClick = () => {
+    setOpen(!open);
+  };
+
   const toggleDrawer =
     (open: boolean) => (event: KeyboardEvent | MouseEvent) => {
       if (
@@ -75,6 +83,31 @@ export default function SettingsDrawer({ drawer, setDrawer }: AppProps) {
           </ListItemIcon>
           <ListItemText primary="Inventory Info" />
         </ListItem>
+        <Divider />
+        <ListItem
+          button
+          key={'Stores'}
+          id={'dropdown'}
+          onClick={(e) => {
+            e.stopPropagation();
+            handleClick();
+          }}
+        >
+          <ListItemIcon>
+            <HomeIcon />
+          </ListItemIcon>
+          <ListItemText>Stores</ListItemText>
+        </ListItem>
+        <Collapse in={open} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            <ListItemButton sx={{ pl: 4 }}>
+              <ListItemIcon>
+                <StarBorder />
+              </ListItemIcon>
+              <ListItemText primary="rcss" />
+            </ListItemButton>
+          </List>
+        </Collapse>
       </List>
       <Divider />
       <List>
