@@ -32,8 +32,8 @@ function DashboardPage() {
   const [selectedStoreData, setSelectedStoreData] = useState<StoreData>({
     menuItems: [],
   });
-  const [storeData, setStoreData] = useState<Array<StoreData>>([]);
   const [menuData, setMenuData] = useState<Array<MenuItemData>>([]);
+  const [storeData, setStoreData] = useState<Array<StoreData>>([]);
 
   const [newMenuItemName, setNewMenuItemName] = useState('');
   const [newStoreItemName, setNewStoreItemName] = useState('');
@@ -46,6 +46,7 @@ function DashboardPage() {
         .then(() => {
           getAllMenuItems().then(setMenuData);
           setNewItemError(false);
+          setNewMenuItemName('');
         })
         .catch(() => {
           setNewItemError(true);
