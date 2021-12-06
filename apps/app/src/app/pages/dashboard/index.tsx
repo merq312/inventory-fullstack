@@ -2,7 +2,7 @@ import StoreTable from './store-table';
 import { Box, Grid } from '@mui/material';
 import MenuTable from './menu-table';
 import StoreMenuTable from './store-menu-table';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import {
   addMenuItemToStore,
   createNewMenuItem,
@@ -41,19 +41,35 @@ function DashboardPage() {
   const [newStoreItemPrice, setNewStoreItemPrice] = useState('');
   const [newItemError, setNewItemError] = useState(false);
 
+  const setInStoreOnMenuData = useCallback(() => {
+    setMenuData((menuData) =>
+      menuData.map((i) => {
+        let inStore = false;
+        for (const j of selectedStoreData.menuItems) {
+          if (i.name === j.menuItem.name) {
+            inStore = true;
+            break;
+          }
+        }
+        return { ...i, inStore: inStore };
+      })
+    );
+  }, [selectedStoreData]);
+
   useEffect(() => {
     if (newMenuItemName) {
+      setNewMenuItemName('');
+
       createNewMenuItem(newMenuItemName)
         .then(() => {
-          getAllMenuItems().then(setMenuData);
+          getAllMenuItems().then(setMenuData).then(setInStoreOnMenuData);
           setNewItemError(false);
-          setNewMenuItemName('');
         })
         .catch(() => {
           setNewItemError(true);
         });
     }
-  }, [newMenuItemName]);
+  }, [newMenuItemName, setInStoreOnMenuData]);
 
   useEffect(() => {
     if (newStoreItemPrice) {
@@ -68,19 +84,8 @@ function DashboardPage() {
   }, [newStoreItemName, newStoreItemPrice]);
 
   useEffect(() => {
-    setMenuData((menuData) =>
-      menuData.map((i) => {
-        let inStore = false;
-        for (const j of selectedStoreData.menuItems) {
-          if (i.name === j.menuItem.name) {
-            inStore = true;
-            break;
-          }
-        }
-        return { ...i, inStore: inStore };
-      })
-    );
-  }, [selectedStoreData]);
+    setInStoreOnMenuData();
+  }, [selectedStoreData, setInStoreOnMenuData]);
 
   useEffect(() => {
     if (selectedStore) {
