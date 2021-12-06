@@ -17,16 +17,18 @@ type AppProps = {
   menuData: Array<MenuItemData>;
   setNewMenuItemName: (arg0: string) => void;
   setNewStoreItemName: (arg0: string) => void;
-  newItemError: boolean;
   selectedStore: string;
+  newItemError: boolean;
+  errorMsg: string;
 };
 
 function MenuTable({
   menuData,
   setNewMenuItemName,
   setNewStoreItemName,
-  newItemError,
   selectedStore,
+  newItemError,
+  errorMsg,
 }: AppProps) {
   const [showInput, setShowInput] = useState(false);
 
@@ -40,36 +42,50 @@ function MenuTable({
             </TableRow>
           </TableHead>
           <TableBody>
-            {menuData.map((item) => (
+            {menuData.length !== 0 ? (
+              menuData.map((item) => (
+                <TableRow
+                  key={item.name}
+                  sx={{
+                    '&:last-child td, &:last-child th': { border: 0 },
+                    '&:hover': { backgroundColor: '#e3f2fd' },
+                    backgroundColor: () => (item.inStore ? '#eeeeee' : 'white'),
+                  }}
+                >
+                  <TableCell
+                    sx={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                    }}
+                    component="th"
+                    scope="row"
+                  >
+                    <span>{item.name}</span>
+                    {!item.inStore && selectedStore && (
+                      <IconButton
+                        size="small"
+                        onClick={() => setNewStoreItemName(item.name)}
+                      >
+                        <AddIcon />
+                      </IconButton>
+                    )}
+                  </TableCell>
+                </TableRow>
+              ))
+            ) : (
               <TableRow
-                key={item.name}
                 sx={{
                   '&:last-child td, &:last-child th': { border: 0 },
                   '&:hover': { backgroundColor: '#e3f2fd' },
-                  backgroundColor: () => (item.inStore ? '#eeeeee' : 'white'),
                 }}
               >
-                <TableCell
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                  }}
-                  component="th"
-                  scope="row"
-                >
-                  <span>{item.name}</span>
-                  {!item.inStore && selectedStore && (
-                    <IconButton
-                      size="small"
-                      onClick={() => setNewStoreItemName(item.name)}
-                    >
-                      <AddIcon />
-                    </IconButton>
-                  )}
+                <TableCell component="th" scope="row">
+                  {errorMsg ? errorMsg : 'Loading...'}
                 </TableCell>
+                <TableCell align="right">{''}</TableCell>
               </TableRow>
-            ))}
+            )}
             {showInput && (
               <InputTableRow
                 error={newItemError}

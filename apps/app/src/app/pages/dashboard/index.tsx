@@ -36,6 +36,9 @@ function DashboardPage() {
   const [menuData, setMenuData] = useState<Array<MenuItemData>>([]);
   const [storeData, setStoreData] = useState<Array<StoreData>>([]);
 
+  const [menuLoadError, setMenuLoadError] = useState('');
+  const [storeLoadError, setStoreLoadError] = useState('');
+
   const [newMenuItemName, setNewMenuItemName] = useState('');
   const [newStoreItemName, setNewStoreItemName] = useState('');
   const [newStoreItemPrice, setNewStoreItemPrice] = useState('');
@@ -62,8 +65,10 @@ function DashboardPage() {
 
       createNewMenuItem(newMenuItemName)
         .then(() => {
-          getAllMenuItems().then(setMenuData).then(setInStoreOnMenuData);
-          setNewItemError(false);
+          getAllMenuItems()
+            .then(setMenuData)
+            .then(setInStoreOnMenuData)
+            .then(() => setNewItemError(false));
         })
         .catch(() => {
           setNewItemError(true);
@@ -75,7 +80,9 @@ function DashboardPage() {
     if (newStoreItemPrice) {
       addMenuItemToStore(newStoreItemName, parseFloat(newStoreItemPrice))
         .then(() => {
-          getAllStores().then(setStoreData);
+          getAllStores()
+            .then(setStoreData)
+            .then(() => setNewItemError(false));
         })
         .catch(() => {
           setNewItemError(true);
@@ -96,8 +103,12 @@ function DashboardPage() {
   }, [selectedStore, storeData]);
 
   useEffect(() => {
-    getAllStores().then(setStoreData).catch(console.log);
-    getAllMenuItems().then(setMenuData).catch(console.log);
+    getAllStores()
+      .then(setStoreData)
+      .catch((err) => setStoreLoadError(err.message));
+    getAllMenuItems()
+      .then(setMenuData)
+      .catch((err) => setMenuLoadError(err.message));
   }, []);
 
   return (
@@ -105,9 +116,10 @@ function DashboardPage() {
       <Grid container spacing={2}>
         <Grid item xs={3}>
           <StoreTable
-            data={storeData}
+            storeData={storeData}
             selectedStore={selectedStore}
             setSelectedStore={setSelectedStore}
+            errorMsg={storeLoadError}
           />
         </Grid>
         <Grid item xs={6}>
@@ -116,6 +128,7 @@ function DashboardPage() {
             newStoreItemName={newStoreItemName}
             setNewStoreItemName={setNewStoreItemName}
             setNewStoreItemPrice={setNewStoreItemPrice}
+            newItemError={newItemError}
           />
         </Grid>
         <Grid item xs={3}>
@@ -123,8 +136,9 @@ function DashboardPage() {
             menuData={menuData}
             setNewMenuItemName={setNewMenuItemName}
             setNewStoreItemName={setNewStoreItemName}
-            newItemError={newItemError}
             selectedStore={selectedStore}
+            newItemError={newItemError}
+            errorMsg={menuLoadError}
           />
         </Grid>
       </Grid>

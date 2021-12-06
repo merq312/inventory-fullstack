@@ -13,6 +13,7 @@ type AppProps = {
   newStoreItemName: string;
   setNewStoreItemName: (arg0: string) => void;
   setNewStoreItemPrice: (arg0: string) => void;
+  newItemError: boolean;
 };
 
 function StoreMenuTable({
@@ -20,6 +21,7 @@ function StoreMenuTable({
   newStoreItemName,
   setNewStoreItemName,
   setNewStoreItemPrice,
+  newItemError,
 }: AppProps) {
   return (
     <TableContainer component={Paper}>
@@ -64,7 +66,7 @@ function StoreMenuTable({
               cellOneText={newStoreItemName}
               closeOnDispatch={true}
               placeholder="Price"
-              error={false}
+              error={newItemError}
               close={() => {
                 setNewStoreItemName('');
               }}

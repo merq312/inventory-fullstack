@@ -8,12 +8,18 @@ import Paper from '@mui/material/Paper';
 import { StoreData } from '../index';
 
 type AppProps = {
-  data: Array<StoreData>;
+  storeData: Array<StoreData>;
   selectedStore: string;
   setSelectedStore: (arg0: string) => void;
+  errorMsg: string;
 };
 
-function StoreTable({ data, selectedStore, setSelectedStore }: AppProps) {
+function StoreTable({
+  storeData,
+  selectedStore,
+  setSelectedStore,
+  errorMsg,
+}: AppProps) {
   return (
     <TableContainer component={Paper}>
       <Table size="small" aria-label="simple table">
@@ -23,24 +29,38 @@ function StoreTable({ data, selectedStore, setSelectedStore }: AppProps) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.map((store) => (
+          {storeData.length !== 0 ? (
+            storeData.map((store) => (
+              <TableRow
+                key={store.name}
+                sx={{
+                  '&:last-child td, &:last-child th': { border: 0 },
+                  '&:hover': { backgroundColor: '#e3f2fd' },
+                  backgroundColor: () =>
+                    store.name === selectedStore ? '#e3f2fd' : 'white',
+                }}
+                onClick={() => {
+                  if (store.name) setSelectedStore(store.name);
+                }}
+              >
+                <TableCell component="th" scope="row">
+                  {store.name}
+                </TableCell>
+              </TableRow>
+            ))
+          ) : (
             <TableRow
-              key={store.name}
               sx={{
                 '&:last-child td, &:last-child th': { border: 0 },
                 '&:hover': { backgroundColor: '#e3f2fd' },
-                backgroundColor: () =>
-                  store.name === selectedStore ? '#e3f2fd' : 'white',
-              }}
-              onClick={() => {
-                if (store.name) setSelectedStore(store.name);
               }}
             >
               <TableCell component="th" scope="row">
-                {store.name}
+                {errorMsg ? errorMsg : 'Loading...'}
               </TableCell>
+              <TableCell align="right">{''}</TableCell>
             </TableRow>
-          ))}
+          )}
         </TableBody>
       </Table>
     </TableContainer>
