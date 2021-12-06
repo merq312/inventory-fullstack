@@ -6,7 +6,7 @@ import InventoryInfoHeader from './header/header';
 import InventoryInfoCard from './card/card';
 import dayjs from 'dayjs';
 import ErrorCard from '../../components/error-card/error-card';
-import { getProductData } from '../../utils/get-data';
+import { getProductData } from '../../utils/api-utils';
 import { ItemsContainer } from '../../utils/styles';
 
 export type MenuItem = {

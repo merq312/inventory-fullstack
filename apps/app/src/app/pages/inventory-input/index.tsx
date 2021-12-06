@@ -7,7 +7,7 @@ import InventoryInputCard from './card/card';
 import { MenuItem } from '../inventory-info';
 import dayjs from 'dayjs';
 import ErrorCard from '../../components/error-card/error-card';
-import { getProductData, updateProductCounts } from '../../utils/get-data';
+import { getProductData, updateProductCounts } from '../../utils/api-utils';
 import { ItemsContainer } from '../../utils/styles';
 
 export type PostItem = {
@@ -63,6 +63,7 @@ const reducer = (state: Array<PostItem>, action: Action) => {
       return [...state];
   }
 };
+
 function InventoryInputPage() {
   const [data, setData] = useState<Array<MenuItem>>([]);
   const [post, setPost] = useReducer(reducer, initialState);

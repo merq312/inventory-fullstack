@@ -4,10 +4,11 @@ import MenuTable from './menu-table';
 import StoreMenuTable from './store-menu-table';
 import { useEffect, useState } from 'react';
 import {
+  addMenuItemToStore,
   createNewMenuItem,
   getAllMenuItems,
   getAllStores,
-} from '../../utils/get-data';
+} from '../../utils/api-utils';
 
 export type StoreData = {
   id?: number;
@@ -53,6 +54,18 @@ function DashboardPage() {
         });
     }
   }, [newMenuItemName]);
+
+  useEffect(() => {
+    if (newStoreItemPrice) {
+      addMenuItemToStore(newStoreItemName, parseFloat(newStoreItemPrice))
+        .then(() => {
+          getAllStores().then(setStoreData);
+        })
+        .catch(() => {
+          setNewItemError(true);
+        });
+    }
+  }, [newStoreItemName, newStoreItemPrice]);
 
   useEffect(() => {
     setMenuData((menuData) =>
@@ -102,7 +115,7 @@ function DashboardPage() {
         </Grid>
         <Grid item xs={3}>
           <MenuTable
-            data={menuData}
+            menuData={menuData}
             setNewMenuItemName={setNewMenuItemName}
             setNewStoreItemName={setNewStoreItemName}
             newItemError={newItemError}

@@ -44,6 +44,18 @@ export async function createNewMenuItem(newItemName: string) {
   }
 }
 
+export async function addMenuItemToStore(itemName: string, price: number) {
+  try {
+    const req = await axios.post(`${baseUrl}/api/v1/store/rcss`, {
+      menuItemName: itemName,
+      price: price,
+    });
+    return req.data.data;
+  } catch (error) {
+    throw new Error('Server error');
+  }
+}
+
 export async function updateProductCounts(post: Array<PostItem>, date: string) {
   try {
     await axios.patch(`${baseUrl}/api/v1/product/rcss/${date}`, {

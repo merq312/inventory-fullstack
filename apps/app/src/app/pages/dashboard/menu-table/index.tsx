@@ -14,7 +14,7 @@ import AddIcon from '@mui/icons-material/Add';
 import IconButton from '@mui/material/IconButton';
 
 type AppProps = {
-  data: Array<MenuItemData>;
+  menuData: Array<MenuItemData>;
   setNewMenuItemName: (arg0: string) => void;
   setNewStoreItemName: (arg0: string) => void;
   newItemError: boolean;
@@ -22,7 +22,7 @@ type AppProps = {
 };
 
 function MenuTable({
-  data,
+  menuData,
   setNewMenuItemName,
   setNewStoreItemName,
   newItemError,
@@ -40,7 +40,7 @@ function MenuTable({
             </TableRow>
           </TableHead>
           <TableBody>
-            {data.map((item) => (
+            {menuData.map((item) => (
               <TableRow
                 key={item.name}
                 sx={{
