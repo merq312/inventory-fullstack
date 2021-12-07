@@ -113,7 +113,7 @@ function DashboardPage() {
   return (
     <Box sx={{ my: 2, mx: 0.4 }}>
       <Grid container spacing={2}>
-        <Grid item xs={3}>
+        <Grid item xs={12} sm={3}>
           <StoreTable
             storeData={storeData}
             selectedStore={selectedStore}
@@ -121,7 +121,7 @@ function DashboardPage() {
             errorMsg={storeLoadError}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} sm={6}>
           <StoreMenuTable
             storeData={selectedStoreData}
             newStoreItemName={newStoreItemName}
@@ -131,7 +131,7 @@ function DashboardPage() {
             setNewItemError={setNewStoreItemError}
           />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={12} sm={3}>
           <MenuTable
             menuData={menuData}
             setNewMenuItemName={setNewMenuItemName}
