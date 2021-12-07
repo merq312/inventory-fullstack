@@ -32,7 +32,31 @@ function HomePage() {
   }, [token]);
 
   return (
-    <Box sx={{ m: 2 }}>
+    <Box
+      sx={{
+        m: 2,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+      }}
+    >
+      <Box
+        sx={{
+          m: 2,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
+      >
+        <Typography
+          variant="h4"
+          component="h1"
+          sx={{ textAlign: 'center' }}
+          gutterBottom
+        >
+          Product Tracker
+        </Typography>
+      </Box>
       <Typography variant="body1" component="div" gutterBottom>
         {m.message}
       </Typography>
