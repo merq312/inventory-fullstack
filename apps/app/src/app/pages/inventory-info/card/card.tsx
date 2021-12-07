@@ -55,11 +55,21 @@ function InventoryInfoCard({ item }: AppProps) {
             cursor: 'default',
           }}
         >
-          <InfoDiv>{item.overnightCount}</InfoDiv>
-          <InfoDiv>{item.morningCount}</InfoDiv>
-          <InfoDiv>{item.afternoonCount}</InfoDiv>
-          <InfoDiv>{item.leftoverCountOne}</InfoDiv>
-          <InfoDiv>{item.leftoverCountTwo}</InfoDiv>
+          <InfoDiv sx={{ backgroundColor: '#2196f3' }}>
+            {item.overnightCount}
+          </InfoDiv>
+          <InfoDiv sx={{ backgroundColor: '#1e88e5' }}>
+            {item.morningCount}
+          </InfoDiv>
+          <InfoDiv sx={{ backgroundColor: '#1976d2' }}>
+            {item.afternoonCount}
+          </InfoDiv>
+          <InfoDiv sx={{ backgroundColor: '#1565c0' }}>
+            {item.leftoverCountOne}
+          </InfoDiv>
+          <InfoDiv sx={{ backgroundColor: '#0d47a1' }}>
+            {item.leftoverCountTwo}
+          </InfoDiv>
         </ButtonGroup>
       </CardContentNoPadding>
     </Card>
