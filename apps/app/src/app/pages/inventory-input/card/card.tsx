@@ -5,6 +5,7 @@ import {
   Card,
   CardContent,
   Typography,
+  useTheme,
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 
@@ -29,6 +30,7 @@ const InfoDiv = styled(Button)`
 
 function InventoryInputCard({ name, value, dispatch }: AppProps) {
   const [newValue, setNewValue] = useState(0);
+  const theme = useTheme();
 
   useEffect(() => {
     setNewValue(value);
@@ -64,7 +66,18 @@ function InventoryInputCard({ name, value, dispatch }: AppProps) {
           variant="outlined"
           aria-label="outlined primary button group"
         >
-          <InfoDiv>{newValue}</InfoDiv>
+          <InfoDiv
+            sx={{
+              color: () =>
+                newValue > value
+                  ? theme.palette.success.main
+                  : newValue < value
+                  ? theme.palette.error.main
+                  : theme.palette.primary.main,
+            }}
+          >
+            {newValue}
+          </InfoDiv>
           <InfoDiv>{value}</InfoDiv>
         </ButtonGroup>
         <Typography sx={{ flexGrow: 1, mx: 2 }} variant="body1" component="div">
