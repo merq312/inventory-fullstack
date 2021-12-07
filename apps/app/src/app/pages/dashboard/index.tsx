@@ -42,7 +42,8 @@ function DashboardPage() {
   const [newMenuItemName, setNewMenuItemName] = useState('');
   const [newStoreItemName, setNewStoreItemName] = useState('');
   const [newStoreItemPrice, setNewStoreItemPrice] = useState('');
-  const [newItemError, setNewItemError] = useState(false);
+  const [newMenuItemError, setNewMenuItemError] = useState(false);
+  const [newStoreItemError, setNewStoreItemError] = useState(false);
 
   const setInStoreOnMenuData = useCallback(() => {
     setMenuData((menuData) =>
@@ -64,29 +65,29 @@ function DashboardPage() {
       setNewMenuItemName('');
 
       createNewMenuItem(newMenuItemName)
-        .then(() => {
-          getAllMenuItems()
-            .then(setMenuData)
-            .then(setInStoreOnMenuData)
-            .then(() => setNewItemError(false));
-        })
-        .catch(() => {
-          setNewItemError(true);
-        });
+        .then(() => getAllMenuItems())
+        .then(setMenuData)
+        .then(setInStoreOnMenuData)
+        .then(() => setNewMenuItemError(false))
+        .catch(() => setNewMenuItemError(true));
     }
   }, [newMenuItemName, setInStoreOnMenuData]);
 
   useEffect(() => {
-    if (newStoreItemPrice) {
-      addMenuItemToStore(newStoreItemName, parseFloat(newStoreItemPrice))
-        .then(() => {
-          getAllStoresWithMenu()
-            .then(setStoreData)
-            .then(() => setNewItemError(false));
-        })
-        .catch(() => {
-          setNewItemError(true);
-        });
+    console.log(
+      `tried to dispatch with ${newStoreItemName} and ${newStoreItemPrice}`
+    );
+    const price = parseFloat(newStoreItemPrice);
+    if (newStoreItemName && price) {
+      setNewStoreItemName('');
+      setNewStoreItemPrice('');
+      addMenuItemToStore(newStoreItemName, price)
+        .then(() => getAllStoresWithMenu())
+        .then(setStoreData)
+        .then(() => setNewStoreItemError(false))
+        .catch(() => setNewStoreItemError(true));
+    } else if (newStoreItemPrice && newStoreItemPrice !== '') {
+      setNewStoreItemError(true);
     }
   }, [newStoreItemName, newStoreItemPrice]);
 
@@ -128,7 +129,8 @@ function DashboardPage() {
             newStoreItemName={newStoreItemName}
             setNewStoreItemName={setNewStoreItemName}
             setNewStoreItemPrice={setNewStoreItemPrice}
-            newItemError={newItemError}
+            newItemError={newStoreItemError}
+            setNewItemError={setNewStoreItemError}
           />
         </Grid>
         <Grid item xs={3}>
@@ -137,7 +139,8 @@ function DashboardPage() {
             setNewMenuItemName={setNewMenuItemName}
             setNewStoreItemName={setNewStoreItemName}
             selectedStore={selectedStore}
-            newItemError={newItemError}
+            newItemError={newMenuItemError}
+            setNewItemError={setNewMenuItemError}
             errorMsg={menuLoadError}
           />
         </Grid>

@@ -12,7 +12,6 @@ type AppProps = {
   close: () => void;
   dispatch: (arg0: string) => void;
   cellOneText?: string;
-  closeOnDispatch?: boolean;
 };
 
 function InputTableRow({
@@ -21,7 +20,6 @@ function InputTableRow({
   close,
   dispatch,
   cellOneText,
-  closeOnDispatch,
 }: AppProps) {
   const [value, setValue] = useState('');
 
@@ -47,8 +45,9 @@ function InputTableRow({
         />
         <IconButton
           onClick={() => {
-            dispatch(value);
-            closeOnDispatch ? close() : setValue('');
+            if (value) {
+              dispatch(value);
+            }
           }}
         >
           <SendIcon />

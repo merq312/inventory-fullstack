@@ -19,6 +19,7 @@ type AppProps = {
   setNewStoreItemName: (arg0: string) => void;
   selectedStore: string;
   newItemError: boolean;
+  setNewItemError: (arg0: boolean) => void;
   errorMsg: string;
 };
 
@@ -28,6 +29,7 @@ function MenuTable({
   setNewStoreItemName,
   selectedStore,
   newItemError,
+  setNewItemError,
   errorMsg,
 }: AppProps) {
   const [showInput, setShowInput] = useState(false);
@@ -90,7 +92,10 @@ function MenuTable({
               <InputTableRow
                 error={newItemError}
                 placeholder="Menu Item Name"
-                close={() => setShowInput(false)}
+                close={() => {
+                  setShowInput(false);
+                  setNewItemError(false);
+                }}
                 dispatch={setNewMenuItemName}
               />
             )}

@@ -7,6 +7,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { StoreData } from '../index';
 import InputTableRow from '../../../components/input-table-row/input-table-row';
+import { useEffect, useState } from 'react';
 
 type AppProps = {
   storeData: StoreData;
@@ -14,6 +15,7 @@ type AppProps = {
   setNewStoreItemName: (arg0: string) => void;
   setNewStoreItemPrice: (arg0: string) => void;
   newItemError: boolean;
+  setNewItemError: (arg0: boolean) => void;
 };
 
 function StoreMenuTable({
@@ -22,7 +24,14 @@ function StoreMenuTable({
   setNewStoreItemName,
   setNewStoreItemPrice,
   newItemError,
+  setNewItemError,
 }: AppProps) {
+  const [showInput, setShowInput] = useState(false);
+
+  useEffect(() => {
+    newStoreItemName === '' ? setShowInput(false) : setShowInput(true);
+  }, [newStoreItemName]);
+
   return (
     <TableContainer component={Paper}>
       <Table size="small" aria-label="simple table">
@@ -61,14 +70,16 @@ function StoreMenuTable({
               <TableCell align="right">{''}</TableCell>
             </TableRow>
           )}
-          {!!newStoreItemName && (
+          {showInput && (
             <InputTableRow
               cellOneText={newStoreItemName}
-              closeOnDispatch={true}
               placeholder="Price"
               error={newItemError}
               close={() => {
+                setShowInput(false);
                 setNewStoreItemName('');
+                setNewStoreItemPrice('');
+                setNewItemError(false);
               }}
               dispatch={setNewStoreItemPrice}
             />
