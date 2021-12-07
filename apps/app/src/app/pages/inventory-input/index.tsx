@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useState } from 'react';
+import { useContext, useEffect, useReducer, useState } from 'react';
 import { Box, Button, Grid } from '@mui/material';
 import ItemSearch from '../../components/item-search/item-search';
 import DatePicker from '../../components/date-picker/date-picker';
@@ -9,6 +9,7 @@ import dayjs from 'dayjs';
 import ErrorCard from '../../components/error-card/error-card';
 import { getProductData, updateProductCounts } from '../../utils/api-utils';
 import { ItemsContainer } from '../../utils/styles';
+import { StoreContext } from '../../app';
 
 export type PostItem = {
   name: string;
@@ -67,6 +68,11 @@ const reducer = (state: Array<PostItem>, action: Action) => {
 function InventoryInputPage() {
   const [data, setData] = useState<Array<MenuItem>>([]);
   const [post, setPost] = useReducer(reducer, initialState);
+  const { storeName } = useContext(StoreContext);
+
+  useEffect(() => {
+    console.log(storeName);
+  }, []);
 
   const addItemsAction = (items: Array<MenuItem>) => {
     setPost({ type: 'add_items', items: items });

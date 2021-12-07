@@ -1,4 +1,10 @@
-import { KeyboardEvent, MouseEvent, useState } from 'react';
+import {
+  KeyboardEvent,
+  MouseEvent,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import Box from '@mui/material/Box';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import List from '@mui/material/List';
@@ -9,10 +15,14 @@ import ListItemText from '@mui/material/ListItemText';
 import HomeIcon from '@mui/icons-material/Home';
 import CreateIcon from '@mui/icons-material/Create';
 import BarChartIcon from '@mui/icons-material/BarChart';
+import StoreIcon from '@mui/icons-material/Store';
+import LoopIcon from '@mui/icons-material/Loop';
 import LogoutIcon from '@mui/icons-material/Logout';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import { Link } from 'react-router-dom';
 import { Collapse, ListItemButton } from '@mui/material';
+import { StoreContext } from '../../app';
+import { getAllStores } from '../../utils/api-utils';
 import { StarBorder } from '@mui/icons-material';
 
 type AppProps = {
@@ -20,12 +30,23 @@ type AppProps = {
   drawer: boolean;
 };
 
+type StoreData = {
+  id: number;
+  name: string;
+};
+
 export default function SettingsDrawer({ drawer, setDrawer }: AppProps) {
   const [open, setOpen] = useState(true);
+  const [stores, setStores] = useState<Array<StoreData>>([]);
+  const { setStoreName } = useContext(StoreContext);
 
   const handleClick = () => {
     setOpen(!open);
   };
+
+  useEffect(() => {
+    getAllStores().then(setStores).catch(console.log);
+  }, []);
 
   const toggleDrawer =
     (open: boolean) => (event: KeyboardEvent | MouseEvent) => {
@@ -94,18 +115,36 @@ export default function SettingsDrawer({ drawer, setDrawer }: AppProps) {
           }}
         >
           <ListItemIcon>
-            <HomeIcon />
+            <StoreIcon />
           </ListItemIcon>
           <ListItemText>Stores</ListItemText>
         </ListItem>
         <Collapse in={open} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
-            <ListItemButton sx={{ pl: 4 }}>
-              <ListItemIcon>
-                <StarBorder />
-              </ListItemIcon>
-              <ListItemText primary="rcss" />
-            </ListItemButton>
+            {stores.length !== 0 ? (
+              stores.map((store) => (
+                <ListItemButton
+                  sx={{ pl: 4 }}
+                  key={store.id}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (setStoreName) setStoreName(store.name);
+                  }}
+                >
+                  <ListItemIcon>
+                    <StarBorder />
+                  </ListItemIcon>
+                  <ListItemText primary={store.name} />
+                </ListItemButton>
+              ))
+            ) : (
+              <ListItemButton sx={{ pl: 4 }}>
+                <ListItemIcon>
+                  <LoopIcon />
+                </ListItemIcon>
+                <ListItemText primary="Loading stores..." />
+              </ListItemButton>
+            )}
           </List>
         </Collapse>
       </List>

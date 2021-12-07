@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { createContext, useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Header from './components/header/header';
 import SettingsDrawer from './components/settings-drawer/settiings-drawer';
@@ -16,23 +16,41 @@ theme.typography.h1 = {
   fontWeight: 'normal',
 };
 
+export interface IStoreContext {
+  storeName: string;
+  setStoreName?: (arg0: string) => void;
+}
+
+const defaultState: IStoreContext = {
+  storeName: '',
+};
+export const StoreContext = createContext<IStoreContext>(defaultState);
+
 export const App = () => {
   const [drawer, setDrawer] = useState(false);
+  const [storeName, setStoreName] = useState('');
 
   return (
     <ThemeProvider theme={theme}>
       <Main>
         <BrowserRouter>
-          <SettingsDrawer drawer={drawer} setDrawer={setDrawer} />
-          <Header setDrawer={setDrawer} />
-          <PageContainer>
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/inventory-input" element={<InventoryInputPage />} />
-              <Route path="/inventory-info" element={<InventoryInfoPage />} />
-              <Route path="/dashboard" element={<DashboardPage />} />
-            </Routes>
-          </PageContainer>
+          <StoreContext.Provider
+            value={{ storeName: storeName, setStoreName: setStoreName }}
+          >
+            <SettingsDrawer drawer={drawer} setDrawer={setDrawer} />
+            <Header setDrawer={setDrawer} />
+            <PageContainer>
+              <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route
+                  path="/inventory-input"
+                  element={<InventoryInputPage />}
+                />
+                <Route path="/inventory-info" element={<InventoryInfoPage />} />
+                <Route path="/dashboard" element={<DashboardPage />} />
+              </Routes>
+            </PageContainer>
+          </StoreContext.Provider>
         </BrowserRouter>
       </Main>
     </ThemeProvider>
