@@ -69,11 +69,13 @@ function InventoryInputCard({ name, value, dispatch }: AppProps) {
           <InfoDiv
             sx={{
               color: () =>
+                newValue !== value ? 'white' : theme.palette.primary.main,
+              backgroundColor: () =>
                 newValue > value
-                  ? theme.palette.success.main
+                  ? theme.palette.success.light
                   : newValue < value
-                  ? theme.palette.error.main
-                  : theme.palette.primary.main,
+                  ? theme.palette.error.light
+                  : 'white',
             }}
           >
             {newValue}
