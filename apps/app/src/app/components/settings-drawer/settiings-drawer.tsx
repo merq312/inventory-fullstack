@@ -46,7 +46,9 @@ export default function SettingsDrawer({ drawer, setDrawer }: AppProps) {
   };
 
   useEffect(() => {
-    getAllStores().then(setStores).catch(setErrorMsg);
+    getAllStores()
+      .then(setStores)
+      .catch((err) => setErrorMsg(err.message));
   }, []);
 
   const toggleDrawer =
@@ -122,7 +124,7 @@ export default function SettingsDrawer({ drawer, setDrawer }: AppProps) {
         </ListItem>
         <Collapse in={open} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
-            {stores.length !== 0 ? (
+            {stores && stores.length !== 0 ? (
               stores.map((store) => (
                 <ListItemButton
                   sx={{ pl: 4 }}
