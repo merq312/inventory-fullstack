@@ -32,6 +32,10 @@ function StoreMenuTable({
     newStoreItemName === '' ? setShowInput(false) : setShowInput(true);
   }, [newStoreItemName]);
 
+  useEffect(() => {
+    setShowInput(false);
+  }, [storeData]);
+
   return (
     <TableContainer component={Paper}>
       <Table size="small" aria-label="simple table">
