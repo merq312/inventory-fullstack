@@ -74,13 +74,11 @@ function DashboardPage() {
   }, [newMenuItemName, setInStoreOnMenuData]);
 
   useEffect(() => {
-    console.log(
-      `tried to dispatch with ${newStoreItemName} and ${newStoreItemPrice}`
-    );
     const price = parseFloat(newStoreItemPrice);
+
     if (newStoreItemName && price) {
-      setNewStoreItemName('');
       setNewStoreItemPrice('');
+
       addMenuItemToStore(newStoreItemName, price)
         .then(() => getAllStoresWithMenu())
         .then(setStoreData)
