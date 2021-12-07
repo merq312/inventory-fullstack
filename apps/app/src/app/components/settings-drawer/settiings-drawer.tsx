@@ -39,13 +39,14 @@ export default function SettingsDrawer({ drawer, setDrawer }: AppProps) {
   const [open, setOpen] = useState(true);
   const [stores, setStores] = useState<Array<StoreData>>([]);
   const { setStoreName } = useContext(StoreContext);
+  const [errorMsg, setErrorMsg] = useState('Loading ...');
 
   const handleClick = () => {
     setOpen(!open);
   };
 
   useEffect(() => {
-    getAllStores().then(setStores).catch(console.log);
+    getAllStores().then(setStores).catch(setErrorMsg);
   }, []);
 
   const toggleDrawer =
@@ -126,8 +127,7 @@ export default function SettingsDrawer({ drawer, setDrawer }: AppProps) {
                 <ListItemButton
                   sx={{ pl: 4 }}
                   key={store.id}
-                  onClick={(e) => {
-                    e.stopPropagation();
+                  onClick={() => {
                     if (setStoreName) setStoreName(store.name);
                   }}
                 >
@@ -142,7 +142,7 @@ export default function SettingsDrawer({ drawer, setDrawer }: AppProps) {
                 <ListItemIcon>
                   <LoopIcon />
                 </ListItemIcon>
-                <ListItemText primary="Loading stores..." />
+                <ListItemText primary={errorMsg} />
               </ListItemButton>
             )}
           </List>

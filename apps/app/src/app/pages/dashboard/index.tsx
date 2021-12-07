@@ -79,7 +79,7 @@ function DashboardPage() {
     if (newStoreItemName && price) {
       setNewStoreItemPrice('');
 
-      addMenuItemToStore(newStoreItemName, price)
+      addMenuItemToStore(selectedStore, newStoreItemName, price)
         .then(() => getAllStoresWithMenu())
         .then(setStoreData)
         .then(() => setNewStoreItemError(false))
@@ -87,7 +87,7 @@ function DashboardPage() {
     } else if (newStoreItemPrice && newStoreItemPrice !== '') {
       setNewStoreItemError(true);
     }
-  }, [newStoreItemName, newStoreItemPrice]);
+  }, [newStoreItemName, newStoreItemPrice, selectedStore]);
 
   useEffect(() => {
     setInStoreOnMenuData();

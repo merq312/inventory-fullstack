@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Box } from '@mui/material';
 import ItemSearch from '../../components/item-search/item-search';
 import DatePicker from '../../components/date-picker/date-picker';
@@ -8,6 +8,7 @@ import dayjs from 'dayjs';
 import ErrorCard from '../../components/error-card/error-card';
 import { getProductData } from '../../utils/api-utils';
 import { ItemsContainer } from '../../utils/styles';
+import { StoreContext } from '../../app';
 
 export type MenuItem = {
   id: number;
@@ -37,12 +38,21 @@ function InventoryInfoPage() {
   const [errorMsg, setErrorMsg] = useState('Loading...');
   const [filter, setFilter] = useState('');
   const [itemTotals, setItemTotals] = useState<ItemTotals>(new ItemTotals());
+  const { storeName } = useContext(StoreContext);
 
   useEffect(() => {
-    getProductData(date)
-      .then(setData)
-      .catch((err) => setErrorMsg(err.message));
-  }, [date]);
+    if (!storeName) {
+      setErrorMsg('Please select a store');
+    }
+  }, [storeName]);
+
+  useEffect(() => {
+    if (storeName) {
+      getProductData(storeName, date)
+        .then(setData)
+        .catch((err) => setErrorMsg(err.message));
+    }
+  }, [date, storeName]);
 
   useEffect(() => {
     setItemTotals(

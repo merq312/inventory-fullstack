@@ -71,8 +71,10 @@ function InventoryInputPage() {
   const { storeName } = useContext(StoreContext);
 
   useEffect(() => {
-    console.log(storeName);
-  }, []);
+    if (!storeName) {
+      setErrorMsg('Please select a store');
+    }
+  }, [storeName]);
 
   const addItemsAction = (items: Array<MenuItem>) => {
     setPost({ type: 'add_items', items: items });
@@ -93,18 +95,20 @@ function InventoryInputPage() {
   const [filter, setFilter] = useState('');
 
   useEffect(() => {
-    getProductData(date)
-      .then((data) => {
-        setData(data);
-        addItemsAction(data);
-      })
-      .catch((err) => setErrorMsg(err.message));
-  }, [date]);
+    if (storeName) {
+      getProductData(storeName, date)
+        .then((data) => {
+          setData(data);
+          addItemsAction(data);
+        })
+        .catch((err) => setErrorMsg(err.message));
+    }
+  }, [date, storeName]);
 
   const handleClick = () => {
-    updateProductCounts(post, date)
+    updateProductCounts(storeName, post, date)
       .then(() => {
-        getProductData(date).then((data) => {
+        getProductData(storeName, date).then((data) => {
           setData(data);
           addItemsAction(data);
         });
