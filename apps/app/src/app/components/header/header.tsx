@@ -1,9 +1,11 @@
-import { AppBar, IconButton, Toolbar, Typography } from '@mui/material';
+import { AppBar, Box, IconButton, Toolbar, Typography } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useLocation } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
 import LogInButton from '../login-button/login-button';
 import LogOutButton from '../logout-button/logout-button';
+import { useContext } from 'react';
+import { StoreContext } from '../../app';
 
 type AppProps = {
   setDrawer: (arg0: boolean) => void;
@@ -11,8 +13,9 @@ type AppProps = {
 
 export function Header({ setDrawer }: AppProps) {
   const location = useLocation();
+  const { storeName } = useContext(StoreContext);
 
-  const { isAuthenticated } = useAuth0();
+  const { user, isAuthenticated } = useAuth0();
 
   return (
     <AppBar position="static">
@@ -35,7 +38,13 @@ export function Header({ setDrawer }: AppProps) {
                 .map((ea) => ea[0].toUpperCase() + ea.substring(1))
                 .join(' ')}
         </Typography>
-        {isAuthenticated ? <LogOutButton /> : <LogInButton />}
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Typography variant="body1" component="h2" sx={{ mr: 2 }}>
+            {isAuthenticated && user ? `${user.name} ` : `Guest `}
+            {storeName && `@ ${storeName}`}
+          </Typography>
+          {isAuthenticated ? <LogOutButton /> : <LogInButton />}
+        </Box>
       </Toolbar>
     </AppBar>
   );
