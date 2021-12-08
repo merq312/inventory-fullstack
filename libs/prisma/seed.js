@@ -1,46 +1,62 @@
-const  { PrismaClient } = require('@prisma/client')
-const menuItems = require('./menu_items.json')
+const { PrismaClient } = require('@prisma/client');
+const menuItems = require('./menu_items.json');
 
 const prisma = new PrismaClient();
 
-async function main() {
+async function createStore(storeName) {
   await prisma.store.create({
     data: {
-      name: 'rcss'
-    }
+      name: storeName,
+    },
   });
+}
+
+async function createUser(name, role, stores) {
+  await prisma.user.create({
+    data: {
+      username: name,
+      role: role,
+      stores: {
+        create: stores.map((ea) => {
+          return {
+            storeId: ea.id,
+          };
+        }),
+      },
+    },
+  });
+}
+
+async function createMenuItem(item, stores) {
+  return await prisma.menuItem.create({
+    data: {
+      name: item.name,
+      stores: {
+        create: stores.map((ea) => {
+          return {
+            storeId: ea.id,
+            price: item.price,
+          };
+        }),
+      },
+    },
+  });
+}
+
+async function main() {
+  await createStore('rcss');
+  await createStore('wm_south');
 
   const rcss_store = await prisma.store.findUnique({ where: { name: 'rcss' } });
+  const wm_south_store = await prisma.store.findUnique({
+    where: { name: 'wm_south' },
+  });
+  const stores = [rcss_store, wm_south_store];
 
-  if (rcss_store) {
-    await prisma.user.create({
-      data: {
-        username: 'Alex',
-        role: 'Owner',
-        stores: {
-          create: [{ storeId: rcss_store.id }]
-        }
-      }
-    });
+  await createUser('Alex', 'role', stores);
 
-    for (const item of menuItems) {
-      const newMenuItem = await prisma.menuItem.create({
-        data: {
-          name: item.name,
-          stores: {
-            create: [{ storeId: rcss_store.id, price: item.price }]
-          }
-        }
-      });
-
-      const menuItemOnStore = await prisma.menuItemsOnStores.findFirst({ where: { menuItemId: newMenuItem.id, storeId: rcss_store.id } });
-
-      await prisma.productCount.create({
-        data: {
-          menuItemOnStoreId: menuItemOnStore.id
-        }
-      })
-    }
+  for (const item of menuItems) {
+    await createMenuItem(item, stores);
   }
 }
 
