@@ -66,8 +66,6 @@ function DashboardPage() {
   }, [selectedStoreData]);
 
   useEffect(() => {
-    console.log(renameInput);
-    console.log(renameValue);
     if (renameInput && renameValue) {
       setRenameInput('');
       setRenameValue('');
