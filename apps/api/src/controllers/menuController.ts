@@ -41,7 +41,7 @@ export async function changeMenuItemName(req, res, next) {
   const { oldName, newName } = req.body;
 
   try {
-    const menuItem = updateMenuItemName(oldName, newName);
+    const menuItem = await updateMenuItemName(oldName, newName);
 
     return res.status(200).json({
       status: 'success',
