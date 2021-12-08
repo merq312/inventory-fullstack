@@ -5,6 +5,7 @@ import StoreMenuTable from './store-menu-table';
 import { useCallback, useEffect, useState } from 'react';
 import {
   addMenuItemToStore,
+  changeMenuItemName,
   createNewMenuItem,
   getAllMenuItems,
   getAllStoresWithMenu,
@@ -45,6 +46,10 @@ function DashboardPage() {
   const [newMenuItemError, setNewMenuItemError] = useState(false);
   const [newStoreItemError, setNewStoreItemError] = useState(false);
 
+  const [renameInput, setRenameInput] = useState('');
+  const [renameValue, setRenameValue] = useState('');
+  const [renameError, setRenameError] = useState(false);
+
   const setInStoreOnMenuData = useCallback(() => {
     setMenuData((menuData) =>
       menuData.map((i) => {
@@ -59,6 +64,25 @@ function DashboardPage() {
       })
     );
   }, [selectedStoreData]);
+
+  useEffect(() => {
+    console.log(renameInput);
+    console.log(renameValue);
+    if (renameInput && renameValue) {
+      setRenameInput('');
+      setRenameValue('');
+      changeMenuItemName(renameInput, renameValue)
+        .then(() => getAllMenuItems())
+        .then(setMenuData)
+        .then(setInStoreOnMenuData)
+        .then(getAllStoresWithMenu)
+        .then(setStoreData)
+        .then(() => {
+          setRenameError(false);
+        })
+        .catch(() => setRenameError(true));
+    }
+  }, [renameInput, renameValue, setInStoreOnMenuData]);
 
   useEffect(() => {
     if (newMenuItemName) {
@@ -140,6 +164,11 @@ function DashboardPage() {
             newItemError={newMenuItemError}
             setNewItemError={setNewMenuItemError}
             errorMsg={menuLoadError}
+            renameInput={renameInput}
+            setRenameInput={setRenameInput}
+            setRenameValue={setRenameValue}
+            renameError={renameError}
+            setRenameError={setRenameError}
           />
         </Grid>
       </Grid>

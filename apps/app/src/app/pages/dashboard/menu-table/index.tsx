@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableContainer from '@mui/material/TableContainer';
@@ -22,6 +22,11 @@ type AppProps = {
   newItemError: boolean;
   setNewItemError: (arg0: boolean) => void;
   errorMsg: string;
+  renameInput: string;
+  setRenameInput: (arg0: string) => void;
+  setRenameValue: (arg0: string) => void;
+  renameError: boolean;
+  setRenameError: (arg0: boolean) => void;
 };
 
 function MenuTable({
@@ -32,15 +37,14 @@ function MenuTable({
   newItemError,
   setNewItemError,
   errorMsg,
+  renameInput,
+  setRenameInput,
+  setRenameValue,
+  renameError,
+  setRenameError,
 }: AppProps) {
   const [showNewItemInput, setShowNewItemInput] = useState(false);
   const [showRenameButton, setShowRenameButton] = useState('');
-  const [renameInput, setRenameInput] = useState('');
-  const [renameValue, setRenameValue] = useState('');
-
-  useEffect(() => {
-    console.log(renameValue);
-  }, [renameValue]);
 
   function mapMenuData() {
     return menuData.map((item) =>
@@ -48,9 +52,11 @@ function MenuTable({
         <InputTableRow
           key={item.name}
           placeholder={item.name}
-          error={false}
+          error={renameError}
           close={() => {
             setRenameInput('');
+            setRenameValue('');
+            setRenameError(false);
           }}
           dispatch={setRenameValue}
         />

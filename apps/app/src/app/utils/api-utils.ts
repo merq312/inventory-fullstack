@@ -71,6 +71,18 @@ export async function addMenuItemToStore(
   }
 }
 
+export async function changeMenuItemName(oldName: string, newName: string) {
+  try {
+    const req = await axios.patch(`${baseUrl}/api/v1/menu`, {
+      oldName: oldName,
+      newName: newName,
+    });
+    return req.data.data;
+  } catch (error) {
+    throw new Error('Server error');
+  }
+}
+
 export async function updateProductCounts(
   storeName: string,
   post: Array<PostItem>,
