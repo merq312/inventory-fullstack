@@ -6,6 +6,13 @@ import LogInButton from '../login-button/login-button';
 import LogOutButton from '../logout-button/logout-button';
 import { useContext } from 'react';
 import { StoreContext } from '../../app';
+import styled from 'styled-components';
+
+const ResponsiveTypography = styled(Box)`
+  @media (max-width: 450px) {
+    display: none;
+  }
+`;
 
 type AppProps = {
   setDrawer: (arg0: boolean) => void;
@@ -39,10 +46,12 @@ export function Header({ setDrawer }: AppProps) {
                 .join(' ')}
         </Typography>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Typography variant="body1" component="h2" sx={{ mr: 2 }}>
-            {isAuthenticated && user ? `${user.name} ` : `Guest `}
-            {storeName && `@ ${storeName}`}
-          </Typography>
+          <ResponsiveTypography>
+            <Typography variant="body1" component="h2" sx={{ mr: 2 }}>
+              {isAuthenticated && user ? `${user.name} ` : `Guest `}
+              {storeName && `@ ${storeName}`}
+            </Typography>
+          </ResponsiveTypography>
           {isAuthenticated ? <LogOutButton /> : <LogInButton />}
         </Box>
       </Toolbar>
