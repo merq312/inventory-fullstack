@@ -76,6 +76,14 @@ function InventoryInputCard({ name, value, dispatch }: AppProps) {
                   : newValue < value
                   ? theme.palette.error.light
                   : 'white',
+              '&:hover': {
+                color: () =>
+                  newValue > value
+                    ? theme.palette.success.main
+                    : newValue < value
+                    ? theme.palette.error.main
+                    : theme.palette.primary.main,
+              },
             }}
           >
             {newValue}
