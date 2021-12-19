@@ -54,7 +54,7 @@ function HomePage() {
           sx={{ textAlign: 'center' }}
           gutterBottom
         >
-          Product Tracker
+          Bento Sushi Product Tracker
         </Typography>
       </Box>
       <Typography variant="body1" component="div" gutterBottom>
