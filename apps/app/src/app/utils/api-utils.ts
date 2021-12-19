@@ -4,7 +4,7 @@ import { PostItem } from '../pages/inventory-input';
 const baseUrl =
   process.env.NODE_ENV === 'development'
     ? 'http://localhost:3333'
-    : 'https://mighty-atoll-05391.herokuapp.com';
+    : 'https://bentosushi.herokuapp.com';
 
 export async function getProductData(storeName: string, date: string) {
   try {
