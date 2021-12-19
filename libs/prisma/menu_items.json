@@ -57,7 +57,7 @@
   },
   {
     "name": "Samurai Combo",
-    "price": 8.99
+    "price": 9.99
   },
   {
     "name": "Shogun Combo",
@@ -74,5 +74,29 @@
   {
     "name": "Salmon Sushi Combo",
     "price": 12.99
+  },
+  {
+    "name": "Cucumber Hosomaki",
+    "price": 4.99
+  },
+  {
+    "name": "Fire Cracker",
+    "price": 8.99
+  },
+  {
+    "name": "Veggie Spring Roll",
+    "price": 6.99
+  },
+  {
+    "name": "Spicy Cali Spring Roll",
+    "price": 7.99
+  },
+  {
+    "name": "Spicy Cali Spring Roll and Sushi Combo",
+    "price": 9.99
+  },
+  {
+    "name": "Pressed Shrimp and Spicy Cali",
+    "price": 7.99
   }
 ]
