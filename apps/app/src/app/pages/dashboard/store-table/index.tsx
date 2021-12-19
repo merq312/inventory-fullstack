@@ -6,6 +6,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { StoreData } from '../index';
+import { useTheme } from '@mui/material';
 
 type AppProps = {
   storeData: Array<StoreData>;
@@ -20,6 +21,8 @@ function StoreTable({
   setSelectedStore,
   errorMsg,
 }: AppProps) {
+  const theme = useTheme();
+
   return (
     <TableContainer component={Paper}>
       <Table size="small" aria-label="simple table">
@@ -35,9 +38,11 @@ function StoreTable({
                 key={store.name}
                 sx={{
                   '&:last-child td, &:last-child th': { border: 0 },
-                  '&:hover': { backgroundColor: '#e3f2fd' },
+                  '&:hover': { backgroundColor: theme.palette.primary.light },
                   backgroundColor: () =>
-                    store.name === selectedStore ? '#e3f2fd' : 'white',
+                    store.name === selectedStore
+                      ? theme.palette.primary.light
+                      : 'white',
                 }}
                 onClick={() => {
                   if (store.name) setSelectedStore(store.name);
@@ -52,7 +57,7 @@ function StoreTable({
             <TableRow
               sx={{
                 '&:last-child td, &:last-child th': { border: 0 },
-                '&:hover': { backgroundColor: '#e3f2fd' },
+                '&:hover': { backgroundColor: theme.palette.primary.light },
               }}
             >
               <TableCell component="th" scope="row">

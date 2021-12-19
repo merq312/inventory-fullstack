@@ -13,6 +13,7 @@ import InputTableRow from '../../../components/input-table-row/input-table-row';
 import AddIcon from '@mui/icons-material/Add';
 import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
+import { useTheme } from '@mui/material';
 
 type AppProps = {
   menuData: Array<MenuItemData>;
@@ -45,6 +46,7 @@ function MenuTable({
 }: AppProps) {
   const [showNewItemInput, setShowNewItemInput] = useState(false);
   const [showRenameButton, setShowRenameButton] = useState('');
+  const theme = useTheme();
 
   function mapMenuData() {
     return menuData.map((item) =>
@@ -65,8 +67,9 @@ function MenuTable({
           key={item.name}
           sx={{
             '&:last-child td, &:last-child th': { border: 0 },
-            '&:hover': { backgroundColor: '#e3f2fd' },
-            backgroundColor: () => (item.inStore ? '#eeeeee' : 'white'),
+            '&:hover': { backgroundColor: theme.palette.primary.light },
+            backgroundColor: () =>
+              item.inStore ? theme.palette.grey['200'] : 'white',
           }}
           onMouseOver={() => setShowRenameButton(item.name)}
         >
@@ -109,7 +112,7 @@ function MenuTable({
       <TableRow
         sx={{
           '&:last-child td, &:last-child th': { border: 0 },
-          '&:hover': { backgroundColor: '#e3f2fd' },
+          '&:hover': { backgroundColor: theme.palette.primary.light },
         }}
       >
         <TableCell component="th" scope="row">

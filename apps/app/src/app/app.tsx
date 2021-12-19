@@ -16,6 +16,13 @@ theme.typography.h1 = {
   fontWeight: 'normal',
 };
 
+theme.palette.primary = {
+  light: '#e3f2fd',
+  main: '#1976d2',
+  dark: '#1565c0',
+  contrastText: '#fff',
+};
+
 export interface IStoreContext {
   storeName: string;
   setStoreName?: (arg0: string) => void;

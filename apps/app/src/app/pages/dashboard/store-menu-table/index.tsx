@@ -8,6 +8,7 @@ import Paper from '@mui/material/Paper';
 import { StoreData } from '../index';
 import InputTableRow from '../../../components/input-table-row/input-table-row';
 import { useEffect, useState } from 'react';
+import { useTheme } from '@mui/material';
 
 type AppProps = {
   storeData: StoreData;
@@ -27,6 +28,7 @@ function StoreMenuTable({
   setNewItemError,
 }: AppProps) {
   const [showInput, setShowInput] = useState(false);
+  const theme = useTheme();
 
   useEffect(() => {
     newStoreItemName === '' ? setShowInput(false) : setShowInput(true);
@@ -52,7 +54,7 @@ function StoreMenuTable({
                 key={item.menuItem.name}
                 sx={{
                   '&:last-child td, &:last-child th': { border: 0 },
-                  '&:hover': { backgroundColor: '#e3f2fd' },
+                  '&:hover': { backgroundColor: theme.palette.primary.light },
                 }}
               >
                 <TableCell component="th" scope="row">
@@ -65,7 +67,7 @@ function StoreMenuTable({
             <TableRow
               sx={{
                 '&:last-child td, &:last-child th': { border: 0 },
-                '&:hover': { backgroundColor: '#e3f2fd' },
+                '&:hover': { backgroundColor: theme.palette.primary.light },
               }}
             >
               <TableCell component="th" scope="row">
