@@ -23,7 +23,7 @@ import { Link } from 'react-router-dom';
 import { Collapse, ListItemButton } from '@mui/material';
 import { StoreContext } from '../../app';
 import { getAllStores } from '../../utils/api-utils';
-import { StarBorder } from '@mui/icons-material';
+import { Star, StarBorder } from '@mui/icons-material';
 
 type AppProps = {
   setDrawer: (arg0: boolean) => void;
@@ -38,7 +38,7 @@ type StoreData = {
 export default function SettingsDrawer({ drawer, setDrawer }: AppProps) {
   const [open, setOpen] = useState(true);
   const [stores, setStores] = useState<Array<StoreData>>([]);
-  const { setStoreName } = useContext(StoreContext);
+  const { storeName, setStoreName } = useContext(StoreContext);
   const [errorMsg, setErrorMsg] = useState('Loading ...');
 
   const handleClick = () => {
@@ -134,7 +134,7 @@ export default function SettingsDrawer({ drawer, setDrawer }: AppProps) {
                   }}
                 >
                   <ListItemIcon>
-                    <StarBorder />
+                    {storeName === store.name ? <Star /> : <StarBorder />}
                   </ListItemIcon>
                   <ListItemText primary={store.name} />
                 </ListItemButton>
