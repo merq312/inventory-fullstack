@@ -24,6 +24,7 @@ import { Collapse, ListItemButton } from '@mui/material';
 import { StoreContext } from '../../app';
 import { getAllStores } from '../../utils/api-utils';
 import { Star, StarBorder } from '@mui/icons-material';
+import { useAuth0 } from '@auth0/auth0-react';
 
 type AppProps = {
   setDrawer: (arg0: boolean) => void;
@@ -40,6 +41,8 @@ export default function SettingsDrawer({ drawer, setDrawer }: AppProps) {
   const [stores, setStores] = useState<Array<StoreData>>([]);
   const { storeName, setStoreName } = useContext(StoreContext);
   const [errorMsg, setErrorMsg] = useState('Loading ...');
+
+  const { isAuthenticated, logout, loginWithRedirect } = useAuth0();
 
   const handleClick = () => {
     setOpen(!open);
@@ -156,7 +159,17 @@ export default function SettingsDrawer({ drawer, setDrawer }: AppProps) {
           <ListItemIcon>
             <LogoutIcon />
           </ListItemIcon>
-          <ListItemText>Log Out</ListItemText>
+          {isAuthenticated ? (
+            <ListItemText
+              onClick={() => logout({ returnTo: window.location.origin })}
+            >
+              Log Out
+            </ListItemText>
+          ) : (
+            <ListItemText onClick={() => loginWithRedirect()}>
+              Log In
+            </ListItemText>
+          )}
         </ListItem>
       </List>
       <Divider />
