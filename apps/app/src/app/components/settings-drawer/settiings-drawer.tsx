@@ -93,6 +93,7 @@ export default function SettingsDrawer({ drawer, setDrawer }: AppProps) {
           component={Link}
           to="inventory-input"
           key={'InventoryInput'}
+          data-cy="inventory-input"
         >
           <ListItemIcon>
             <CreateIcon />
@@ -104,6 +105,7 @@ export default function SettingsDrawer({ drawer, setDrawer }: AppProps) {
           component={Link}
           to="inventory-info"
           key={'InventoryInfo'}
+          data-cy="inventory-info"
         >
           <ListItemIcon>
             <BarChartIcon />
@@ -135,6 +137,7 @@ export default function SettingsDrawer({ drawer, setDrawer }: AppProps) {
                   onClick={() => {
                     if (setStoreName) setStoreName(store.name);
                   }}
+                  data-cy={store.name}
                 >
                   <ListItemIcon>
                     {storeName === store.name ? <Star /> : <StarBorder />}

@@ -54,7 +54,7 @@ function InventoryInputCard({ name, value, dispatch }: AppProps) {
   };
 
   return (
-    <Card sx={{ my: 1 }}>
+    <Card sx={{ my: 1 }} data-cy={name.toLowerCase().replaceAll(' ', '-')}>
       <CardContentNoPadding
         sx={{
           display: 'flex',
@@ -85,6 +85,7 @@ function InventoryInputCard({ name, value, dispatch }: AppProps) {
                     : theme.palette.primary.main,
               },
             }}
+            data-cy="new-value"
           >
             {newValue}
           </InfoDiv>
@@ -97,13 +98,21 @@ function InventoryInputCard({ name, value, dispatch }: AppProps) {
           variant="contained"
           aria-label="outlined primary button group"
         >
-          <Button onClick={handleDecrement} sx={{ width: 2 }}>
+          <Button
+            onClick={handleDecrement}
+            sx={{ width: 2 }}
+            data-cy="decrement"
+          >
             -1
           </Button>
-          <Button onClick={handleReset} sx={{ width: 2 }}>
+          <Button onClick={handleReset} sx={{ width: 2 }} data-cy="reset">
             0
           </Button>
-          <Button onClick={handleIncrement} sx={{ width: 2 }}>
+          <Button
+            onClick={handleIncrement}
+            sx={{ width: 2 }}
+            data-cy="increment"
+          >
             +1
           </Button>
         </ButtonGroup>

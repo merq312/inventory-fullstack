@@ -33,6 +33,7 @@ export function Header({ setDrawer }: AppProps) {
           aria-label="menu"
           sx={{ mr: 2 }}
           onClick={() => setDrawer(true)}
+          data-cy="menu"
         >
           <MenuIcon />
         </IconButton>
@@ -47,7 +48,12 @@ export function Header({ setDrawer }: AppProps) {
         </Typography>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <ResponsiveTypography>
-            <Typography variant="body1" component="h2" sx={{ mr: 2 }}>
+            <Typography
+              variant="body1"
+              component="h2"
+              sx={{ mr: 2 }}
+              data-cy="user-store"
+            >
               {isAuthenticated && user ? `${user.name} ` : `Guest `}
               {storeName && `@ ${storeName}`}
             </Typography>

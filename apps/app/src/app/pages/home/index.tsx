@@ -52,6 +52,7 @@ function HomePage() {
           variant="h4"
           component="h1"
           sx={{ textAlign: 'center' }}
+          data-cy="homepage-title"
           gutterBottom
         >
           Bento Sushi Product Tracker
