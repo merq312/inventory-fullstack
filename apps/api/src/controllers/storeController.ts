@@ -35,6 +35,18 @@ async function updateMenuItemOnStore(storeName, menuItemName, price) {
   });
 }
 
+async function retireMenuItemOnStore(storeName, menuItemName, retire) {
+  return await prisma.menuItemsOnStores.updateMany({
+    where: {
+      store: { name: storeName },
+      menuItem: { name: menuItemName },
+    },
+    data: {
+      retired: retire,
+    },
+  });
+}
+
 async function deleteMenuItemOnStore(storeName, menuItemName) {
   return await prisma.menuItemsOnStores.deleteMany({
     where: {
@@ -45,15 +57,16 @@ async function deleteMenuItemOnStore(storeName, menuItemName) {
 }
 
 async function menuItemOnStoreHelper(req, res, next, databaseFunction) {
-  const { menuItemName, price } = req.body;
+  const { menuItemName, price, retire } = req.body;
   const { storeName } = req.params;
 
   try {
-    const menuItemOnStore = await databaseFunction(
-      storeName,
-      menuItemName,
-      price
-    );
+    let menuItemOnStore;
+    if (price) {
+      menuItemOnStore = await databaseFunction(storeName, menuItemName, price);
+    } else {
+      menuItemOnStore = await databaseFunction(storeName, menuItemName, retire);
+    }
 
     return res.status(200).json({
       status: 'success',
@@ -70,6 +83,10 @@ export async function addMenuItemToStore(req, res, next) {
 
 export async function updateMenuItemPrice(req, res, next) {
   return await menuItemOnStoreHelper(req, res, next, updateMenuItemOnStore);
+}
+
+export async function updateMenuItemRetired(req, res, next) {
+  return await menuItemOnStoreHelper(req, res, next, retireMenuItemOnStore);
 }
 
 export async function removeMenuItemFromStore(req, res, next) {

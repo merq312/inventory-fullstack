@@ -96,3 +96,18 @@ export async function updateProductCounts(
     throw new Error('Server error');
   }
 }
+
+export async function retireStoreItem(
+  storeName: string,
+  menuItemName: string,
+  retire: boolean
+) {
+  try {
+    await axios.patch(`${baseUrl}/api/v1/store/${storeName}/retire-item`, {
+      menuItemName: menuItemName,
+      retire: retire,
+    });
+  } catch (error) {
+    throw new Error('Server error');
+  }
+}
