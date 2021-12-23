@@ -120,7 +120,9 @@ function InventoryInputPage() {
     <Box sx={{ m: 2 }}>
       <Box sx={{ maxWidth: '900px', margin: '0 auto' }}>
         <ItemSearch
-          itemNames={data.map((item) => item.name)}
+          itemNames={data
+            .filter((item) => !item.retired)
+            .map((item) => item.name)}
           dispatch={setFilter}
         />
         <Grid sx={{ alignItems: 'center' }} container spacing={2}>
@@ -135,16 +137,18 @@ function InventoryInputPage() {
       {data.length !== 0 ? (
         <ItemsContainer>
           {filter === ''
-            ? data.map((item) => (
-                <InventoryInputCard
-                  key={item.name}
-                  name={item.name}
-                  value={item[session] as number}
-                  dispatch={(value: number) =>
-                    modifyItemAction(item.name, value, session)
-                  }
-                />
-              ))
+            ? data
+                .filter((item) => !item.retired)
+                .map((item) => (
+                  <InventoryInputCard
+                    key={item.name}
+                    name={item.name}
+                    value={item[session] as number}
+                    dispatch={(value: number) =>
+                      modifyItemAction(item.name, value, session)
+                    }
+                  />
+                ))
             : data
                 .filter((item) => item.name === filter)
                 .map((item) => (

@@ -14,6 +14,7 @@ export type MenuItem = {
   id: number;
   day: string;
   name: string;
+  retired: boolean;
   menuItemOnStoreId: number;
   overnightCount: number;
   morningCount: number;
@@ -73,7 +74,9 @@ function InventoryInfoPage() {
       <Box sx={{ maxWidth: '900px', margin: '0 auto' }}>
         <ItemsContainer>
           <ItemSearch
-            itemNames={data.map((item) => item.name)}
+            itemNames={data
+              .filter((item) => !item.retired)
+              .map((item) => item.name)}
             dispatch={setFilter}
           />
           <DatePicker setDate={setDate} />
@@ -83,9 +86,11 @@ function InventoryInfoPage() {
       {data.length !== 0 ? (
         <ItemsContainer>
           {filter === ''
-            ? data.map((item) => (
-                <InventoryInfoCard key={item.name} item={item} />
-              ))
+            ? data
+                .filter((item) => !item.retired)
+                .map((item) => (
+                  <InventoryInfoCard key={item.name} item={item} />
+                ))
             : data
                 .filter((item) => item.name === filter)
                 .map((item) => (
