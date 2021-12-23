@@ -70,7 +70,10 @@ export async function getProductCounts(req, res, next) {
           productCount = await createProductCount(item.id, day);
         }
 
-        Object.assign(productCount, { name: item.menuItem.name });
+        Object.assign(productCount, {
+          name: item.menuItem.name,
+          retired: item.retired,
+        });
 
         return productCount;
       })
