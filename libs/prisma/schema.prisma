@@ -46,6 +46,7 @@ model MenuItemsOnStores {
   store Store @relation(fields: [storeId], references: [id])
   storeId Int
   productCounts ProductCount[]
+  retired Boolean @default(false)
 
   @@unique([menuItemId, storeId])
 }
