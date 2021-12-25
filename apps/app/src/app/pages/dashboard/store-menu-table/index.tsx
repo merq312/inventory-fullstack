@@ -9,6 +9,8 @@ import { StoreData } from '../index';
 import InputTableRow from '../../../components/input-table-row/input-table-row';
 import { useEffect, useState } from 'react';
 import { useTheme } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 type AppProps = {
   storeData: StoreData;
@@ -28,6 +30,7 @@ function StoreMenuTable({
   setNewItemError,
 }: AppProps) {
   const [showInput, setShowInput] = useState(false);
+  const [showRetireButton, setShowRetireButton] = useState('');
   const theme = useTheme();
 
   useEffect(() => {
@@ -47,7 +50,7 @@ function StoreMenuTable({
             <TableCell align="right">Price</TableCell>
           </TableRow>
         </TableHead>
-        <TableBody>
+        <TableBody onMouseLeave={() => setShowRetireButton('')}>
           {storeData.menuItems.length !== 0 ? (
             storeData.menuItems.map((item) => (
               <TableRow
@@ -56,9 +59,23 @@ function StoreMenuTable({
                   '&:last-child td, &:last-child th': { border: 0 },
                   '&:hover': { backgroundColor: theme.palette.primary.light },
                 }}
+                onMouseOver={() => setShowRetireButton(item.menuItem.name)}
               >
-                <TableCell component="th" scope="row">
+                <TableCell
+                  component="th"
+                  scope="row"
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                  }}
+                >
                   {item.menuItem.name}
+                  {showRetireButton === item.menuItem.name && (
+                    <IconButton size="small">
+                      <DeleteIcon fontSize="small" />
+                    </IconButton>
+                  )}
                 </TableCell>
                 <TableCell align="right">{item.price}</TableCell>
               </TableRow>
