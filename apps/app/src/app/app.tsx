@@ -39,14 +39,14 @@ export const App = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Main>
-        <BrowserRouter>
-          <StoreContext.Provider
-            value={{ storeName: storeName, setStoreName: setStoreName }}
-          >
-            <SettingsDrawer drawer={drawer} setDrawer={setDrawer} />
+      <BrowserRouter>
+        <StoreContext.Provider
+          value={{ storeName: storeName, setStoreName: setStoreName }}
+        >
+          <PageContainer>
             <Header setDrawer={setDrawer} />
-            <PageContainer>
+            <Main>
+              <SettingsDrawer drawer={drawer} setDrawer={setDrawer} />
               <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route
@@ -56,10 +56,10 @@ export const App = () => {
                 <Route path="/inventory-info" element={<InventoryInfoPage />} />
                 <Route path="/dashboard" element={<DashboardPage />} />
               </Routes>
-            </PageContainer>
-          </StoreContext.Provider>
-        </BrowserRouter>
-      </Main>
+            </Main>
+          </PageContainer>
+        </StoreContext.Provider>
+      </BrowserRouter>
     </ThemeProvider>
   );
 };

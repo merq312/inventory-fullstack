@@ -1,17 +1,17 @@
 import styled from 'styled-components';
 
 export const Main = styled.main`
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-`;
-
-export const PageContainer = styled.div`
   margin: 0;
   overflow-y: auto;
   @media (min-width: 1400px) {
     margin: 0 200px;
   }
+`;
+
+export const PageContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 `;
 
 export const ItemsContainer = styled.div`
