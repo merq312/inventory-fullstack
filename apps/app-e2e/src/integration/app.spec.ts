@@ -20,7 +20,7 @@ describe('app', () => {
     cy.get('[data-cy=rcss]').click();
 
     cy.get('[data-cy=menu]').click();
-    cy.get('[data-cy=inventory-input]').click();
+    cy.get('[data-cy=InventoryInput]').click();
     cy.get('[data-cy=california]').within(() => {
       cy.get('[data-cy=increment]').click();
       cy.get('[data-cy=new-value]').should('have.text', 1);
