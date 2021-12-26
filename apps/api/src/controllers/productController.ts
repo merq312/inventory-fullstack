@@ -79,9 +79,6 @@ export async function getProductCounts(req, res, next) {
       })
     );
 
-    if (productCounts.length === 0)
-      return next(createError(400, 'Bad request'));
-
     return res.status(200).json({
       status: 'success',
       data: productCounts,
