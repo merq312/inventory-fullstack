@@ -5,23 +5,15 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { StoreData } from '../types';
 import { useTheme } from '@mui/material';
+import useDashboard from '../../../hooks/useDashboard';
 
-type AppProps = {
-  storeData: Array<StoreData>;
-  selectedStore: string;
-  setSelectedStore: (arg0: string) => void;
-  errorMsg: string;
-};
-
-function StoreTable({
-  storeData,
-  selectedStore,
-  setSelectedStore,
-  errorMsg,
-}: AppProps) {
+function StoreTable() {
   const theme = useTheme();
+  const {
+    state: { storeData, selectedStore, storeLoadError },
+    dispatch: { setSelectedStore },
+  } = useDashboard();
 
   return (
     <TableContainer component={Paper}>
@@ -61,7 +53,7 @@ function StoreTable({
               }}
             >
               <TableCell component="th" scope="row">
-                {errorMsg ? errorMsg : 'Loading...'}
+                {storeLoadError ? storeLoadError : 'Loading...'}
               </TableCell>
               <TableCell align="right">{''}</TableCell>
             </TableRow>

@@ -10,10 +10,9 @@ import Paper from '@mui/material/Paper';
 import InputTableRow from '../InputTableRow';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { StoreData } from '../types';
+import useDashboard from '../../../hooks/useDashboard';
 
 type AppProps = {
-  storeData: StoreData;
   newStoreItemName: string;
   setNewStoreItemName: (arg0: string) => void;
   setNewStoreItemPrice: (arg0: string) => void;
@@ -22,7 +21,6 @@ type AppProps = {
 };
 
 function StoreMenuTable({
-  storeData,
   newStoreItemName,
   setNewStoreItemName,
   setNewStoreItemPrice,
@@ -32,6 +30,9 @@ function StoreMenuTable({
   const [showInput, setShowInput] = useState(false);
   const [showRetireButton, setShowRetireButton] = useState('');
   const theme = useTheme();
+  const {
+    state: { selectedStoreData },
+  } = useDashboard();
 
   useEffect(() => {
     newStoreItemName === '' ? setShowInput(false) : setShowInput(true);
@@ -39,7 +40,7 @@ function StoreMenuTable({
 
   useEffect(() => {
     setShowInput(false);
-  }, [storeData]);
+  }, [selectedStoreData]);
 
   return (
     <TableContainer component={Paper}>
@@ -51,8 +52,8 @@ function StoreMenuTable({
           </TableRow>
         </TableHead>
         <TableBody onMouseLeave={() => setShowRetireButton('')}>
-          {storeData.menuItems.length !== 0 ? (
-            storeData.menuItems.map((item) => (
+          {selectedStoreData.menuItems.length !== 0 ? (
+            selectedStoreData.menuItems.map((item) => (
               <TableRow
                 key={item.menuItem.name}
                 sx={{

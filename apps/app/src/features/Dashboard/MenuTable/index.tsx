@@ -8,21 +8,18 @@ import TableCell from '@mui/material/TableCell';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-import { MenuItemData } from '../types';
 import InputTableRow from '../InputTableRow';
 import AddIcon from '@mui/icons-material/Add';
 import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import { useTheme } from '@mui/material';
+import useDashboard from '../../../hooks/useDashboard';
 
 type AppProps = {
-  menuData: Array<MenuItemData>;
   setNewMenuItemName: (arg0: string) => void;
   setNewStoreItemName: (arg0: string) => void;
-  selectedStore: string;
   newItemError: boolean;
   setNewItemError: (arg0: boolean) => void;
-  errorMsg: string;
   renameInput: string;
   setRenameInput: (arg0: string) => void;
   setRenameValue: (arg0: string) => void;
@@ -31,13 +28,10 @@ type AppProps = {
 };
 
 function MenuTable({
-  menuData,
   setNewMenuItemName,
   setNewStoreItemName,
-  selectedStore,
   newItemError,
   setNewItemError,
-  errorMsg,
   renameInput,
   setRenameInput,
   setRenameValue,
@@ -47,6 +41,9 @@ function MenuTable({
   const [showNewItemInput, setShowNewItemInput] = useState(false);
   const [showRenameButton, setShowRenameButton] = useState('');
   const theme = useTheme();
+  const {
+    state: { menuData, selectedStore, menuLoadError },
+  } = useDashboard();
 
   function mapMenuData() {
     return menuData.map((item) =>
@@ -116,7 +113,7 @@ function MenuTable({
         }}
       >
         <TableCell component="th" scope="row">
-          {errorMsg ? errorMsg : 'Loading...'}
+          {menuLoadError ? menuLoadError : 'Loading...'}
         </TableCell>
         <TableCell align="right">{''}</TableCell>
       </TableRow>
