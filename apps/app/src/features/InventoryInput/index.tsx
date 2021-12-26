@@ -1,4 +1,4 @@
-import { useContext, useEffect, useReducer, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Box, Button, Grid } from '@mui/material';
 import ItemSearch from '../../components/ItemSearch';
 import DatePicker from '../../components/DatePicker';
@@ -9,80 +9,17 @@ import dayjs from 'dayjs';
 import ErrorCard from '../../components/ErrorCard';
 import { getProductData, updateProductCounts } from '../../utils/api';
 import { ItemsContainer } from '../../utils/styles';
-import { StoreContext } from '../../providers';
-import { PostItem } from './types';
-
-const initialState: Array<PostItem> = [];
-
-type Action =
-  | { type: 'add_items'; items: Array<MenuItem> }
-  | {
-      type: 'modify_item';
-      name: string;
-      value: number;
-      session: keyof PostItem['counts'];
-    };
-
-const reducer = (state: Array<PostItem>, action: Action) => {
-  switch (action.type) {
-    case 'modify_item': {
-      return state.map((ea: PostItem) => {
-        if (ea.name === action.name) {
-          return {
-            name: ea.name,
-            counts: { ...ea.counts, [action.session]: action.value },
-          };
-        }
-        return { ...ea };
-      });
-    }
-    case 'add_items': {
-      return action.items.map((item) => {
-        return {
-          name: item.name,
-          counts: {
-            overnightCount: item.overnightCount,
-            morningCount: item.morningCount,
-            afternoonCount: item.afternoonCount,
-            leftoverCountOne: item.leftoverCountOne,
-            leftoverCountTwo: item.leftoverCountTwo,
-          },
-        };
-      });
-    }
-    default:
-      return [...state];
-  }
-};
+import usePost from '../../hooks/usePost';
+import useStore from '../../hooks/useStore';
 
 function InventoryInput() {
   const [data, setData] = useState<Array<MenuItem>>([]);
-  const [post, setPost] = useReducer(reducer, initialState);
-  const { storeName } = useContext(StoreContext);
-
-  useEffect(() => {
-    if (!storeName) {
-      setErrorMsg('Please select a store');
-    }
-  }, [storeName]);
-
-  const addItemsAction = (items: Array<MenuItem>) => {
-    setPost({ type: 'add_items', items: items });
-  };
-
-  const modifyItemAction = (name: string, value: number, session: string) => {
-    setPost({
-      type: 'modify_item',
-      name: name,
-      value: value,
-      session: session as keyof PostItem['counts'],
-    });
-  };
+  const { storeName, errorMsg, setErrorMsg } = useStore();
+  const { post, addItemsAction, modifyItemAction } = usePost();
 
   const [date, setDate] = useState<string>(dayjs().format('YYYY-MM-DD'));
-  const [session, setSession] = useState<keyof MenuItem>('overnightCount');
-  const [errorMsg, setErrorMsg] = useState('Loading...');
   const [filter, setFilter] = useState('');
+  const [session, setSession] = useState<keyof MenuItem>('overnightCount');
 
   useEffect(() => {
     if (storeName) {
@@ -93,7 +30,7 @@ function InventoryInput() {
         })
         .catch((err) => setErrorMsg(err.message));
     }
-  }, [date, storeName]);
+  }, [addItemsAction, date, setErrorMsg, storeName]);
 
   const handleClick = () => {
     updateProductCounts(storeName, post, date)

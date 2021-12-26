@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import ItemSearch from '../../components/ItemSearch';
 import DatePicker from '../../components/DatePicker';
 import InventoryInfoHeader from './Header';
@@ -8,22 +8,17 @@ import { Box } from '@mui/material';
 import dayjs from 'dayjs';
 import { getProductData } from '../../utils/api';
 import { ItemsContainer } from '../../utils/styles';
-import { StoreContext } from '../../providers';
 import { ItemTotals, MenuItem } from './types';
+import useStore from '../../hooks/useStore';
 
 function InventoryInfo() {
   const [data, setData] = useState<Array<MenuItem>>([]);
-  const [date, setDate] = useState<string>(dayjs().format('YYYY-MM-DD'));
-  const [errorMsg, setErrorMsg] = useState('Loading...');
-  const [filter, setFilter] = useState('');
-  const [itemTotals, setItemTotals] = useState<ItemTotals>(new ItemTotals());
-  const { storeName } = useContext(StoreContext);
+  const { storeName, errorMsg, setErrorMsg } = useStore();
 
-  useEffect(() => {
-    if (!storeName) {
-      setErrorMsg('Please select a store');
-    }
-  }, [storeName]);
+  const [date, setDate] = useState<string>(dayjs().format('YYYY-MM-DD'));
+  const [filter, setFilter] = useState('');
+
+  const [itemTotals, setItemTotals] = useState<ItemTotals>(new ItemTotals());
 
   useEffect(() => {
     if (storeName) {
@@ -31,7 +26,7 @@ function InventoryInfo() {
         .then(setData)
         .catch((err) => setErrorMsg(err.message));
     }
-  }, [date, storeName]);
+  }, [date, setErrorMsg, storeName]);
 
   useEffect(() => {
     setItemTotals(
