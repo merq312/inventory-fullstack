@@ -1,15 +1,17 @@
-import { useReducer, useCallback, useEffect } from 'react';
+import { useReducer, useEffect } from 'react';
 import { getAllMenuItems, getAllStoresWithMenu } from '../utils/api';
 import { MenuItemData, StoreData } from '../features/Dashboard/types';
 
-const initialState: {
+export type dashboardState = {
   menuData: Array<MenuItemData>;
   storeData: Array<StoreData>;
   selectedStore: string;
   selectedStoreData: StoreData;
   menuLoadError: string;
   storeLoadError: string;
-} = {
+};
+
+const initialState: dashboardState = {
   menuData: [],
   storeData: [],
   selectedStore: '',
@@ -18,7 +20,7 @@ const initialState: {
   storeLoadError: '',
 };
 
-type Action =
+export type Action =
   | { type: 'set_menu_data'; payload: Array<MenuItemData> }
   | { type: 'set_store_data'; payload: Array<StoreData> }
   | { type: 'set_menu_error'; payload: string }
@@ -27,7 +29,35 @@ type Action =
   | { type: 'set_selected_store_data'; payload: StoreData }
   | { type: 'set_in_store_menu_data' };
 
-const reducer = (state: typeof initialState, action: Action) => {
+export const setMenuData = (payload: Array<MenuItemData>): Action => {
+  return {
+    type: 'set_menu_data',
+    payload: payload,
+  };
+};
+
+export const setStoreData = (payload: Array<StoreData>): Action => {
+  return {
+    type: 'set_store_data',
+    payload: payload,
+  };
+};
+
+// TODO: Get rid of this (set in store menu data on select)
+export const setInStoreMenuData = (): Action => {
+  return {
+    type: 'set_in_store_menu_data',
+  };
+};
+
+export const setSelectedStore = (payload: string): Action => {
+  return {
+    type: 'set_selected_store',
+    payload: payload,
+  };
+};
+
+const reducer = (state: dashboardState, action: Action) => {
   switch (action.type) {
     case 'set_menu_data': {
       return { ...state, menuData: action.payload };
@@ -68,87 +98,47 @@ const reducer = (state: typeof initialState, action: Action) => {
 };
 
 const useDashboard = () => {
-  const [state, setState] = useReducer(reducer, initialState);
-
-  const setMenuData = useCallback(
-    (payload: Array<MenuItemData>) =>
-      setState({
-        type: 'set_menu_data',
-        payload: payload,
-      }),
-    []
-  );
-  const setStoreData = useCallback(
-    (payload: Array<StoreData>) =>
-      setState({
-        type: 'set_store_data',
-        payload: payload,
-      }),
-    []
-  );
-  const setMenuError = useCallback(
-    (payload: string) =>
-      setState({
-        type: 'set_menu_error',
-        payload: payload,
-      }),
-    []
-  );
-  const setStoreError = useCallback(
-    (payload: string) =>
-      setState({
-        type: 'set_store_error',
-        payload: payload,
-      }),
-    []
-  );
-  const setSelectedStore = useCallback(
-    (payload: string) =>
-      setState({
-        type: 'set_selected_store',
-        payload: payload,
-      }),
-    []
-  );
-  const setSelectedStoreData = useCallback(
-    (payload: StoreData) =>
-      setState({
-        type: 'set_selected_store_data',
-        payload: payload,
-      }),
-    []
-  );
-  const setInStoreOnMenuData = useCallback(
-    () => setState({ type: 'set_in_store_menu_data' }),
-    []
-  );
-
-  const dispatch = {
-    setSelectedStore,
-    setSelectedStoreData,
-    setMenuData,
-    setStoreData,
-    setMenuError,
-    setStoreError,
-    setInStoreOnMenuData,
-  };
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
     if (state.selectedStore) {
-      setSelectedStoreData(
-        state.storeData.filter((store) => store.name === state.selectedStore)[0]
-      );
+      dispatch({
+        type: 'set_selected_store_data',
+        payload: state.storeData.filter(
+          (store) => store.name === state.selectedStore
+        )[0],
+      });
     }
-  }, [setSelectedStoreData, state.selectedStore, state.storeData]);
+  }, [state.selectedStore, state.storeData]);
 
   useEffect(() => {
     getAllStoresWithMenu()
-      .then(setStoreData)
-      .catch((err) => setStoreError(err.message));
+      .then((data) =>
+        dispatch({
+          type: 'set_store_data',
+          payload: data,
+        })
+      )
+      .catch((err) =>
+        dispatch({
+          type: 'set_store_error',
+          payload: err.message,
+        })
+      );
     getAllMenuItems()
-      .then(setMenuData)
-      .catch((err) => setMenuError(err.message));
-  }, [setMenuData, setMenuError, setStoreData, setStoreError]);
+      .then((data) =>
+        dispatch({
+          type: 'set_menu_data',
+          payload: data,
+        })
+      )
+      .catch((err) =>
+        dispatch({
+          type: 'set_menu_error',
+          payload: err.message,
+        })
+      );
+  }, []);
 
   return { state, dispatch };
 };

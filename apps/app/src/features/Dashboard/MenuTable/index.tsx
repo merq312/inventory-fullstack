@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableContainer from '@mui/material/TableContainer';
@@ -13,7 +13,7 @@ import AddIcon from '@mui/icons-material/Add';
 import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import { useTheme } from '@mui/material';
-import useDashboard from '../../../hooks/useDashboard';
+import { DashboardContext } from '../../../providers/DashboardProvider';
 
 type AppProps = {
   setNewMenuItemName: (arg0: string) => void;
@@ -43,7 +43,7 @@ function MenuTable({
   const theme = useTheme();
   const {
     state: { menuData, selectedStore, menuLoadError },
-  } = useDashboard();
+  } = useContext(DashboardContext);
 
   function mapMenuData() {
     return menuData.map((item) =>

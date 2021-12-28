@@ -1,16 +1,16 @@
-import { useEffect, useState } from 'react';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { useTheme } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+import { DashboardContext } from '../../../providers/DashboardProvider';
+import { useContext, useEffect, useState } from 'react';
 import InputTableRow from '../InputTableRow';
-import IconButton from '@mui/material/IconButton';
-import DeleteIcon from '@mui/icons-material/Delete';
-import useDashboard from '../../../hooks/useDashboard';
 
 type AppProps = {
   newStoreItemName: string;
@@ -32,7 +32,7 @@ function StoreMenuTable({
   const theme = useTheme();
   const {
     state: { selectedStoreData },
-  } = useDashboard();
+  } = useContext(DashboardContext);
 
   useEffect(() => {
     newStoreItemName === '' ? setShowInput(false) : setShowInput(true);

@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import StoreTable from './StoreTable';
 import { Box, Grid } from '@mui/material';
 import MenuTable from './MenuTable';
 import StoreMenuTable from './StoreMenuTable';
-import useDashboard from '../../hooks/useDashboard';
+import { DashboardContext } from '../../providers/DashboardProvider';
 import {
   addMenuItemToStore,
   changeMenuItemName,
@@ -11,12 +11,17 @@ import {
   getAllMenuItems,
   getAllStoresWithMenu,
 } from '../../utils/api';
+import {
+  setMenuData,
+  setStoreData,
+  setInStoreMenuData,
+} from '../../hooks/useDashboard';
 
 function Dashboard() {
   const {
     state: { selectedStore, selectedStoreData },
-    dispatch: { setMenuData, setStoreData, setInStoreOnMenuData },
-  } = useDashboard();
+    dispatch,
+  } = useContext(DashboardContext);
 
   const [newMenuItemName, setNewMenuItemName] = useState('');
   const [newStoreItemName, setNewStoreItemName] = useState('');
@@ -29,8 +34,8 @@ function Dashboard() {
   const [renameError, setRenameError] = useState(false);
 
   useEffect(() => {
-    setInStoreOnMenuData();
-  }, [selectedStoreData, setInStoreOnMenuData]);
+    dispatch(setInStoreMenuData());
+  }, [selectedStoreData, setInStoreMenuData]);
 
   useEffect(() => {
     if (renameInput && renameValue) {
@@ -38,22 +43,16 @@ function Dashboard() {
       setRenameValue('');
       changeMenuItemName(renameInput, renameValue)
         .then(() => getAllMenuItems())
-        .then(setMenuData)
-        .then(setInStoreOnMenuData)
+        .then((data) => dispatch(setMenuData(data)))
+        .then(() => dispatch(setInStoreMenuData()))
         .then(getAllStoresWithMenu)
-        .then(setStoreData)
+        .then((data) => dispatch(setStoreData(data)))
         .then(() => {
           setRenameError(false);
         })
         .catch(() => setRenameError(true));
     }
-  }, [
-    renameInput,
-    renameValue,
-    setInStoreOnMenuData,
-    setMenuData,
-    setStoreData,
-  ]);
+  }, [renameInput, renameValue, setInStoreMenuData, setMenuData, setStoreData]);
 
   useEffect(() => {
     if (newMenuItemName) {
@@ -61,12 +60,12 @@ function Dashboard() {
 
       createNewMenuItem(newMenuItemName)
         .then(() => getAllMenuItems())
-        .then(setMenuData)
-        .then(setInStoreOnMenuData)
+        .then((data) => dispatch(setMenuData(data)))
+        .then(() => dispatch(setInStoreMenuData()))
         .then(() => setNewMenuItemError(false))
         .catch(() => setNewMenuItemError(true));
     }
-  }, [newMenuItemName, setInStoreOnMenuData, setMenuData]);
+  }, [newMenuItemName, setInStoreMenuData, setMenuData]);
 
   useEffect(() => {
     const price = parseFloat(newStoreItemPrice);
@@ -76,7 +75,7 @@ function Dashboard() {
 
       addMenuItemToStore(selectedStore, newStoreItemName, price)
         .then(() => getAllStoresWithMenu())
-        .then(setStoreData)
+        .then((data) => dispatch(setStoreData(data)))
         .then(() => setNewStoreItemError(false))
         .catch(() => setNewStoreItemError(true));
     } else if (newStoreItemPrice && newStoreItemPrice !== '') {
@@ -118,3 +117,6 @@ function Dashboard() {
 }
 
 export default Dashboard;
+
+// FIXME: Instead of "setMenuData" and "setStoreData", use FETCH_DATA_START, FETCH_DATA_SUCCESS, FETCH_DATA_FAILURE for each
+// TODO: Move the remaining input/value/error states and the useEffects into table components

@@ -6,14 +6,16 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { useTheme } from '@mui/material';
-import useDashboard from '../../../hooks/useDashboard';
+import { DashboardContext } from '../../../providers/DashboardProvider';
+import { useContext } from 'react';
+import { setSelectedStore } from '../../../hooks/useDashboard';
 
 function StoreTable() {
   const theme = useTheme();
   const {
     state: { storeData, selectedStore, storeLoadError },
-    dispatch: { setSelectedStore },
-  } = useDashboard();
+    dispatch,
+  } = useContext(DashboardContext);
 
   return (
     <TableContainer component={Paper}>
@@ -37,7 +39,7 @@ function StoreTable() {
                       : 'white',
                 }}
                 onClick={() => {
-                  if (store.name) setSelectedStore(store.name);
+                  if (store.name) dispatch(setSelectedStore(store.name));
                 }}
               >
                 <TableCell component="th" scope="row">
