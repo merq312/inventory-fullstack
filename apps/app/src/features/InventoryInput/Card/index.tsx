@@ -43,11 +43,6 @@ function InventoryInputCard({ name, value, dispatch }: AppProps) {
     }
   };
 
-  const handleReset = () => {
-    setNewValue(value);
-    dispatch(value);
-  };
-
   const handleIncrement = () => {
     setNewValue(newValue + 1);
     dispatch(newValue + 1);
@@ -66,6 +61,7 @@ function InventoryInputCard({ name, value, dispatch }: AppProps) {
           variant="outlined"
           aria-label="outlined primary button group"
         >
+          <InfoDiv>{value}</InfoDiv>
           <InfoDiv
             sx={{
               color: () =>
@@ -87,9 +83,10 @@ function InventoryInputCard({ name, value, dispatch }: AppProps) {
             }}
             data-cy="new-value"
           >
-            {newValue}
+            {newValue - value >= 0
+              ? `+${newValue - value}`
+              : `${newValue - value}`}
           </InfoDiv>
-          <InfoDiv>{value}</InfoDiv>
         </ButtonGroup>
         <Typography sx={{ flexGrow: 1, mx: 2 }} variant="body1" component="div">
           {name}
@@ -104,9 +101,6 @@ function InventoryInputCard({ name, value, dispatch }: AppProps) {
             data-cy="decrement"
           >
             -1
-          </Button>
-          <Button onClick={handleReset} sx={{ width: 2 }} data-cy="reset">
-            0
           </Button>
           <Button
             onClick={handleIncrement}
