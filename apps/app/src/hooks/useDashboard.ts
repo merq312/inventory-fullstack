@@ -1,4 +1,4 @@
-import { useReducer, useEffect } from 'react';
+import { useEffect, useReducer } from 'react';
 import { getAllMenuItems, getAllStoresWithMenu } from '../utils/api';
 import { MenuItemData, StoreData } from '../features/Dashboard/types';
 
@@ -25,9 +25,7 @@ export type Action =
   | { type: 'set_store_data'; payload: Array<StoreData> }
   | { type: 'set_menu_error'; payload: string }
   | { type: 'set_store_error'; payload: string }
-  | { type: 'set_selected_store'; payload: string }
-  | { type: 'set_selected_store_data'; payload: StoreData }
-  | { type: 'set_in_store_menu_data' };
+  | { type: 'set_selected_store'; payload: string };
 
 export const setMenuData = (payload: Array<MenuItemData>): Action => {
   return {
@@ -43,13 +41,6 @@ export const setStoreData = (payload: Array<StoreData>): Action => {
   };
 };
 
-// TODO: Get rid of this (set in store menu data on select)
-export const setInStoreMenuData = (): Action => {
-  return {
-    type: 'set_in_store_menu_data',
-  };
-};
-
 export const setSelectedStore = (payload: string): Action => {
   return {
     type: 'set_selected_store',
@@ -60,7 +51,24 @@ export const setSelectedStore = (payload: string): Action => {
 const reducer = (state: dashboardState, action: Action) => {
   switch (action.type) {
     case 'set_menu_data': {
-      return { ...state, menuData: action.payload };
+      if (state.selectedStore === '') {
+        return { ...state, menuData: action.payload };
+      } else {
+        const menuData = state.menuData.map((i) => {
+          let inStore = false;
+          for (const j of state.selectedStoreData.menuItems) {
+            if (i.name === j.menuItem.name) {
+              inStore = true;
+              break;
+            }
+          }
+          return { ...i, inStore: inStore };
+        });
+        return {
+          ...state,
+          menuData: menuData,
+        };
+      }
     }
     case 'set_store_data': {
       return { ...state, storeData: action.payload };
@@ -72,24 +80,26 @@ const reducer = (state: dashboardState, action: Action) => {
       return { ...state, storeLoadError: action.payload };
     }
     case 'set_selected_store': {
-      return { ...state, selectedStore: action.payload };
-    }
-    case 'set_selected_store_data': {
-      return { ...state, selectedStoreData: action.payload };
-    }
-    case 'set_in_store_menu_data': {
+      const selectedStore = action.payload;
+      const selectedStoreData = state.storeData.filter(
+        (store) => store.name === selectedStore
+      )[0];
+      const menuData = state.menuData.map((i) => {
+        let inStore = false;
+        for (const j of selectedStoreData.menuItems) {
+          if (i.name === j.menuItem.name) {
+            inStore = true;
+            break;
+          }
+        }
+        return { ...i, inStore: inStore };
+      });
+
       return {
         ...state,
-        menuData: state.menuData.map((i) => {
-          let inStore = false;
-          for (const j of state.selectedStoreData.menuItems) {
-            if (i.name === j.menuItem.name) {
-              inStore = true;
-              break;
-            }
-          }
-          return { ...i, inStore: inStore };
-        }),
+        selectedStore: selectedStore,
+        selectedStoreData: selectedStoreData,
+        menuData: menuData,
       };
     }
     default:
@@ -99,17 +109,6 @@ const reducer = (state: dashboardState, action: Action) => {
 
 const useDashboard = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
-
-  useEffect(() => {
-    if (state.selectedStore) {
-      dispatch({
-        type: 'set_selected_store_data',
-        payload: state.storeData.filter(
-          (store) => store.name === state.selectedStore
-        )[0],
-      });
-    }
-  }, [state.selectedStore, state.storeData]);
 
   useEffect(() => {
     getAllStoresWithMenu()

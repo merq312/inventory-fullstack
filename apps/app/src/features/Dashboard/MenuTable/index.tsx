@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableContainer from '@mui/material/TableContainer';
@@ -13,37 +13,63 @@ import AddIcon from '@mui/icons-material/Add';
 import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import { useTheme } from '@mui/material';
-import { DashboardContext } from '../../../providers/DashboardProvider';
+import { DashboardContext } from '../../../providers';
+import {
+  changeMenuItemName,
+  createNewMenuItem,
+  getAllMenuItems,
+  getAllStoresWithMenu,
+} from '../../../utils/api';
+import { setMenuData, setStoreData } from '../../../hooks/useDashboard';
 
 type AppProps = {
-  setNewMenuItemName: (arg0: string) => void;
   setNewStoreItemName: (arg0: string) => void;
-  newItemError: boolean;
-  setNewItemError: (arg0: boolean) => void;
-  renameInput: string;
-  setRenameInput: (arg0: string) => void;
-  setRenameValue: (arg0: string) => void;
-  renameError: boolean;
-  setRenameError: (arg0: boolean) => void;
 };
 
-function MenuTable({
-  setNewMenuItemName,
-  setNewStoreItemName,
-  newItemError,
-  setNewItemError,
-  renameInput,
-  setRenameInput,
-  setRenameValue,
-  renameError,
-  setRenameError,
-}: AppProps) {
+function MenuTable({ setNewStoreItemName }: AppProps) {
   const [showNewItemInput, setShowNewItemInput] = useState(false);
   const [showRenameButton, setShowRenameButton] = useState('');
+
+  const [newMenuItemName, setNewMenuItemName] = useState('');
+  const [newMenuItemError, setNewMenuItemError] = useState(false);
+
+  const [renameInput, setRenameInput] = useState('');
+  const [renameValue, setRenameValue] = useState('');
+  const [renameError, setRenameError] = useState(false);
+
   const theme = useTheme();
   const {
     state: { menuData, selectedStore, menuLoadError },
+    dispatch,
   } = useContext(DashboardContext);
+
+  useEffect(() => {
+    if (newMenuItemName) {
+      setNewMenuItemName('');
+
+      createNewMenuItem(newMenuItemName)
+        .then(() => getAllMenuItems())
+        .then((data) => dispatch(setMenuData(data)))
+        .then(() => setNewMenuItemError(false))
+        .catch(() => setNewMenuItemError(true));
+    }
+  }, [dispatch, newMenuItemName]);
+
+  useEffect(() => {
+    if (renameInput && renameValue) {
+      setRenameInput('');
+      setRenameValue('');
+      changeMenuItemName(renameInput, renameValue)
+        .then(() => getAllMenuItems())
+        .then((data) => dispatch(setMenuData(data)))
+        .then(getAllStoresWithMenu)
+        .then((data) => dispatch(setStoreData(data)))
+        .then(() => {
+          setRenameError(false);
+        })
+        .catch(() => setRenameError(true));
+    }
+  }, [dispatch, renameInput, renameValue]);
 
   function mapMenuData() {
     return menuData.map((item) =>
@@ -123,11 +149,11 @@ function MenuTable({
   function displayNewItemInput() {
     return (
       <InputTableRow
-        error={newItemError}
+        error={newMenuItemError}
         placeholder="Menu Item Name"
         close={() => {
           setShowNewItemInput(false);
-          setNewItemError(false);
+          setNewMenuItemError(false);
         }}
         dispatch={setNewMenuItemName}
       />

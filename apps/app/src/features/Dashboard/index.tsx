@@ -3,69 +3,19 @@ import StoreTable from './StoreTable';
 import { Box, Grid } from '@mui/material';
 import MenuTable from './MenuTable';
 import StoreMenuTable from './StoreMenuTable';
-import { DashboardContext } from '../../providers/DashboardProvider';
-import {
-  addMenuItemToStore,
-  changeMenuItemName,
-  createNewMenuItem,
-  getAllMenuItems,
-  getAllStoresWithMenu,
-} from '../../utils/api';
-import {
-  setMenuData,
-  setStoreData,
-  setInStoreMenuData,
-} from '../../hooks/useDashboard';
+import { DashboardContext } from '../../providers';
+import { addMenuItemToStore, getAllStoresWithMenu } from '../../utils/api';
+import { setStoreData } from '../../hooks/useDashboard';
 
 function Dashboard() {
   const {
-    state: { selectedStore, selectedStoreData },
+    state: { selectedStore },
     dispatch,
   } = useContext(DashboardContext);
 
-  const [newMenuItemName, setNewMenuItemName] = useState('');
   const [newStoreItemName, setNewStoreItemName] = useState('');
   const [newStoreItemPrice, setNewStoreItemPrice] = useState('');
-  const [newMenuItemError, setNewMenuItemError] = useState(false);
   const [newStoreItemError, setNewStoreItemError] = useState(false);
-
-  const [renameInput, setRenameInput] = useState('');
-  const [renameValue, setRenameValue] = useState('');
-  const [renameError, setRenameError] = useState(false);
-
-  useEffect(() => {
-    dispatch(setInStoreMenuData());
-  }, [selectedStoreData, setInStoreMenuData]);
-
-  useEffect(() => {
-    if (renameInput && renameValue) {
-      setRenameInput('');
-      setRenameValue('');
-      changeMenuItemName(renameInput, renameValue)
-        .then(() => getAllMenuItems())
-        .then((data) => dispatch(setMenuData(data)))
-        .then(() => dispatch(setInStoreMenuData()))
-        .then(getAllStoresWithMenu)
-        .then((data) => dispatch(setStoreData(data)))
-        .then(() => {
-          setRenameError(false);
-        })
-        .catch(() => setRenameError(true));
-    }
-  }, [renameInput, renameValue, setInStoreMenuData, setMenuData, setStoreData]);
-
-  useEffect(() => {
-    if (newMenuItemName) {
-      setNewMenuItemName('');
-
-      createNewMenuItem(newMenuItemName)
-        .then(() => getAllMenuItems())
-        .then((data) => dispatch(setMenuData(data)))
-        .then(() => dispatch(setInStoreMenuData()))
-        .then(() => setNewMenuItemError(false))
-        .catch(() => setNewMenuItemError(true));
-    }
-  }, [newMenuItemName, setInStoreMenuData, setMenuData]);
 
   useEffect(() => {
     const price = parseFloat(newStoreItemPrice);
@@ -81,7 +31,7 @@ function Dashboard() {
     } else if (newStoreItemPrice && newStoreItemPrice !== '') {
       setNewStoreItemError(true);
     }
-  }, [newStoreItemName, newStoreItemPrice, selectedStore, setStoreData]);
+  }, [dispatch, newStoreItemName, newStoreItemPrice, selectedStore]);
 
   return (
     <Box sx={{ my: 2, mx: 0.4 }}>
@@ -94,22 +44,12 @@ function Dashboard() {
             newStoreItemName={newStoreItemName}
             setNewStoreItemName={setNewStoreItemName}
             setNewStoreItemPrice={setNewStoreItemPrice}
-            newItemError={newStoreItemError}
-            setNewItemError={setNewStoreItemError}
+            newStoreItemError={newStoreItemError}
+            setNewStoreItemError={setNewStoreItemError}
           />
         </Grid>
         <Grid item xs={12} sm={3}>
-          <MenuTable
-            setNewMenuItemName={setNewMenuItemName}
-            setNewStoreItemName={setNewStoreItemName}
-            newItemError={newMenuItemError}
-            setNewItemError={setNewMenuItemError}
-            renameInput={renameInput}
-            setRenameInput={setRenameInput}
-            setRenameValue={setRenameValue}
-            renameError={renameError}
-            setRenameError={setRenameError}
-          />
+          <MenuTable setNewStoreItemName={setNewStoreItemName} />
         </Grid>
       </Grid>
     </Box>

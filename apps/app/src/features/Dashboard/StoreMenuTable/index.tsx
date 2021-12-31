@@ -8,7 +8,7 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { DashboardContext } from '../../../providers/DashboardProvider';
+import { DashboardContext } from '../../../providers';
 import { useContext, useEffect, useState } from 'react';
 import InputTableRow from '../InputTableRow';
 
@@ -16,16 +16,16 @@ type AppProps = {
   newStoreItemName: string;
   setNewStoreItemName: (arg0: string) => void;
   setNewStoreItemPrice: (arg0: string) => void;
-  newItemError: boolean;
-  setNewItemError: (arg0: boolean) => void;
+  newStoreItemError: boolean;
+  setNewStoreItemError: (arg0: boolean) => void;
 };
 
 function StoreMenuTable({
   newStoreItemName,
   setNewStoreItemName,
   setNewStoreItemPrice,
-  newItemError,
-  setNewItemError,
+  newStoreItemError,
+  setNewStoreItemError,
 }: AppProps) {
   const [showInput, setShowInput] = useState(false);
   const [showRetireButton, setShowRetireButton] = useState('');
@@ -98,12 +98,12 @@ function StoreMenuTable({
             <InputTableRow
               cellOneText={newStoreItemName}
               placeholder="Price"
-              error={newItemError}
+              error={newStoreItemError}
               close={() => {
                 setShowInput(false);
                 setNewStoreItemName('');
                 setNewStoreItemPrice('');
-                setNewItemError(false);
+                setNewStoreItemError(false);
               }}
               dispatch={setNewStoreItemPrice}
             />

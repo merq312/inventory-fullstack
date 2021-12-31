@@ -6,7 +6,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { useTheme } from '@mui/material';
-import { DashboardContext } from '../../../providers/DashboardProvider';
+import { DashboardContext } from '../../../providers';
 import { useContext } from 'react';
 import { setSelectedStore } from '../../../hooks/useDashboard';
 
