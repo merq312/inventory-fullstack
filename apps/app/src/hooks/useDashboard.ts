@@ -88,7 +88,7 @@ const reducer = (state: dashboardState, action: Action) => {
       if (state.selectedStore === '') {
         return { ...state, menuData: action.payload };
       } else {
-        const menuData = state.menuData.map((i) => {
+        const menuData = action.payload.map((i) => {
           let inStore = false;
           for (const j of state.selectedStoreData.menuItems) {
             if (i.name === j.menuItem.name) {
