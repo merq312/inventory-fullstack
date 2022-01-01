@@ -133,6 +133,7 @@ export async function getAllStoresWithMenu(req, res, next) {
           select: {
             id: true,
             price: true,
+            retired: true,
             menuItem: {
               select: {
                 name: true,

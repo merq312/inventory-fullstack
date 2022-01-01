@@ -1,4 +1,5 @@
 import DeleteIcon from '@mui/icons-material/Delete';
+import AddIcon from '@mui/icons-material/Add';
 import { useTheme } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import Paper from '@mui/material/Paper';
@@ -15,11 +16,18 @@ import {
   setNewStoreItemError,
   setNewStoreItemName,
   setNewStoreItemPrice,
+  setStoreData,
 } from '../../../hooks/useDashboard';
+import { getAllStoresWithMenu, retireStoreItem } from '../../../utils/api';
 
 function StoreMenuTable() {
   const {
-    state: { selectedStoreData, newStoreItemName, newStoreItemError },
+    state: {
+      selectedStoreData,
+      newStoreItemName,
+      newStoreItemError,
+      selectedStore,
+    },
     dispatch,
   } = useContext(DashboardContext);
 
@@ -36,6 +44,12 @@ function StoreMenuTable() {
     setShowNewItemInput(false);
   }, [selectedStoreData]);
 
+  function handleRetireItem(menuItemName: string, isRetired: boolean) {
+    retireStoreItem(selectedStore, menuItemName, !isRetired)
+      .then(() => getAllStoresWithMenu())
+      .then((data) => dispatch(setStoreData(data)));
+  }
+
   function mapSelectedStoreData() {
     return selectedStoreData.menuItems.map((item) => (
       <TableRow
@@ -43,6 +57,8 @@ function StoreMenuTable() {
         sx={{
           '&:last-child td, &:last-child th': { border: 0 },
           '&:hover': { backgroundColor: theme.palette.primary.light },
+          backgroundColor: () =>
+            item.retired ? theme.palette.grey['200'] : 'white',
         }}
         onMouseOver={() => setShowRetireButton(item.menuItem.name)}
       >
@@ -57,8 +73,15 @@ function StoreMenuTable() {
         >
           {item.menuItem.name}
           {showRetireButton === item.menuItem.name && (
-            <IconButton size="small">
-              <DeleteIcon fontSize="small" />
+            <IconButton
+              size="small"
+              onClick={() => handleRetireItem(item.menuItem.name, item.retired)}
+            >
+              {item.retired ? (
+                <AddIcon fontSize="small" />
+              ) : (
+                <DeleteIcon fontSize="small" />
+              )}
             </IconButton>
           )}
         </TableCell>

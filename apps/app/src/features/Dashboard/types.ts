@@ -4,6 +4,7 @@ export type StoreItemData = {
   menuItems: Array<{
     id: number;
     price: number;
+    retired: boolean;
     menuItem: {
       name: string;
     };
