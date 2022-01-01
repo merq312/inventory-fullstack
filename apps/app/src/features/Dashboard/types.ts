@@ -1,4 +1,4 @@
-export type StoreData = {
+export type StoreItemData = {
   id?: number;
   name?: string;
   menuItems: Array<{

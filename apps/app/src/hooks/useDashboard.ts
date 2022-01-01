@@ -4,13 +4,13 @@ import {
   getAllMenuItems,
   getAllStoresWithMenu,
 } from '../utils/api';
-import { MenuItemData, StoreData } from '../features/Dashboard/types';
+import { MenuItemData, StoreItemData } from '../features/Dashboard/types';
 
 export type dashboardState = {
   menuData: Array<MenuItemData>;
-  storeData: Array<StoreData>;
+  storeData: Array<StoreItemData>;
   selectedStore: string;
-  selectedStoreData: StoreData;
+  selectedStoreData: StoreItemData;
   menuLoadError: string;
   storeLoadError: string;
   newStoreItemName: string;
@@ -32,7 +32,7 @@ const initialState: dashboardState = {
 
 export type Action =
   | { type: 'set_menu_data'; payload: Array<MenuItemData> }
-  | { type: 'set_store_data'; payload: Array<StoreData> }
+  | { type: 'set_store_data'; payload: Array<StoreItemData> }
   | { type: 'set_menu_error'; payload: string }
   | { type: 'set_store_error'; payload: string }
   | { type: 'set_selected_store'; payload: string }
@@ -47,7 +47,7 @@ export const setMenuData = (payload: Array<MenuItemData>): Action => {
   };
 };
 
-export const setStoreData = (payload: Array<StoreData>): Action => {
+export const setStoreData = (payload: Array<StoreItemData>): Action => {
   return {
     type: 'set_store_data',
     payload: payload,
@@ -82,6 +82,29 @@ export const setNewStoreItemError = (payload: boolean): Action => {
   };
 };
 
+const filterSelectedStore = (
+  storeData: Array<StoreItemData>,
+  selectedStore: string
+) => {
+  return storeData.filter((store) => store.name === selectedStore)[0];
+};
+
+const setInStoreOnMenuData = (
+  menuData: Array<MenuItemData>,
+  selectedStoreData: StoreItemData
+) => {
+  return menuData.map((i) => {
+    let inStore = false;
+    for (const j of selectedStoreData.menuItems) {
+      if (i.name === j.menuItem.name) {
+        inStore = true;
+        break;
+      }
+    }
+    return { ...i, inStore: inStore };
+  });
+};
+
 const reducer = (state: dashboardState, action: Action) => {
   switch (action.type) {
     case 'set_menu_data': {
@@ -105,7 +128,26 @@ const reducer = (state: dashboardState, action: Action) => {
       }
     }
     case 'set_store_data': {
-      return { ...state, storeData: action.payload };
+      if (state.selectedStore) {
+        const selectedStore = state.selectedStore;
+        const selectedStoreData = filterSelectedStore(
+          action.payload,
+          selectedStore
+        );
+        const menuData = setInStoreOnMenuData(
+          state.menuData,
+          selectedStoreData
+        );
+
+        return {
+          ...state,
+          storeData: action.payload,
+          menuData: menuData,
+          selectedStoreData: selectedStoreData,
+        };
+      } else {
+        return { ...state, storeData: action.payload };
+      }
     }
     case 'set_menu_error': {
       return { ...state, menuLoadError: action.payload };
@@ -114,24 +156,15 @@ const reducer = (state: dashboardState, action: Action) => {
       return { ...state, storeLoadError: action.payload };
     }
     case 'set_selected_store': {
-      const selectedStore = action.payload;
-      const selectedStoreData = state.storeData.filter(
-        (store) => store.name === selectedStore
-      )[0];
-      const menuData = state.menuData.map((i) => {
-        let inStore = false;
-        for (const j of selectedStoreData.menuItems) {
-          if (i.name === j.menuItem.name) {
-            inStore = true;
-            break;
-          }
-        }
-        return { ...i, inStore: inStore };
-      });
+      const selectedStoreData = filterSelectedStore(
+        state.storeData,
+        action.payload
+      );
+      const menuData = setInStoreOnMenuData(state.menuData, selectedStoreData);
 
       return {
         ...state,
-        selectedStore: selectedStore,
+        selectedStore: action.payload,
         selectedStoreData: selectedStoreData,
         menuData: menuData,
       };
