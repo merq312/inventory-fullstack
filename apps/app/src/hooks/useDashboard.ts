@@ -223,15 +223,15 @@ const useDashboard = () => {
     const newStoreItemPrice = state.newStoreItemPrice;
 
     if (itemName && price) {
-      setNewStoreItemPrice('');
+      dispatch(setNewStoreItemPrice(''));
 
       addMenuItemToStore(selectedStore, newStoreItemName, price)
         .then(() => getAllStoresWithMenu())
         .then((data) => dispatch(setStoreData(data)))
-        .then(() => setNewStoreItemError(false))
-        .catch(() => setNewStoreItemError(true));
+        .then(() => dispatch(setNewStoreItemError(false)))
+        .catch(() => dispatch(setNewStoreItemError(true)));
     } else if (newStoreItemPrice && newStoreItemPrice !== '') {
-      setNewStoreItemError(true);
+      dispatch(setNewStoreItemError(true));
     }
   }, [state.newStoreItemName, state.newStoreItemPrice, state.selectedStore]);
 

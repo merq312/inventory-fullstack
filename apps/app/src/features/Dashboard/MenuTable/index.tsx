@@ -119,7 +119,7 @@ function MenuTable() {
               {!item.inStore && selectedStore && (
                 <IconButton
                   size="small"
-                  onClick={() => setNewStoreItemName(item.name)}
+                  onClick={() => dispatch(setNewStoreItemName(item.name))}
                 >
                   <AddIcon fontSize="small" />
                 </IconButton>

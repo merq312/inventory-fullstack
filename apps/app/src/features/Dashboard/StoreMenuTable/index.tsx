@@ -20,6 +20,7 @@ import {
 function StoreMenuTable() {
   const {
     state: { selectedStoreData, newStoreItemName, newStoreItemError },
+    dispatch,
   } = useContext(DashboardContext);
 
   const [showNewItemInput, setShowNewItemInput] = useState(false);
@@ -28,9 +29,7 @@ function StoreMenuTable() {
   const theme = useTheme();
 
   useEffect(() => {
-    newStoreItemName === ''
-      ? setShowNewItemInput(false)
-      : setShowNewItemInput(true);
+    !newStoreItemName ? setShowNewItemInput(false) : setShowNewItemInput(true);
   }, [newStoreItemName]);
 
   useEffect(() => {
@@ -92,11 +91,11 @@ function StoreMenuTable() {
         error={newStoreItemError}
         close={() => {
           setShowNewItemInput(false);
-          setNewStoreItemName('');
-          setNewStoreItemPrice('');
-          setNewStoreItemError(false);
+          dispatch(setNewStoreItemName(''));
+          dispatch(setNewStoreItemPrice(''));
+          dispatch(setNewStoreItemError(false));
         }}
-        dispatch={setNewStoreItemPrice}
+        dispatch={(price) => dispatch(setNewStoreItemPrice(price))}
       />
     );
   }
