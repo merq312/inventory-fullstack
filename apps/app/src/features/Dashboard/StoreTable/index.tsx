@@ -11,11 +11,12 @@ import { useContext } from 'react';
 import { setSelectedStore } from '../../../hooks/useDashboard';
 
 function StoreTable() {
-  const theme = useTheme();
   const {
     state: { storeData, selectedStore, storeLoadError },
     dispatch,
   } = useContext(DashboardContext);
+
+  const theme = useTheme();
 
   return (
     <TableContainer component={Paper}>

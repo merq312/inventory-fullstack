@@ -20,13 +20,18 @@ import {
   getAllMenuItems,
   getAllStoresWithMenu,
 } from '../../../utils/api';
-import { setMenuData, setStoreData } from '../../../hooks/useDashboard';
+import {
+  setMenuData,
+  setNewStoreItemName,
+  setStoreData,
+} from '../../../hooks/useDashboard';
 
-type AppProps = {
-  setNewStoreItemName: (arg0: string) => void;
-};
+function MenuTable() {
+  const {
+    state: { menuData, selectedStore, menuLoadError },
+    dispatch,
+  } = useContext(DashboardContext);
 
-function MenuTable({ setNewStoreItemName }: AppProps) {
   const [showNewItemInput, setShowNewItemInput] = useState(false);
   const [showRenameButton, setShowRenameButton] = useState('');
 
@@ -38,10 +43,6 @@ function MenuTable({ setNewStoreItemName }: AppProps) {
   const [renameError, setRenameError] = useState(false);
 
   const theme = useTheme();
-  const {
-    state: { menuData, selectedStore, menuLoadError },
-    dispatch,
-  } = useContext(DashboardContext);
 
   useEffect(() => {
     if (newMenuItemName) {

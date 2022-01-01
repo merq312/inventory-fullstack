@@ -11,28 +11,21 @@ import TableRow from '@mui/material/TableRow';
 import { DashboardContext } from '../../../providers';
 import { useContext, useEffect, useState } from 'react';
 import InputTableRow from '../InputTableRow';
-
-type AppProps = {
-  newStoreItemName: string;
-  setNewStoreItemName: (arg0: string) => void;
-  setNewStoreItemPrice: (arg0: string) => void;
-  newStoreItemError: boolean;
-  setNewStoreItemError: (arg0: boolean) => void;
-};
-
-function StoreMenuTable({
-  newStoreItemName,
+import {
+  setNewStoreItemError,
   setNewStoreItemName,
   setNewStoreItemPrice,
-  newStoreItemError,
-  setNewStoreItemError,
-}: AppProps) {
+} from '../../../hooks/useDashboard';
+
+function StoreMenuTable() {
+  const {
+    state: { selectedStoreData, newStoreItemName, newStoreItemError },
+  } = useContext(DashboardContext);
+
   const [showInput, setShowInput] = useState(false);
   const [showRetireButton, setShowRetireButton] = useState('');
+
   const theme = useTheme();
-  const {
-    state: { selectedStoreData },
-  } = useContext(DashboardContext);
 
   useEffect(() => {
     newStoreItemName === '' ? setShowInput(false) : setShowInput(true);
