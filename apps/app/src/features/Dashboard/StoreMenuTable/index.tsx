@@ -20,7 +20,12 @@ import {
 } from '../../../hooks/useDashboard';
 import { getAllStoresWithMenu, retireStoreItem } from '../../../utils/api';
 
-function StoreMenuTable() {
+type AppProps = {
+  setAlert: (arg0: boolean) => void;
+  isAuthenticated: boolean;
+};
+
+function StoreMenuTable({ setAlert, isAuthenticated }: AppProps) {
   const {
     state: {
       selectedStoreData,
@@ -75,7 +80,13 @@ function StoreMenuTable() {
           {showRetireButton === item.menuItem.name && (
             <IconButton
               size="small"
-              onClick={() => handleRetireItem(item.menuItem.name, item.retired)}
+              onClick={() => {
+                if (isAuthenticated) {
+                  handleRetireItem(item.menuItem.name, item.retired);
+                } else {
+                  setAlert(true);
+                }
+              }}
             >
               {item.retired ? (
                 <AddIcon fontSize="small" />

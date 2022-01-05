@@ -11,6 +11,8 @@ import { getProductData, updateProductCounts } from '../../utils/api';
 import { ItemsContainer } from '../../utils/styles';
 import usePost from '../../hooks/usePost';
 import useStore from '../../hooks/useStore';
+import { useAuth0 } from '@auth0/auth0-react';
+import Alert from '../../components/Alert';
 
 function InventoryInput() {
   const [data, setData] = useState<Array<MenuItem>>([]);
@@ -20,6 +22,9 @@ function InventoryInput() {
   const [date, setDate] = useState<string>(dayjs().format('YYYY-MM-DD'));
   const [filter, setFilter] = useState('');
   const [session, setSession] = useState<keyof MenuItem>('overnightCount');
+
+  const { isAuthenticated } = useAuth0();
+  const [alert, setAlert] = useState(false);
 
   useEffect(() => {
     if (storeName) {
@@ -33,14 +38,18 @@ function InventoryInput() {
   }, [addItemsAction, date, setErrorMsg, storeName]);
 
   const handleClick = () => {
-    updateProductCounts(storeName, post, date)
-      .then(() => {
-        getProductData(storeName, date).then((data) => {
-          setData(data);
-          addItemsAction(data);
-        });
-      })
-      .catch((err) => setErrorMsg(err.message));
+    if (isAuthenticated) {
+      updateProductCounts(storeName, post, date)
+        .then(() => {
+          getProductData(storeName, date).then((data) => {
+            setData(data);
+            addItemsAction(data);
+          });
+        })
+        .catch((err) => setErrorMsg(err.message));
+    } else {
+      setAlert(true);
+    }
   };
 
   return (
@@ -95,6 +104,11 @@ function InventoryInput() {
       <Box sx={{ display: 'flex', justifyContent: 'end' }}>
         <Button onClick={handleClick}>Submit</Button>
       </Box>
+      <Alert
+        open={alert}
+        setOpen={setAlert}
+        alertDialog={'Please login to submit inventory counts.'}
+      />
     </Box>
   );
 }

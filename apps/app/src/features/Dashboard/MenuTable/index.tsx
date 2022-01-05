@@ -26,7 +26,12 @@ import {
   setStoreData,
 } from '../../../hooks/useDashboard';
 
-function MenuTable() {
+type AppProps = {
+  setAlert: (arg0: boolean) => void;
+  isAuthenticated: boolean;
+};
+
+function MenuTable({ setAlert, isAuthenticated }: AppProps) {
   const {
     state: { menuData, selectedStore, menuLoadError },
     dispatch,
@@ -43,6 +48,14 @@ function MenuTable() {
   const [renameError, setRenameError] = useState(false);
 
   const theme = useTheme();
+
+  const handleClick = (func: () => void) => () => {
+    if (isAuthenticated) {
+      func();
+    } else {
+      setAlert(true);
+    }
+  };
 
   useEffect(() => {
     if (newMenuItemName) {
@@ -111,7 +124,7 @@ function MenuTable() {
               {!renameInput && showRenameButton === item.name && (
                 <IconButton
                   size="small"
-                  onClick={() => setRenameInput(item.name)}
+                  onClick={handleClick(() => setRenameInput(item.name))}
                 >
                   <EditIcon fontSize="small" />
                 </IconButton>
@@ -119,7 +132,9 @@ function MenuTable() {
               {!item.inStore && selectedStore && (
                 <IconButton
                   size="small"
-                  onClick={() => dispatch(setNewStoreItemName(item.name))}
+                  onClick={handleClick(() =>
+                    dispatch(setNewStoreItemName(item.name))
+                  )}
                 >
                   <AddIcon fontSize="small" />
                 </IconButton>
@@ -178,7 +193,7 @@ function MenuTable() {
       </TableContainer>
       <Button
         sx={{ alignSelf: 'end' }}
-        onClick={() => setShowNewItemInput(true)}
+        onClick={handleClick(() => setShowNewItemInput(true))}
       >
         Add new menu item
       </Button>
