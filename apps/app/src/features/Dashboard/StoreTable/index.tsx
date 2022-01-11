@@ -31,10 +31,14 @@ function StoreTable({ setAlert, isAuthenticated }: AppProps) {
   const theme = useTheme();
 
   const handleClick = (func: () => void) => () => {
-    if (isAuthenticated) {
+    if (process.env.NODE_ENV === 'development') {
       func();
     } else {
-      setAlert(true);
+      if (isAuthenticated) {
+        func();
+      } else {
+        setAlert(true);
+      }
     }
   };
 
