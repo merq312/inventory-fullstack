@@ -63,20 +63,18 @@ function MenuTable({ setAlert, isAuthenticated }: AppProps) {
 
   useEffect(() => {
     if (newMenuItemName) {
-      setNewMenuItemName('');
-
       createNewMenuItem(newMenuItemName)
         .then(() => getAllMenuItems())
         .then((data) => dispatch(setMenuData(data)))
         .then(() => setNewMenuItemError(false))
         .catch(() => setNewMenuItemError(true));
+
+      setNewMenuItemName('');
     }
   }, [dispatch, newMenuItemName]);
 
   useEffect(() => {
     if (renameInput && renameValue) {
-      setRenameInput('');
-      setRenameValue('');
       changeMenuItemName(renameInput, renameValue)
         .then(() => getAllMenuItems())
         .then((data) => dispatch(setMenuData(data)))
@@ -86,6 +84,9 @@ function MenuTable({ setAlert, isAuthenticated }: AppProps) {
           setRenameError(false);
         })
         .catch(() => setRenameError(true));
+
+      setRenameInput('');
+      setRenameValue('');
     }
   }, [dispatch, renameInput, renameValue]);
 

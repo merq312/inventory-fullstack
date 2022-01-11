@@ -44,12 +44,12 @@ function StoreTable({ setAlert, isAuthenticated }: AppProps) {
 
   useEffect(() => {
     if (newStoreName) {
-      setNewStoreName('');
-
       createNewStore(newStoreName)
         .then(() => getAllStoresWithMenu())
         .then((data) => dispatch(setStoreData(data)))
         .catch(() => setNewStoreError(true));
+
+      setNewStoreName('');
     }
   }, [dispatch, newStoreName]);
 
