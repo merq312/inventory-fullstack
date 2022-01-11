@@ -26,6 +26,17 @@ export async function getAllStores() {
   }
 }
 
+export async function createNewStore(storeName: string) {
+  try {
+    const req = await axios.post(
+      `${baseUrl}/api/v1/store/create-store/${storeName}`
+    );
+    return req.data.data;
+  } catch (error) {
+    throw new Error('Server error');
+  }
+}
+
 export async function getAllStoresWithMenu() {
   try {
     const req = await axios.get(`${baseUrl}/api/v1/store/all-stores-with-menu`);

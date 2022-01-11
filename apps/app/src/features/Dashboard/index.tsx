@@ -14,7 +14,7 @@ function Dashboard() {
     <Box sx={{ my: 2, mx: 0.4 }}>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={3}>
-          <StoreTable />
+          <StoreTable setAlert={setAlert} isAuthenticated={isAuthenticated} />
         </Grid>
         <Grid item xs={12} sm={6}>
           <StoreMenuTable
