@@ -58,6 +58,7 @@ function StoreTable({ setAlert, isAuthenticated }: AppProps) {
       <TableRow
         key={store.name}
         sx={{
+          '& th, & td': { height: '2.2rem' },
           '&:last-child td, &:last-child th': { border: 0 },
           '&:hover': { backgroundColor: theme.palette.primary.light },
           backgroundColor: () =>
