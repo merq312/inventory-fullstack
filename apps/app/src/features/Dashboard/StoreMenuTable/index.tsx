@@ -110,7 +110,7 @@ function StoreMenuTable({ setAlert, isAuthenticated }: AppProps) {
         }}
       >
         <TableCell component="th" scope="row">
-          {'No store selected'}
+          {selectedStore ? 'No items in store menu' : 'No store selected'}
         </TableCell>
         <TableCell align="right">{''}</TableCell>
       </TableRow>
