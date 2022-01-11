@@ -3,6 +3,23 @@ import * as createError from 'http-errors';
 
 const prisma = new PrismaClient();
 
+export async function createStore(req, res, next) {
+  const { storeName } = req.params;
+
+  try {
+    await prisma.store.create({
+      data: {
+        name: storeName,
+      },
+    });
+    return res.status(200).json({
+      status: 'success',
+    });
+  } catch {
+    return next(createError(400, 'Bad request'));
+  }
+}
+
 export async function findStore(storeName) {
   return await prisma.store.findUnique({
     where: { name: storeName },

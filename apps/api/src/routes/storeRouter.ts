@@ -2,6 +2,7 @@ import * as express from 'express';
 import { checkHealth } from '../controllers/miscController';
 import {
   addMenuItemToStore,
+  createStore,
   getAllStores,
   getAllStoresWithMenu,
   getStore,
@@ -12,6 +13,7 @@ import {
 
 const router = express.Router();
 
+router.post('/create-store/:storeName', createStore);
 router.get('/all-stores', getAllStores);
 router.get('/all-stores-with-menu', getAllStoresWithMenu);
 router.get('/:storeName', getStore);
