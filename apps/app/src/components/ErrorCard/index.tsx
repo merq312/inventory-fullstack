@@ -1,5 +1,7 @@
 import styled from 'styled-components';
-import { Card, CardContent, Typography } from '@mui/material';
+import { Card, CardContent, Link, Typography } from '@mui/material';
+import { useContext } from 'react';
+import { StoreContext } from '../../providers';
 
 const CardContentNoPadding = styled(CardContent)`
   padding: 0.6rem 0.8rem;
@@ -14,6 +16,8 @@ type AppProps = {
 };
 
 function ErrorCard({ msg }: AppProps) {
+  const { setDrawer } = useContext(StoreContext);
+
   return (
     <Card sx={{ my: 1 }}>
       <CardContentNoPadding
@@ -24,7 +28,24 @@ function ErrorCard({ msg }: AppProps) {
         }}
       >
         <Typography variant="body1" component="div">
-          {msg ? msg : 'Something went wrong :('}
+          {msg ? (
+            msg === '__store' ? (
+              <span>
+                Please{' '}
+                <Link
+                  sx={{ cursor: 'pointer' }}
+                  onClick={() => setDrawer(true)}
+                >
+                  select
+                </Link>{' '}
+                a store.
+              </span>
+            ) : (
+              msg
+            )
+          ) : (
+            'Something went wrong :('
+          )}
         </Typography>
       </CardContentNoPadding>
     </Card>

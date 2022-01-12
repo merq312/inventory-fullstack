@@ -14,13 +14,9 @@ const ResponsiveTypography = styled(Box)`
   }
 `;
 
-type AppProps = {
-  setDrawer: (arg0: boolean) => void;
-};
-
-export function Header({ setDrawer }: AppProps) {
+export function Header() {
   const location = useLocation();
-  const { storeName } = useContext(StoreContext);
+  const { storeName, setDrawer } = useContext(StoreContext);
 
   const { user, isAuthenticated } = useAuth0();
 

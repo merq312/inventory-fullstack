@@ -19,13 +19,12 @@ theme.palette.primary = {
 
 export interface IStoreContext {
   storeName: string;
-  setStoreName?: (arg0: string) => void;
+  setStoreName: (arg0: string) => void;
+  drawer: boolean;
+  setDrawer: (arg0: boolean) => void;
 }
 
-const defaultState: IStoreContext = {
-  storeName: '',
-};
-export const StoreContext = createContext<IStoreContext>(defaultState);
+export const StoreContext = createContext<IStoreContext>({} as IStoreContext);
 
 type AppProps = {
   children: ReactNode;
@@ -33,11 +32,17 @@ type AppProps = {
 
 export const AppProvider = ({ children }: AppProps) => {
   const [storeName, setStoreName] = useState('');
+  const [drawer, setDrawer] = useState(false);
   return (
     <ThemeProvider theme={theme}>
       <BrowserRouter>
         <StoreContext.Provider
-          value={{ storeName: storeName, setStoreName: setStoreName }}
+          value={{
+            storeName: storeName,
+            setStoreName: setStoreName,
+            drawer: drawer,
+            setDrawer: setDrawer,
+          }}
         >
           {children}
         </StoreContext.Provider>

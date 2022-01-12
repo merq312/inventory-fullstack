@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { StoreContext } from '../providers';
 
 const useStore = () => {
@@ -7,7 +7,7 @@ const useStore = () => {
 
   useEffect(() => {
     if (!storeName) {
-      setErrorMsg('Please select a store');
+      setErrorMsg('__store');
     }
   }, [storeName]);
 

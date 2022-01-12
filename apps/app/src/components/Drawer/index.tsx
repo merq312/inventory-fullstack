@@ -26,20 +26,16 @@ import { getAllStores } from '../../utils/api';
 import { Star, StarBorder } from '@mui/icons-material';
 import { useAuth0 } from '@auth0/auth0-react';
 
-type AppProps = {
-  setDrawer: (arg0: boolean) => void;
-  drawer: boolean;
-};
-
 type StoreData = {
   id: number;
   name: string;
 };
 
-const Drawer = ({ drawer, setDrawer }: AppProps) => {
+const Drawer = () => {
   const [open, setOpen] = useState(true);
   const [stores, setStores] = useState<Array<StoreData>>([]);
-  const { storeName, setStoreName } = useContext(StoreContext);
+  const { storeName, setStoreName, drawer, setDrawer } =
+    useContext(StoreContext);
   const [errorMsg, setErrorMsg] = useState('Loading ...');
 
   const { isAuthenticated, logout, loginWithRedirect } = useAuth0();

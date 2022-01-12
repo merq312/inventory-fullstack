@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode } from 'react';
 import { Main, PageContainer } from '../../utils/styles';
 import Header from '../Header';
 import Drawer from '../Drawer';
@@ -8,13 +8,11 @@ type AppProps = {
 };
 
 export const AppLayout = ({ children }: AppProps) => {
-  const [drawer, setDrawer] = useState(false);
-
   return (
     <PageContainer>
-      <Header setDrawer={setDrawer} />
+      <Header />
       <Main>
-        <Drawer drawer={drawer} setDrawer={setDrawer} />
+        <Drawer />
         {children}
       </Main>
     </PageContainer>
