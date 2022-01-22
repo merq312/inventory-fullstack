@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 
 export const Main = styled.main`
+  display: flex;
+  flex-direction: column;
   margin: 0;
   padding: 0.4rem 1rem;
   overflow-y: auto;
