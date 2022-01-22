@@ -24,7 +24,7 @@ if (process.env.NODE_ENV === 'development') {
   app.use(cors({ credentials: true, origin }));
   app.options(origin, cors({ credentials: true, origin }));
 } else {
-  const origin = 'https://mighty-atoll-05391.herokuapp.com/';
+  const origin = 'https://bentosushi.herokuapp.com/';
   app.use(cors({ credentials: true, origin }));
   app.options(origin, cors({ credentials: true, origin }));
 }
