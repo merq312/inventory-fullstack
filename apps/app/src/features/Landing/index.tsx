@@ -65,6 +65,8 @@ const Landing = () => {
       <Paper
         sx={{
           display: 'flex',
+          flexDirection: { xs: 'column', sm: 'row' },
+          alignItems: { xs: 'center' },
           mb: 3,
           '& > *': {
             p: 2,
