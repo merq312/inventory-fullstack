@@ -20,6 +20,7 @@ const CardContentNoPadding = styled(CardContent)`
 const InfoDiv = styled(Button)`
   cursor: default;
   width: 3rem;
+  background-color: #333333;
 `;
 
 type AppProps = {
@@ -55,21 +56,11 @@ function InventoryInfoCard({ item }: AppProps) {
             cursor: 'default',
           }}
         >
-          <InfoDiv sx={{ backgroundColor: '#2196f3' }}>
-            {item.overnightCount}
-          </InfoDiv>
-          <InfoDiv sx={{ backgroundColor: '#1e88e5' }}>
-            {item.morningCount}
-          </InfoDiv>
-          <InfoDiv sx={{ backgroundColor: '#1976d2' }}>
-            {item.afternoonCount}
-          </InfoDiv>
-          <InfoDiv sx={{ backgroundColor: '#1565c0' }}>
-            {item.leftoverCountOne}
-          </InfoDiv>
-          <InfoDiv sx={{ backgroundColor: '#0d47a1' }}>
-            {item.leftoverCountTwo}
-          </InfoDiv>
+          <InfoDiv>{item.overnightCount}</InfoDiv>
+          <InfoDiv>{item.morningCount}</InfoDiv>
+          <InfoDiv>{item.afternoonCount}</InfoDiv>
+          <InfoDiv>{item.leftoverCountOne}</InfoDiv>
+          <InfoDiv>{item.leftoverCountTwo}</InfoDiv>
         </ButtonGroup>
       </CardContentNoPadding>
     </Card>

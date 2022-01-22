@@ -101,7 +101,7 @@ const Landing = () => {
           </Typography>
         ) : isAuthenticated ? (
           <>
-            <Typography variant="h5" component="h2" gutterBottom>
+            <Typography variant="h5" component="h2">
               {user ? user.name : ''}
             </Typography>
             <Typography variant="body1" component="div" gutterBottom>

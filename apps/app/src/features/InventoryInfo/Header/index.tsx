@@ -35,11 +35,11 @@ function InventoryInfoHeader({ totals }: AppProps) {
           variant="contained"
           aria-label="outlined primary button group"
         >
-          <InfoDiv sx={{ backgroundColor: '#2196f3' }}>MC</InfoDiv>
-          <InfoDiv sx={{ backgroundColor: '#1e88e5' }}>M</InfoDiv>
-          <InfoDiv sx={{ backgroundColor: '#1976d2' }}>A</InfoDiv>
-          <InfoDiv sx={{ backgroundColor: '#1565c0' }}>L1</InfoDiv>
-          <InfoDiv sx={{ backgroundColor: '#0d47a1' }}>L2</InfoDiv>
+          <InfoDiv>MC</InfoDiv>
+          <InfoDiv>M</InfoDiv>
+          <InfoDiv>A</InfoDiv>
+          <InfoDiv>L1</InfoDiv>
+          <InfoDiv>L2</InfoDiv>
         </ButtonGroup>
         <ButtonGroup
           variant="outlined"

@@ -11,9 +11,9 @@ theme.typography.h1 = {
 };
 
 theme.palette.primary = {
-  light: '#e3f2fd',
-  main: '#1976d2',
-  dark: '#1565c0',
+  light: '#d5d5d5',
+  main: '#333',
+  dark: '#222720',
   contrastText: '#fff',
 };
 
