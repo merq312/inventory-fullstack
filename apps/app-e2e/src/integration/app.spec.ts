@@ -1,5 +1,5 @@
 describe('app', () => {
-  beforeEach(() => cy.visit('localhost:4200'));
+  beforeEach(() => cy.visit('localhost:3333'));
 
   it.only('should display title message', () => {
     cy.get('[data-cy=homepage-title]').should(
