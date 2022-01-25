@@ -15,7 +15,7 @@ type AppProps = {
   msg: string;
 };
 
-function ErrorCard({ msg }: AppProps) {
+export default function ErrorCard({ msg }: AppProps) {
   const { setDrawer } = useContext(StoreContext);
 
   return (
@@ -51,5 +51,3 @@ function ErrorCard({ msg }: AppProps) {
     </Card>
   );
 }
-
-export default ErrorCard;

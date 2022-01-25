@@ -6,7 +6,7 @@ import Alert from '../../components/Alert';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useState } from 'react';
 
-function Dashboard() {
+export default function Dashboard() {
   const { isAuthenticated } = useAuth0();
   const [alert, setAlert] = useState(false);
 
@@ -34,5 +34,3 @@ function Dashboard() {
     </Box>
   );
 }
-
-export default Dashboard;

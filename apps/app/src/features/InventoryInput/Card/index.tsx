@@ -29,7 +29,11 @@ const InfoDiv = styled(Button)`
   min-width: 0;
 `;
 
-function InventoryInputCard({ name, value, dispatch }: AppProps) {
+export default function InventoryInputCard({
+  name,
+  value,
+  dispatch,
+}: AppProps) {
   const [newValue, setNewValue] = useState(0);
   const theme = useTheme();
 
@@ -110,5 +114,3 @@ function InventoryInputCard({ name, value, dispatch }: AppProps) {
     </Card>
   );
 }
-
-export default InventoryInputCard;

@@ -15,7 +15,7 @@ const sessionDict = {
   L2: 'leftoverCountTwo',
 };
 
-function SessionPicker({ setSession }: AppProps) {
+export default function SessionPicker({ setSession }: AppProps) {
   const handleChange = (event: SyntheticEvent, value: string | null) => {
     if (value)
       setSession(
@@ -34,5 +34,3 @@ function SessionPicker({ setSession }: AppProps) {
     />
   );
 }
-
-export default SessionPicker;

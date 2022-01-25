@@ -11,7 +11,7 @@ import { ItemsContainer } from '../../utils/styles';
 import { ItemTotals, MenuItem } from './types';
 import useStore from '../../hooks/useStore';
 
-function InventoryInfo() {
+export default function InventoryInfo() {
   const [data, setData] = useState<Array<MenuItem>>([]);
   const { storeName, errorMsg, setErrorMsg } = useStore();
 
@@ -76,5 +76,3 @@ function InventoryInfo() {
     </Box>
   );
 }
-
-export default InventoryInfo;

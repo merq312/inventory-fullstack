@@ -31,7 +31,7 @@ type StoreData = {
   name: string;
 };
 
-const Drawer = () => {
+export default function Drawer() {
   const [open, setOpen] = useState(true);
   const [stores, setStores] = useState<Array<StoreData>>([]);
   const { storeName, setStoreName, drawer, setDrawer } =
@@ -186,6 +186,4 @@ const Drawer = () => {
       </SwipeableDrawer>
     </div>
   );
-};
-
-export default Drawer;
+}

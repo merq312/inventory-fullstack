@@ -14,7 +14,7 @@ type AppProps = {
   cellOneText?: string;
 };
 
-function InputTableRow({
+export default function InputTableRow({
   placeholder,
   error,
   close,
@@ -59,5 +59,3 @@ function InputTableRow({
     </TableRow>
   );
 }
-
-export default InputTableRow;

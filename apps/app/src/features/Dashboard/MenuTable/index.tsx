@@ -31,7 +31,7 @@ type AppProps = {
   isAuthenticated: boolean;
 };
 
-function MenuTable({ setAlert, isAuthenticated }: AppProps) {
+export default function MenuTable({ setAlert, isAuthenticated }: AppProps) {
   const {
     state: { menuData, selectedStore, menuLoadError },
     dispatch,
@@ -91,7 +91,7 @@ function MenuTable({ setAlert, isAuthenticated }: AppProps) {
     }
   }, [authToken, dispatch, renameInput, renameValue]);
 
-  function mapMenuData() {
+  const mapMenuData = () => {
     return menuData.map((item) =>
       renameInput === item.name ? (
         <InputTableRow
@@ -151,9 +151,9 @@ function MenuTable({ setAlert, isAuthenticated }: AppProps) {
         </TableRow>
       )
     );
-  }
+  };
 
-  function displayStatusMessage() {
+  const displayStatusMessage = () => {
     return (
       <TableRow
         sx={{
@@ -167,9 +167,9 @@ function MenuTable({ setAlert, isAuthenticated }: AppProps) {
         <TableCell align="right">{''}</TableCell>
       </TableRow>
     );
-  }
+  };
 
-  function displayNewItemInput() {
+  const displayNewItemInput = () => {
     return (
       <InputTableRow
         error={newMenuItemError}
@@ -181,7 +181,7 @@ function MenuTable({ setAlert, isAuthenticated }: AppProps) {
         dispatch={setNewMenuItemName}
       />
     );
-  }
+  };
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -207,5 +207,3 @@ function MenuTable({ setAlert, isAuthenticated }: AppProps) {
     </Box>
   );
 }
-
-export default MenuTable;

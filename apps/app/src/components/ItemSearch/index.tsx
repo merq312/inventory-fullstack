@@ -7,7 +7,7 @@ type AppProps = {
   dispatch: (arg0: string) => void;
 };
 
-function ItemSearch({ itemNames, dispatch }: AppProps) {
+export default function ItemSearch({ itemNames, dispatch }: AppProps) {
   const handleChange = (event: SyntheticEvent, value: string | null) =>
     value ? dispatch(value) : dispatch('');
 
@@ -22,5 +22,3 @@ function ItemSearch({ itemNames, dispatch }: AppProps) {
     />
   );
 }
-
-export default ItemSearch;

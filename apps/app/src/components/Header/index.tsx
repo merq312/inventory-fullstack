@@ -14,7 +14,7 @@ const ResponsiveTypography = styled(Box)`
   }
 `;
 
-export function Header() {
+export default function Header() {
   const location = useLocation();
   const { storeName, setDrawer } = useContext(StoreContext);
 
@@ -60,5 +60,3 @@ export function Header() {
     </AppBar>
   );
 }
-
-export default Header;

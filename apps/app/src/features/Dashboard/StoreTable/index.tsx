@@ -18,7 +18,7 @@ type AppProps = {
   isAuthenticated: boolean;
 };
 
-function StoreTable({ setAlert, isAuthenticated }: AppProps) {
+export default function StoreTable({ setAlert, isAuthenticated }: AppProps) {
   const {
     state: { storeData, selectedStore, storeLoadError },
     dispatch,
@@ -54,7 +54,7 @@ function StoreTable({ setAlert, isAuthenticated }: AppProps) {
     }
   }, [authToken, dispatch, newStoreName]);
 
-  function mapStoreData() {
+  const mapStoreData = () => {
     return storeData.map((store) => (
       <TableRow
         key={store.name}
@@ -76,9 +76,9 @@ function StoreTable({ setAlert, isAuthenticated }: AppProps) {
         </TableCell>
       </TableRow>
     ));
-  }
+  };
 
-  function displayStatusMessage() {
+  const displayStatusMessage = () => {
     return (
       <TableRow
         sx={{
@@ -92,9 +92,9 @@ function StoreTable({ setAlert, isAuthenticated }: AppProps) {
         <TableCell align="right">{''}</TableCell>
       </TableRow>
     );
-  }
+  };
 
-  function displayNewStoreInput() {
+  const displayNewStoreInput = () => {
     return (
       <InputTableRow
         error={newStoreError}
@@ -106,7 +106,7 @@ function StoreTable({ setAlert, isAuthenticated }: AppProps) {
         dispatch={setNewStoreName}
       />
     );
-  }
+  };
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -132,5 +132,3 @@ function StoreTable({ setAlert, isAuthenticated }: AppProps) {
     </Box>
   );
 }
-
-export default StoreTable;

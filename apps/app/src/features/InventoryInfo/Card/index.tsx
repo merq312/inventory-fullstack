@@ -27,7 +27,7 @@ type AppProps = {
   item: MenuItem;
 };
 
-function InventoryInfoCard({ item }: AppProps) {
+export default function InventoryInfoCard({ item }: AppProps) {
   return (
     <Card sx={{ my: 1 }}>
       <CardContentNoPadding
@@ -66,5 +66,3 @@ function InventoryInfoCard({ item }: AppProps) {
     </Card>
   );
 }
-
-export default InventoryInfoCard;

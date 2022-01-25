@@ -25,7 +25,10 @@ type AppProps = {
   isAuthenticated: boolean;
 };
 
-function StoreMenuTable({ setAlert, isAuthenticated }: AppProps) {
+export default function StoreMenuTable({
+  setAlert,
+  isAuthenticated,
+}: AppProps) {
   const {
     state: {
       selectedStoreData,
@@ -50,13 +53,13 @@ function StoreMenuTable({ setAlert, isAuthenticated }: AppProps) {
     setShowNewItemInput(false);
   }, [selectedStoreData]);
 
-  function handleRetireItem(menuItemName: string, isRetired: boolean) {
+  const handleRetireItem = (menuItemName: string, isRetired: boolean) => {
     retireStoreItem(selectedStore, menuItemName, !isRetired, authToken)
       .then(() => getAllStoresWithMenu())
       .then((data) => dispatch(setStoreData(data)));
-  }
+  };
 
-  function mapSelectedStoreData() {
+  const mapSelectedStoreData = () => {
     return selectedStoreData.menuItems.map((item) => (
       <TableRow
         key={item.menuItem.name}
@@ -101,9 +104,9 @@ function StoreMenuTable({ setAlert, isAuthenticated }: AppProps) {
         <TableCell align="right">{item.price}</TableCell>
       </TableRow>
     ));
-  }
+  };
 
-  function displayStatusMessage() {
+  const displayStatusMessage = () => {
     return (
       <TableRow
         sx={{
@@ -117,9 +120,9 @@ function StoreMenuTable({ setAlert, isAuthenticated }: AppProps) {
         <TableCell align="right">{''}</TableCell>
       </TableRow>
     );
-  }
+  };
 
-  function displayNewItemInput() {
+  const displayNewItemInput = () => {
     return (
       <InputTableRow
         cellOneText={newStoreItemName}
@@ -134,7 +137,7 @@ function StoreMenuTable({ setAlert, isAuthenticated }: AppProps) {
         dispatch={(price) => dispatch(setNewStoreItemPrice(price))}
       />
     );
-  }
+  };
 
   return (
     <TableContainer component={Paper}>
@@ -155,5 +158,3 @@ function StoreMenuTable({ setAlert, isAuthenticated }: AppProps) {
     </TableContainer>
   );
 }
-
-export default StoreMenuTable;

@@ -2,7 +2,7 @@ import { Box, Paper, Typography, useTheme } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
 
-const Landing = () => {
+export default function Landing() {
   const { user, isAuthenticated, isLoading } = useAuth0();
 
   const theme = useTheme();
@@ -97,6 +97,4 @@ const Landing = () => {
       </Typography>
     </Box>
   );
-};
-
-export default Landing;
+}

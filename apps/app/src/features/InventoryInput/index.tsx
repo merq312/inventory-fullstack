@@ -15,7 +15,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import Alert from '../../components/Alert';
 import { StoreContext } from '../../providers';
 
-function InventoryInput() {
+export default function InventoryInput() {
   const [data, setData] = useState<Array<MenuItem>>([]);
   const { storeName, errorMsg, setErrorMsg } = useStore();
   const { authToken } = useContext(StoreContext);
@@ -114,5 +114,3 @@ function InventoryInput() {
     </Box>
   );
 }
-
-export default InventoryInput;

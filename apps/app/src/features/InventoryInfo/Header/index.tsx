@@ -19,7 +19,7 @@ type AppProps = {
   totals: ItemTotals;
 };
 
-function InventoryInfoHeader({ totals }: AppProps) {
+export default function InventoryInfoHeader({ totals }: AppProps) {
   return (
     <Card sx={{ my: 1 }}>
       <CardContentNoPadding
@@ -55,8 +55,3 @@ function InventoryInfoHeader({ totals }: AppProps) {
     </Card>
   );
 }
-
-// #90caf9 #64b5f6 #42a5f5 #2196f3 #1e88e5
-// #2196f3 #1e88e5 #1976d2 #1565c0 #0d47a1
-
-export default InventoryInfoHeader;
