@@ -4,6 +4,7 @@ import {
   ButtonGroup,
   Card,
   CardContent,
+  TextField,
   Typography,
   useTheme,
 } from '@mui/material';
@@ -35,18 +36,6 @@ function InventoryInputCard({ name, value, dispatch }: AppProps) {
   useEffect(() => {
     setNewValue(value);
   }, [value]);
-
-  const handleDecrement = () => {
-    if (newValue - 1 >= 0) {
-      setNewValue(newValue - 1);
-      dispatch(newValue - 1);
-    }
-  };
-
-  const handleIncrement = () => {
-    setNewValue(newValue + 1);
-    dispatch(newValue + 1);
-  };
 
   return (
     <Card sx={{ my: 1 }} data-cy={name.toLowerCase().replaceAll(' ', '-')}>
@@ -91,25 +80,32 @@ function InventoryInputCard({ name, value, dispatch }: AppProps) {
         <Typography sx={{ flexGrow: 1, mx: 2 }} variant="body1" component="div">
           {name}
         </Typography>
-        <ButtonGroup
-          variant="contained"
-          aria-label="outlined primary button group"
-        >
-          <Button
-            onClick={handleDecrement}
-            sx={{ width: 2 }}
-            data-cy="decrement"
-          >
-            -1
-          </Button>
-          <Button
-            onClick={handleIncrement}
-            sx={{ width: 2 }}
-            data-cy="increment"
-          >
-            +1
-          </Button>
-        </ButtonGroup>
+        <TextField
+          sx={{
+            width: '4rem',
+            minWidth: '4rem',
+          }}
+          type="number"
+          variant="outlined"
+          value={newValue}
+          onBlur={() => {
+            if (newValue !== value) {
+              dispatch(newValue);
+            }
+          }}
+          onChange={(e) => {
+            const spinBoxValue = parseInt(e.target.value);
+            if (!isNaN(spinBoxValue) && spinBoxValue >= 0) {
+              setNewValue(spinBoxValue);
+            }
+          }}
+          inputProps={{
+            style: {
+              padding: 5,
+              paddingLeft: 10,
+            },
+          }}
+        />
       </CardContentNoPadding>
     </Card>
   );
