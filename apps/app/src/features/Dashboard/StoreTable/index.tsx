@@ -6,7 +6,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Box, useTheme } from '@mui/material';
-import { DashboardContext } from '../../../providers';
+import { DashboardContext, StoreContext } from '../../../providers';
 import { useContext, useEffect, useState } from 'react';
 import { setSelectedStore, setStoreData } from '../../../hooks/useDashboard';
 import InputTableRow from '../InputTableRow';
@@ -23,6 +23,7 @@ function StoreTable({ setAlert, isAuthenticated }: AppProps) {
     state: { storeData, selectedStore, storeLoadError },
     dispatch,
   } = useContext(DashboardContext);
+  const { authToken } = useContext(StoreContext);
 
   const [showNewStoreInput, setShowNewStoreInput] = useState(false);
   const [newStoreName, setNewStoreName] = useState('');
@@ -44,14 +45,14 @@ function StoreTable({ setAlert, isAuthenticated }: AppProps) {
 
   useEffect(() => {
     if (newStoreName) {
-      createNewStore(newStoreName)
+      createNewStore(newStoreName, authToken)
         .then(() => getAllStoresWithMenu())
         .then((data) => dispatch(setStoreData(data)))
         .catch(() => setNewStoreError(true));
 
       setNewStoreName('');
     }
-  }, [dispatch, newStoreName]);
+  }, [authToken, dispatch, newStoreName]);
 
   function mapStoreData() {
     return storeData.map((store) => (

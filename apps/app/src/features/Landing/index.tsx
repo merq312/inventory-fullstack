@@ -1,38 +1,11 @@
 import { Box, Paper, Typography, useTheme } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 
 const Landing = () => {
-  const [m, setMessage] = useState({ message: '' });
-  const [token, setToken] = useState('');
-
-  const { user, isAuthenticated, isLoading, getAccessTokenSilently } =
-    useAuth0();
+  const { user, isAuthenticated, isLoading } = useAuth0();
 
   const theme = useTheme();
-
-  useEffect(() => {
-    if (!isAuthenticated) {
-      return;
-    }
-
-    getAccessTokenSilently().then(setToken);
-  }, [isAuthenticated, getAccessTokenSilently]);
-
-  useEffect(() => {
-    if (!token) {
-      return;
-    }
-
-    fetch('/api/v1/user/private', {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((r) => r.json())
-      .then(setMessage);
-  }, [token]);
 
   return (
     <Box
@@ -101,9 +74,6 @@ const Landing = () => {
             },
           }}
         >
-          {/*<Typography variant="body1" component="div" gutterBottom>*/}
-          {/*  {m.message}*/}
-          {/*</Typography>*/}
           {isLoading ? (
             <Typography variant="body1" component="div" gutterBottom>
               Loading ...

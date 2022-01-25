@@ -13,7 +13,7 @@ import AddIcon from '@mui/icons-material/Add';
 import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import { useTheme } from '@mui/material';
-import { DashboardContext } from '../../../providers';
+import { DashboardContext, StoreContext } from '../../../providers';
 import {
   changeMenuItemName,
   createNewMenuItem,
@@ -36,6 +36,7 @@ function MenuTable({ setAlert, isAuthenticated }: AppProps) {
     state: { menuData, selectedStore, menuLoadError },
     dispatch,
   } = useContext(DashboardContext);
+  const { authToken } = useContext(StoreContext);
 
   const [showNewItemInput, setShowNewItemInput] = useState(false);
   const [showRenameButton, setShowRenameButton] = useState('');
@@ -63,7 +64,7 @@ function MenuTable({ setAlert, isAuthenticated }: AppProps) {
 
   useEffect(() => {
     if (newMenuItemName) {
-      createNewMenuItem(newMenuItemName)
+      createNewMenuItem(newMenuItemName, authToken)
         .then(() => getAllMenuItems())
         .then((data) => dispatch(setMenuData(data)))
         .then(() => setNewMenuItemError(false))
@@ -71,11 +72,11 @@ function MenuTable({ setAlert, isAuthenticated }: AppProps) {
 
       setNewMenuItemName('');
     }
-  }, [dispatch, newMenuItemName]);
+  }, [authToken, dispatch, newMenuItemName]);
 
   useEffect(() => {
     if (renameInput && renameValue) {
-      changeMenuItemName(renameInput, renameValue)
+      changeMenuItemName(renameInput, renameValue, authToken)
         .then(() => getAllMenuItems())
         .then((data) => dispatch(setMenuData(data)))
         .then(getAllStoresWithMenu)
@@ -88,7 +89,7 @@ function MenuTable({ setAlert, isAuthenticated }: AppProps) {
       setRenameInput('');
       setRenameValue('');
     }
-  }, [dispatch, renameInput, renameValue]);
+  }, [authToken, dispatch, renameInput, renameValue]);
 
   function mapMenuData() {
     return menuData.map((item) =>

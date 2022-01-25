@@ -10,10 +10,16 @@ import {
   updateMenuItemPrice,
   updateMenuItemRetired,
 } from '../controllers/storeController';
+import { auth } from 'express-oauth2-jwt-bearer';
 
 const router = express.Router();
 
-router.post('/create-store/:storeName', createStore);
+const checkJwt = auth({
+  audience: 'https://mighty-atoll-05391.herokuapp.com/api',
+  issuerBaseURL: `https://dev-iukg50h5.us.auth0.com/`,
+});
+
+router.post('/create-store/:storeName', checkJwt, createStore);
 router.get('/all-stores', getAllStores);
 router.get('/all-stores-with-menu', getAllStoresWithMenu);
 router.get('/:storeName', getStore);

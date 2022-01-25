@@ -1,10 +1,11 @@
-import { useEffect, useReducer } from 'react';
+import { useContext, useEffect, useReducer } from 'react';
 import {
   addMenuItemToStore,
   getAllMenuItems,
   getAllStoresWithMenu,
 } from '../utils/api';
 import { MenuItemData, StoreItemData } from '../features/Dashboard/types';
+import { StoreContext } from '../providers';
 
 export type dashboardState = {
   menuData: Array<MenuItemData>;
@@ -185,6 +186,7 @@ const reducer = (state: dashboardState, action: Action) => {
 
 const useDashboard = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const { authToken } = useContext(StoreContext);
 
   useEffect(() => {
     getAllStoresWithMenu()
@@ -225,7 +227,7 @@ const useDashboard = () => {
     if (itemName && price) {
       dispatch(setNewStoreItemPrice(''));
 
-      addMenuItemToStore(selectedStore, newStoreItemName, price)
+      addMenuItemToStore(selectedStore, newStoreItemName, price, authToken)
         .then(() => getAllStoresWithMenu())
         .then((data) => dispatch(setStoreData(data)))
         .then(() => dispatch(setNewStoreItemError(false)))
@@ -233,7 +235,12 @@ const useDashboard = () => {
     } else if (newStoreItemPrice && newStoreItemPrice !== '') {
       dispatch(setNewStoreItemError(true));
     }
-  }, [state.newStoreItemName, state.newStoreItemPrice, state.selectedStore]);
+  }, [
+    authToken,
+    state.newStoreItemName,
+    state.newStoreItemPrice,
+    state.selectedStore,
+  ]);
 
   return { state, dispatch };
 };

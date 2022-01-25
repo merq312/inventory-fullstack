@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Box, Button, Grid } from '@mui/material';
 import ItemSearch from '../../components/ItemSearch';
 import DatePicker from '../../components/DatePicker';
@@ -13,10 +13,12 @@ import usePost from '../../hooks/usePost';
 import useStore from '../../hooks/useStore';
 import { useAuth0 } from '@auth0/auth0-react';
 import Alert from '../../components/Alert';
+import { StoreContext } from '../../providers';
 
 function InventoryInput() {
   const [data, setData] = useState<Array<MenuItem>>([]);
   const { storeName, errorMsg, setErrorMsg } = useStore();
+  const { authToken } = useContext(StoreContext);
   const { post, addItemsAction, modifyItemAction } = usePost();
 
   const [date, setDate] = useState<string>(dayjs().format('YYYY-MM-DD'));
@@ -39,7 +41,7 @@ function InventoryInput() {
 
   const handleClick = () => {
     if (isAuthenticated) {
-      updateProductCounts(storeName, post, date)
+      updateProductCounts(storeName, post, date, authToken)
         .then(() => {
           getProductData(storeName, date).then((data) => {
             setData(data);

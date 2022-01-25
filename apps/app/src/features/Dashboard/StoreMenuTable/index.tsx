@@ -9,7 +9,7 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { DashboardContext } from '../../../providers';
+import { DashboardContext, StoreContext } from '../../../providers';
 import { useContext, useEffect, useState } from 'react';
 import InputTableRow from '../InputTableRow';
 import {
@@ -35,6 +35,7 @@ function StoreMenuTable({ setAlert, isAuthenticated }: AppProps) {
     },
     dispatch,
   } = useContext(DashboardContext);
+  const { authToken } = useContext(StoreContext);
 
   const [showNewItemInput, setShowNewItemInput] = useState(false);
   const [showRetireButton, setShowRetireButton] = useState('');
@@ -50,7 +51,7 @@ function StoreMenuTable({ setAlert, isAuthenticated }: AppProps) {
   }, [selectedStoreData]);
 
   function handleRetireItem(menuItemName: string, isRetired: boolean) {
-    retireStoreItem(selectedStore, menuItemName, !isRetired)
+    retireStoreItem(selectedStore, menuItemName, !isRetired, authToken)
       .then(() => getAllStoresWithMenu())
       .then((data) => dispatch(setStoreData(data)));
   }
