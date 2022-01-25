@@ -40,11 +40,9 @@ export const AppProvider = ({ children }: AppProps) => {
   const { isAuthenticated, getAccessTokenSilently } = useAuth0();
 
   useEffect(() => {
-    if (!isAuthenticated) {
-      return;
+    if (isAuthenticated) {
+      getAccessTokenSilently().then(setAuthToken);
     }
-
-    getAccessTokenSilently().then(setAuthToken);
   }, [isAuthenticated, getAccessTokenSilently]);
 
   return (

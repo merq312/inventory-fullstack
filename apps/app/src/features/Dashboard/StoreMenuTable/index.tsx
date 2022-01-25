@@ -21,14 +21,10 @@ import {
 import { getAllStoresWithMenu, retireStoreItem } from '../../../utils/api';
 
 type AppProps = {
-  setAlert: (arg0: boolean) => void;
-  isAuthenticated: boolean;
+  callIfAuthenticated: (arg0: () => void) => () => void;
 };
 
-export default function StoreMenuTable({
-  setAlert,
-  isAuthenticated,
-}: AppProps) {
+export default function StoreMenuTable({ callIfAuthenticated }: AppProps) {
   const {
     state: {
       selectedStoreData,
@@ -85,13 +81,9 @@ export default function StoreMenuTable({
           {showRetireButton === item.menuItem.name && (
             <IconButton
               size="small"
-              onClick={() => {
-                if (isAuthenticated) {
-                  handleRetireItem(item.menuItem.name, item.retired);
-                } else {
-                  setAlert(true);
-                }
-              }}
+              onClick={callIfAuthenticated(() =>
+                handleRetireItem(item.menuItem.name, item.retired)
+              )}
             >
               {item.retired ? (
                 <AddIcon fontSize="small" />

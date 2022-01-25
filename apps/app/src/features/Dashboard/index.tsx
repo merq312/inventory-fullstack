@@ -10,20 +10,29 @@ export default function Dashboard() {
   const { isAuthenticated } = useAuth0();
   const [alert, setAlert] = useState(false);
 
+  const callIfAuthenticated = (callbackFn: () => void) => () => {
+    if (process.env.NODE_ENV === 'development') {
+      callbackFn();
+    } else {
+      if (isAuthenticated) {
+        callbackFn();
+      } else {
+        setAlert(true);
+      }
+    }
+  };
+
   return (
     <Box sx={{ my: 2, mx: 0.4 }}>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={3}>
-          <StoreTable setAlert={setAlert} isAuthenticated={isAuthenticated} />
+          <StoreTable callIfAuthenticated={callIfAuthenticated} />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <StoreMenuTable
-            setAlert={setAlert}
-            isAuthenticated={isAuthenticated}
-          />
+          <StoreMenuTable callIfAuthenticated={callIfAuthenticated} />
         </Grid>
         <Grid item xs={12} sm={3}>
-          <MenuTable setAlert={setAlert} isAuthenticated={isAuthenticated} />
+          <MenuTable callIfAuthenticated={callIfAuthenticated} />
         </Grid>
       </Grid>
       <Alert

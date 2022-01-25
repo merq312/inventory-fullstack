@@ -14,11 +14,10 @@ import Button from '@mui/material/Button';
 import { createNewStore, getAllStoresWithMenu } from '../../../utils/api';
 
 type AppProps = {
-  setAlert: (arg0: boolean) => void;
-  isAuthenticated: boolean;
+  callIfAuthenticated: (arg0: () => void) => () => void;
 };
 
-export default function StoreTable({ setAlert, isAuthenticated }: AppProps) {
+export default function StoreTable({ callIfAuthenticated }: AppProps) {
   const {
     state: { storeData, selectedStore, storeLoadError },
     dispatch,
@@ -30,18 +29,6 @@ export default function StoreTable({ setAlert, isAuthenticated }: AppProps) {
   const [newStoreError, setNewStoreError] = useState(false);
 
   const theme = useTheme();
-
-  const handleClick = (func: () => void) => () => {
-    if (process.env.NODE_ENV === 'development') {
-      func();
-    } else {
-      if (isAuthenticated) {
-        func();
-      } else {
-        setAlert(true);
-      }
-    }
-  };
 
   useEffect(() => {
     if (newStoreName) {
@@ -125,7 +112,7 @@ export default function StoreTable({ setAlert, isAuthenticated }: AppProps) {
       </TableContainer>
       <Button
         sx={{ alignSelf: 'end' }}
-        onClick={handleClick(() => setShowNewStoreInput(true))}
+        onClick={callIfAuthenticated(() => setShowNewStoreInput(true))}
       >
         Create new store
       </Button>

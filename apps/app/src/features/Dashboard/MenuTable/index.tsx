@@ -27,11 +27,10 @@ import {
 } from '../../../hooks/useDashboard';
 
 type AppProps = {
-  setAlert: (arg0: boolean) => void;
-  isAuthenticated: boolean;
+  callIfAuthenticated: (arg0: () => void) => () => void;
 };
 
-export default function MenuTable({ setAlert, isAuthenticated }: AppProps) {
+export default function MenuTable({ callIfAuthenticated }: AppProps) {
   const {
     state: { menuData, selectedStore, menuLoadError },
     dispatch,
@@ -49,18 +48,6 @@ export default function MenuTable({ setAlert, isAuthenticated }: AppProps) {
   const [renameError, setRenameError] = useState(false);
 
   const theme = useTheme();
-
-  const handleClick = (func: () => void) => () => {
-    if (process.env.NODE_ENV === 'development') {
-      func();
-    } else {
-      if (isAuthenticated) {
-        func();
-      } else {
-        setAlert(true);
-      }
-    }
-  };
 
   useEffect(() => {
     if (newMenuItemName) {
@@ -131,7 +118,7 @@ export default function MenuTable({ setAlert, isAuthenticated }: AppProps) {
               {!renameInput && showRenameButton === item.name && (
                 <IconButton
                   size="small"
-                  onClick={handleClick(() => setRenameInput(item.name))}
+                  onClick={callIfAuthenticated(() => setRenameInput(item.name))}
                 >
                   <EditIcon fontSize="small" />
                 </IconButton>
@@ -139,7 +126,7 @@ export default function MenuTable({ setAlert, isAuthenticated }: AppProps) {
               {!item.inStore && selectedStore && (
                 <IconButton
                   size="small"
-                  onClick={handleClick(() =>
+                  onClick={callIfAuthenticated(() =>
                     dispatch(setNewStoreItemName(item.name))
                   )}
                 >
@@ -200,7 +187,7 @@ export default function MenuTable({ setAlert, isAuthenticated }: AppProps) {
       </TableContainer>
       <Button
         sx={{ alignSelf: 'end' }}
-        onClick={handleClick(() => setShowNewItemInput(true))}
+        onClick={callIfAuthenticated(() => setShowNewItemInput(true))}
       >
         Add new menu item
       </Button>
