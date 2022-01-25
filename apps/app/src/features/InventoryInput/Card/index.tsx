@@ -34,11 +34,11 @@ export default function InventoryInputCard({
   value,
   dispatch,
 }: AppProps) {
-  const [newValue, setNewValue] = useState(0);
+  const [valueDiff, setValueDiff] = useState(0);
   const theme = useTheme();
 
   useEffect(() => {
-    setNewValue(value);
+    setValueDiff(0);
   }, [value]);
 
   return (
@@ -58,27 +58,25 @@ export default function InventoryInputCard({
           <InfoDiv
             sx={{
               color: () =>
-                newValue !== value ? 'white' : theme.palette.primary.main,
+                valueDiff !== 0 ? 'white' : theme.palette.primary.main,
               backgroundColor: () =>
-                newValue > value
+                valueDiff > 0
                   ? theme.palette.success.light
-                  : newValue < value
+                  : valueDiff < 0
                   ? theme.palette.error.light
                   : 'white',
               '&:hover': {
                 color: () =>
-                  newValue > value
+                  valueDiff > 0
                     ? theme.palette.success.main
-                    : newValue < value
+                    : valueDiff < 0
                     ? theme.palette.error.main
                     : theme.palette.primary.main,
               },
             }}
             data-cy="new-value"
           >
-            {newValue - value >= 0
-              ? `+${newValue - value}`
-              : `${newValue - value}`}
+            {valueDiff >= 0 ? `+${valueDiff}` : `${valueDiff}`}
           </InfoDiv>
         </ButtonGroup>
         <Typography sx={{ flexGrow: 1, mx: 2 }} variant="body1" component="div">
@@ -91,16 +89,16 @@ export default function InventoryInputCard({
           }}
           type="number"
           variant="outlined"
-          value={newValue}
+          value={valueDiff}
           onBlur={() => {
-            if (newValue !== value) {
-              dispatch(newValue);
+            if (valueDiff !== 0) {
+              dispatch(value + valueDiff);
             }
           }}
           onChange={(e) => {
             const spinBoxValue = parseInt(e.target.value);
-            if (!isNaN(spinBoxValue) && spinBoxValue >= 0) {
-              setNewValue(spinBoxValue);
+            if (!isNaN(spinBoxValue) && spinBoxValue >= 0 - value) {
+              setValueDiff(spinBoxValue);
             }
           }}
           inputProps={{
